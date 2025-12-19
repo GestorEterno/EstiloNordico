@@ -1,4 +1,4 @@
-// script.js - ESTILO NÓRDICO - PERFECTO Y FUNCIONAL
+// script.js - ESTILO NÓRDICO - CARRUSELES PROFESIONALES
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
@@ -8,23 +8,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const productModal = document.getElementById('productModal');
     const closeModalBtn = document.querySelector('.modal-close');
     const closeModalBtn2 = document.querySelector('.btn-close-modal');
-    const viewButtons = document.querySelectorAll('.btn-view');
     const whatsappBtn = document.getElementById('whatsappBtn');
     
     // ===== CARRUSEL HERO =====
-    const carouselTrack = document.querySelector('.carousel-track');
-    const carouselSlides = document.querySelectorAll('.carousel-slide');
-    const prevBtn = document.querySelector('.carousel-btn.prev');
-    const nextBtn = document.querySelector('.carousel-btn.next');
-    const dots = document.querySelectorAll('.dot');
+    const heroTrack = document.querySelector('.carousel-track');
+    const heroSlides = document.querySelectorAll('.carousel-slide');
+    const prevBtn = document.querySelector('.hero .prev');
+    const nextBtn = document.querySelector('.hero .next');
+    const heroDots = document.querySelectorAll('.hero .dot');
     
-    let currentSlide = 0;
-    const totalSlides = carouselSlides.length;
-    
-    // ===== VARIABLES PARA CONTROL TÁCTIL =====
-    let touchStartX = 0;
-    let touchEndX = 0;
-    let autoSlideInterval;
+    let heroCurrentSlide = 0;
+    const heroTotalSlides = heroSlides.length;
+    let heroAutoSlide;
     
     // ===== BASE DE DATOS DE PRODUCTOS =====
     const products = {
@@ -86,234 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
             whatsappMessage: "Hola! Estoy interesado en el Escritorio Trondheim - $79,999"
         },
         4: {
-            name: "Mesa Nórdica",
-            category: "Mesas Industriales",
-            price: "$124,999",
-            description: "Mesa de comedor de diseño escandinavo con base metálica y tapa de madera de pino macizo. Ideal para reuniones familiares y cenas especiales.",
-            images: [
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Pino macizo y hierro" },
-                { name: "Dimensiones", value: "200cm x 100cm x 75cm" },
-                { name: "Peso", value: "65 kg" },
-                { name: "Capacidad", value: "6-8 personas" },
-                { name: "Acabado", value: "Barniz mate" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Nórdica - $124,999"
-        },
-        5: {
-            name: "Mesa Fjord",
-            category: "Mesas Industriales",
-            price: "$149,999",
-            description: "Mesa extensible con sistema de ala oculta. Perfecta para espacios reducidos que necesitan adaptabilidad. Diseño funcional sin sacrificar estilo.",
-            images: [
-                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Roble y acero" },
-                { name: "Dimensiones", value: "140-200cm x 90cm x 75cm" },
-                { name: "Peso", value: "70 kg" },
-                { name: "Extensión", value: "60 cm" },
-                { name: "Capacidad", value: "4-8 personas" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Fjord - $149,999"
-        },
-        6: {
-            name: "Mesa Aurora",
-            category: "Mesas Industriales",
-            price: "$109,999",
-            description: "Diseño rústico con patas cruzadas de hierro forjado. Superficie en madera de pino tratada con aceites naturales.",
-            images: [
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Pino y hierro" },
-                { name: "Dimensiones", value: "180cm x 90cm x 75cm" },
-                { name: "Peso", value: "55 kg" },
-                { name: "Capacidad", value: "6 personas" },
-                { name: "Acabado", value: "Rústico natural" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Aurora - $109,999"
-        },
-        7: {
-            name: "Rack TV Viking",
-            category: "Racks para Televisores",
-            price: "$64,999",
-            description: "Rack TV industrial con compartimentos para equipos de sonido y videojuegos. Estructura robusta en metal y madera.",
-            images: [
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera y metal" },
-                { name: "Dimensiones", value: "120cm x 40cm x 50cm" },
-                { name: "Peso", value: "25 kg" },
-                { name: "Capacidad TV", value: "Hasta 65 pulgadas" },
-                { name: "Compartimentos", value: "3 estantes" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Viking - $64,999"
-        },
-        8: {
-            name: "Rack TV Fjell",
-            category: "Racks para Televisores",
-            price: "$74,999",
-            description: "Rack TV con ruedas para fácil movilidad. Diseño industrial moderno con acabado en negro mate.",
-            images: [
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera de haya y metal" },
-                { name: "Dimensiones", value: "140cm x 45cm x 55cm" },
-                { name: "Peso", value: "30 kg" },
-                { name: "Ruedas", value: "4 ruedas giratorias" },
-                { name: "Capacidad TV", value: "Hasta 75 pulgadas" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Fjell - $74,999"
-        },
-        9: {
-            name: "Rack TV Midnatt",
-            category: "Racks para Televisores",
-            price: "$89,999",
-            description: "Diseño flotente con estantes ajustables. Perfecto para espacios modernos y minimalistas.",
-            images: [
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "MDF y acero" },
-                { name: "Dimensiones", value: "160cm x 35cm x 40cm" },
-                { name: "Peso", value: "28 kg" },
-                { name: "Estantes", value: "4 ajustables" },
-                { name: "Instalación", value: "Pared o piso" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Midnatt - $89,999"
-        },
-        10: {
-            name: "Mesita Lofoten",
-            category: "Mesitas Ratonas",
-            price: "$44,999",
-            description: "Mesita ratona redonda con tapa de vidrio templado. Base en madera de roble natural.",
-            images: [
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Roble y vidrio" },
-                { name: "Dimensiones", value: "Ø60cm x 45cm" },
-                { name: "Peso", value: "12 kg" },
-                { name: "Forma", value: "Redonda" },
-                { name: "Vidrio", value: "Templado 8mm" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Lofoten - $44,999"
-        },
-        11: {
-            name: "Mesita Sogne",
-            category: "Mesitas Ratonas",
-            price: "$49,999",
-            description: "Mesita cuadrada con cajón inferior y estante. Diseño funcional y elegante.",
-            images: [
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera de pino" },
-                { name: "Dimensiones", value: "50cm x 50cm x 45cm" },
-                { name: "Peso", value: "15 kg" },
-                { name: "Cajón", value: "1 con manija metálica" },
-                { name: "Estante", value: "Inferior" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Sogne - $49,999"
-        },
-        12: {
-            name: "Mesita Tromsø",
-            category: "Mesitas Ratonas",
-            price: "$59,999",
-            description: "Conjunto nesting de 2 mesitas que se pueden usar por separado o juntas. Diseño versátil.",
-            images: [
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera y metal" },
-                { name: "Dimensiones", value: "40cm/60cm x 40cm x 45cm" },
-                { name: "Peso", value: "18 kg" },
-                { name: "Piezas", value: "2 mesitas" },
-                { name: "Uso", value: "Separado o conjunto" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Tromsø - $59,999"
-        },
-        13: {
-            name: "Estantería Stavanger",
-            category: "Estanterías Industriales",
-            price: "$84,999",
-            description: "Estantería modular de 5 niveles con estructura metálica visible. Ideal para libros y decoración.",
-            images: [
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera y hierro" },
-                { name: "Dimensiones", value: "180cm x 90cm x 35cm" },
-                { name: "Peso", value: "40 kg" },
-                { name: "Niveles", value: "5 estantes" },
-                { name: "Carga máx.", value: "25 kg por estante" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Stavanger - $84,999"
-        },
-        14: {
-            name: "Estantería Bergen",
-            category: "Estanterías Industriales",
-            price: "$94,999",
-            description: "Estantería flotente con iluminación LED integrada. Diseño moderno y elegante.",
-            images: [
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "MDF y metal" },
-                { name: "Dimensiones", value: "200cm x 100cm x 30cm" },
-                { name: "Peso", value: "45 kg" },
-                { name: "Iluminación", value: "LED blanco cálido" },
-                { name: "Instalación", value: "Pared" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Bergen - $94,999"
-        },
-        15: {
-            name: "Estantería Ålesund",
-            category: "Estanterías Industriales",
-            price: "$79,999",
-            description: "Estantería en forma de escalera con 6 compartimentos. Diseño único y funcional.",
-            images: [
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera de pino" },
-                { name: "Dimensiones", value: "160cm x 80cm x 35cm" },
-                { name: "Peso", value: "35 kg" },
-                { name: "Compartimentos", value: "6" },
-                { name: "Forma", value: "Escalera" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Ålesund - $79,999"
-        },
-        16: {
             name: "Escritorio Helsinki",
             category: "Escritorios Industriales",
             price: "$99,999",
@@ -332,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
             whatsappMessage: "Hola! Estoy interesado en el Escritorio Helsinki - $99,999"
         },
-        17: {
+        5: {
             name: "Escritorio Stockholm",
             category: "Escritorios Industriales",
             price: "$109,999",
@@ -351,26 +118,64 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
             whatsappMessage: "Hola! Estoy interesado en el Escritorio Stockholm - $109,999"
         },
-        18: {
-            name: "Escritorio Copenhagen",
-            category: "Escritorios Industriales",
-            price: "$119,999",
-            description: "Madera de nogal con acabado lacado de alta resistencia. Diseño ejecutivo con cajonera incorporada.",
+        6: {
+            name: "Mesa Nórdica",
+            category: "Mesas Industriales",
+            price: "$124,999",
+            description: "Mesa de comedor de diseño escandinavo con base metálica y tapa de madera de pino macizo. Ideal para reuniones familiares y cenas especiales.",
             images: [
+                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
                 "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80"
+                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80"
             ],
             specs: [
-                { name: "Material", value: "Nogal macizo" },
+                { name: "Material", value: "Pino macizo y hierro" },
                 { name: "Dimensiones", value: "200cm x 100cm x 75cm" },
                 { name: "Peso", value: "65 kg" },
-                { name: "Cajones", value: "5 cajones" },
-                { name: "Acabado", value: "Lacado mate" }
+                { name: "Capacidad", value: "6-8 personas" },
+                { name: "Acabado", value: "Barniz mate" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio Copenhagen - $119,999"
+            whatsappMessage: "Hola! Estoy interesado en la Mesa Nórdica - $124,999"
         },
-        19: {
+        7: {
+            name: "Mesa Fjord",
+            category: "Mesas Industriales",
+            price: "$149,999",
+            description: "Mesa extensible con sistema de ala oculta. Perfecta para espacios reducidos que necesitan adaptabilidad. Diseño funcional sin sacrificar estilo.",
+            images: [
+                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80"
+            ],
+            specs: [
+                { name: "Material", value: "Roble y acero" },
+                { name: "Dimensiones", value: "140-200cm x 90cm x 75cm" },
+                { name: "Peso", value: "70 kg" },
+                { name: "Extensión", value: "60 cm" },
+                { name: "Capacidad", value: "4-8 personas" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesa Fjord - $149,999"
+        },
+        8: {
+            name: "Mesa Aurora",
+            category: "Mesas Industriales",
+            price: "$109,999",
+            description: "Diseño rústico con patas cruzadas de hierro forjado. Superficie en madera de pino tratada con aceites naturales.",
+            images: [
+                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80",
+                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+            ],
+            specs: [
+                { name: "Material", value: "Pino y hierro" },
+                { name: "Dimensiones", value: "180cm x 90cm x 75cm" },
+                { name: "Peso", value: "55 kg" },
+                { name: "Capacidad", value: "6 personas" },
+                { name: "Acabado", value: "Rústico natural" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesa Aurora - $109,999"
+        },
+        9: {
             name: "Mesa Tromsø",
             category: "Mesas Industriales",
             price: "$134,999",
@@ -389,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
             whatsappMessage: "Hola! Estoy interesado en la Mesa Tromsø - $134,999"
         },
-        20: {
+        10: {
             name: "Mesa Lofoten",
             category: "Mesas Industriales",
             price: "$99,999",
@@ -408,26 +213,64 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
             whatsappMessage: "Hola! Estoy interesado en la Mesa Lofoten - $99,999"
         },
-        21: {
-            name: "Mesa Sogne",
-            category: "Mesas Industriales",
-            price: "$114,999",
-            description: "Madera de haya con acabado blanco lavado. Patas en cruz de metal negro. Diseño nórdico contemporáneo.",
+        11: {
+            name: "Rack TV Viking",
+            category: "Racks para Televisores",
+            price: "$64,999",
+            description: "Rack TV industrial con compartimentos para equipos de sonido y videojuegos. Estructura robusta en metal y madera.",
             images: [
-                "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80",
-                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
+                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
+                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
             ],
             specs: [
-                { name: "Material", value: "Haya y metal" },
-                { name: "Dimensiones", value: "180cm x 90cm x 75cm" },
-                { name: "Peso", value: "50 kg" },
-                { name: "Color", value: "Blanco lavado" },
-                { name: "Patas", value: "En cruz" }
+                { name: "Material", value: "Madera y metal" },
+                { name: "Dimensiones", value: "120cm x 40cm x 50cm" },
+                { name: "Peso", value: "25 kg" },
+                { name: "Capacidad TV", value: "Hasta 65 pulgadas" },
+                { name: "Compartimentos", value: "3 estantes" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Sogne - $114,999"
+            whatsappMessage: "Hola! Estoy interesado en el Rack TV Viking - $64,999"
         },
-        22: {
+        12: {
+            name: "Rack TV Fjell",
+            category: "Racks para Televisores",
+            price: "$74,999",
+            description: "Rack TV con ruedas para fácil movilidad. Diseño industrial moderno con acabado en negro mate.",
+            images: [
+                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
+                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+            ],
+            specs: [
+                { name: "Material", value: "Madera de haya y metal" },
+                { name: "Dimensiones", value: "140cm x 45cm x 55cm" },
+                { name: "Peso", value: "30 kg" },
+                { name: "Ruedas", value: "4 ruedas giratorias" },
+                { name: "Capacidad TV", value: "Hasta 75 pulgadas" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en el Rack TV Fjell - $74,999"
+        },
+        13: {
+            name: "Rack TV Midnatt",
+            category: "Racks para Televisores",
+            price: "$89,999",
+            description: "Diseño flotente con estantes ajustables. Perfecto para espacios modernos y minimalistas.",
+            images: [
+                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
+                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+            ],
+            specs: [
+                { name: "Material", value: "MDF y acero" },
+                { name: "Dimensiones", value: "160cm x 35cm x 40cm" },
+                { name: "Peso", value: "28 kg" },
+                { name: "Estantes", value: "4 ajustables" },
+                { name: "Instalación", value: "Pared o piso" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en el Rack TV Midnatt - $89,999"
+        },
+        14: {
             name: "Rack TV Nordlys",
             category: "Racks para Televisores",
             price: "$94,999",
@@ -446,7 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
             whatsappMessage: "Hola! Estoy interesado en el Rack TV Nordlys - $94,999"
         },
-        23: {
+        15: {
             name: "Rack TV Polar",
             category: "Racks para Televisores",
             price: "$79,999",
@@ -465,26 +308,64 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
             whatsappMessage: "Hola! Estoy interesado en el Rack TV Polar - $79,999"
         },
-        24: {
-            name: "Rack TV Fjord",
-            category: "Racks para Televisores",
-            price: "$84,999",
-            description: "Estilo industrial puro con estructura de metal negro y estantes de madera recuperada.",
+        16: {
+            name: "Mesita Lofoten",
+            category: "Mesitas Ratonas",
+            price: "$44,999",
+            description: "Mesita ratona redonda con tapa de vidrio templado. Base en madera de roble natural.",
             images: [
+                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
                 "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80",
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
                 "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
             ],
             specs: [
-                { name: "Material", value: "Madera recuperada" },
-                { name: "Dimensiones", value: "130cm x 40cm x 48cm" },
-                { name: "Peso", value: "28 kg" },
-                { name: "Metal", value: "Negro oxidado" },
-                { name: "Estantes", value: "3 fijos" }
+                { name: "Material", value: "Roble y vidrio" },
+                { name: "Dimensiones", value: "Ø60cm x 45cm" },
+                { name: "Peso", value: "12 kg" },
+                { name: "Forma", value: "Redonda" },
+                { name: "Vidrio", value: "Templado 8mm" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Fjord - $84,999"
+            whatsappMessage: "Hola! Estoy interesado en la Mesita Lofoten - $44,999"
         },
-        25: {
+        17: {
+            name: "Mesita Sogne",
+            category: "Mesitas Ratonas",
+            price: "$49,999",
+            description: "Mesita cuadrada con cajón inferior y estante. Diseño funcional y elegante.",
+            images: [
+                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80",
+                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
+            ],
+            specs: [
+                { name: "Material", value: "Madera de pino" },
+                { name: "Dimensiones", value: "50cm x 50cm x 45cm" },
+                { name: "Peso", value: "15 kg" },
+                { name: "Cajón", value: "1 con manija metálica" },
+                { name: "Estante", value: "Inferior" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesita Sogne - $49,999"
+        },
+        18: {
+            name: "Mesita Tromsø",
+            category: "Mesitas Ratonas",
+            price: "$59,999",
+            description: "Conjunto nesting de 2 mesitas que se pueden usar por separado o juntas. Diseño versátil.",
+            images: [
+                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
+                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80"
+            ],
+            specs: [
+                { name: "Material", value: "Madera y metal" },
+                { name: "Dimensiones", value: "40cm/60cm x 40cm x 45cm" },
+                { name: "Peso", value: "18 kg" },
+                { name: "Piezas", value: "2 mesitas" },
+                { name: "Uso", value: "Separado o conjunto" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesita Tromsø - $59,999"
+        },
+        19: {
             name: "Mesita Bergen",
             category: "Mesitas Ratonas",
             price: "$39,999",
@@ -503,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
             whatsappMessage: "Hola! Estoy interesado en la Mesita Bergen - $39,999"
         },
-        26: {
+        20: {
             name: "Mesita Trondheim",
             category: "Mesitas Ratonas",
             price: "$54,999",
@@ -522,26 +403,64 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
             whatsappMessage: "Hola! Estoy interesado en la Mesita Trondheim - $54,999"
         },
-        27: {
-            name: "Mesita Oslo",
-            category: "Mesitas Ratonas",
-            price: "$64,999",
-            description: "Mesita multinivel en madera y metal. Diseño escultórico que funciona como pieza decorativa.",
+        21: {
+            name: "Estantería Stavanger",
+            category: "Estanterías Industriales",
+            price: "$84,999",
+            description: "Estantería modular de 5 niveles con estructura metálica visible. Ideal para libros y decoración.",
             images: [
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80",
-                "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
+                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
             ],
             specs: [
-                { name: "Material", value: "Madera y acero" },
-                { name: "Dimensiones", value: "70cm x 40cm x 50cm" },
-                { name: "Peso", value: "16 kg" },
-                { name: "Niveles", value: "3" },
-                { name: "Estilo", value: "Escultórico" }
+                { name: "Material", value: "Madera y hierro" },
+                { name: "Dimensiones", value: "180cm x 90cm x 35cm" },
+                { name: "Peso", value: "40 kg" },
+                { name: "Niveles", value: "5 estantes" },
+                { name: "Carga máx.", value: "25 kg por estante" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Oslo - $64,999"
+            whatsappMessage: "Hola! Estoy interesado en la Estantería Stavanger - $84,999"
         },
-        28: {
+        22: {
+            name: "Estantería Bergen",
+            category: "Estanterías Industriales",
+            price: "$94,999",
+            description: "Estantería flotente con iluminación LED integrada. Diseño moderno y elegante.",
+            images: [
+                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
+                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+            ],
+            specs: [
+                { name: "Material", value: "MDF y metal" },
+                { name: "Dimensiones", value: "200cm x 100cm x 30cm" },
+                { name: "Peso", value: "45 kg" },
+                { name: "Iluminación", value: "LED blanco cálido" },
+                { name: "Instalación", value: "Pared" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Estantería Bergen - $94,999"
+        },
+        23: {
+            name: "Estantería Ålesund",
+            category: "Estanterías Industriales",
+            price: "$79,999",
+            description: "Estantería en forma de escalera con 6 compartimentos. Diseño único y funcional.",
+            images: [
+                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
+            ],
+            specs: [
+                { name: "Material", value: "Madera de pino" },
+                { name: "Dimensiones", value: "160cm x 80cm x 35cm" },
+                { name: "Peso", value: "35 kg" },
+                { name: "Compartimentos", value: "6" },
+                { name: "Forma", value: "Escalera" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Estantería Ålesund - $79,999"
+        },
+        24: {
             name: "Estantería Helsinki",
             category: "Estanterías Industriales",
             price: "$104,999",
@@ -560,7 +479,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ],
             whatsappMessage: "Hola! Estoy interesado en la Estantería Helsinki - $104,999"
         },
-        29: {
+        25: {
             name: "Estantería Copenhagen",
             category: "Estanterías Industriales",
             price: "$89,999",
@@ -578,90 +497,157 @@ document.addEventListener('DOMContentLoaded', function() {
                 { name: "Modular", value: "Sí, combinable" }
             ],
             whatsappMessage: "Hola! Estoy interesado en la Estantería Copenhagen - $89,999"
-        },
-        30: {
-            name: "Estantería Stockholm",
-            category: "Estanterías Industriales",
-            price: "$114,999",
-            description: "Estantería de esquina con cajones integrados. Maximiza el uso de espacios muertos.",
-            images: [
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80",
-                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera y metal" },
-                { name: "Dimensiones", value: "150cm x 150cm x 40cm" },
-                { name: "Peso", value: "55 kg" },
-                { name: "Cajones", value: "4 integrados" },
-                { name: "Ubicación", value: "Esquina" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Stockholm - $114,999"
         }
     };
 
-    // ===== FUNCIONES DEL CARRUSEL =====
-    function updateCarousel() {
-        carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+    // ===== FUNCIONES DEL CARRUSEL HERO =====
+    function updateHeroCarousel() {
+        heroTrack.style.transform = `translateX(-${heroCurrentSlide * 100}%)`;
         
-        // Actualizar dots
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentSlide);
+        heroDots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === heroCurrentSlide);
         });
         
-        // Actualizar slides activos
-        carouselSlides.forEach((slide, index) => {
-            slide.classList.toggle('active', index === currentSlide);
+        heroSlides.forEach((slide, index) => {
+            slide.classList.toggle('active', index === heroCurrentSlide);
         });
     }
 
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % totalSlides;
-        updateCarousel();
+    function heroNextSlide() {
+        heroCurrentSlide = (heroCurrentSlide + 1) % heroTotalSlides;
+        updateHeroCarousel();
     }
 
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        updateCarousel();
+    function heroPrevSlide() {
+        heroCurrentSlide = (heroCurrentSlide - 1 + heroTotalSlides) % heroTotalSlides;
+        updateHeroCarousel();
     }
 
-    function goToSlide(index) {
-        currentSlide = index;
-        updateCarousel();
-        resetAutoSlide();
+    function heroGoToSlide(index) {
+        heroCurrentSlide = index;
+        updateHeroCarousel();
+        resetHeroAutoSlide();
     }
 
-    function resetAutoSlide() {
-        clearInterval(autoSlideInterval);
-        startAutoSlide();
+    function resetHeroAutoSlide() {
+        clearInterval(heroAutoSlide);
+        startHeroAutoSlide();
     }
 
-    function startAutoSlide() {
-        autoSlideInterval = setInterval(nextSlide, 5000);
+    function startHeroAutoSlide() {
+        heroAutoSlide = setInterval(heroNextSlide, 5000);
     }
 
-    // ===== CONTROL TÁCTIL =====
-    function handleTouchStart(e) {
-        touchStartX = e.changedTouches[0].screenX;
+    // ===== CONTROL TÁCTIL HERO =====
+    let heroTouchStartX = 0;
+    let heroTouchEndX = 0;
+
+    function handleHeroTouchStart(e) {
+        heroTouchStartX = e.changedTouches[0].screenX;
     }
 
-    function handleTouchEnd(e) {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
+    function handleHeroTouchEnd(e) {
+        heroTouchEndX = e.changedTouches[0].screenX;
+        handleHeroSwipe();
     }
 
-    function handleSwipe() {
+    function handleHeroSwipe() {
         const swipeThreshold = 50;
-        const difference = touchStartX - touchEndX;
+        const difference = heroTouchStartX - heroTouchEndX;
         
         if (Math.abs(difference) > swipeThreshold) {
             if (difference > 0) {
-                nextSlide();
+                heroNextSlide();
             } else {
-                prevSlide();
+                heroPrevSlide();
             }
-            resetAutoSlide();
+            resetHeroAutoSlide();
         }
+    }
+
+    // ===== CARRUSELES DE PRODUCTOS =====
+    function initProductCarousels() {
+        const productCarousels = document.querySelectorAll('.products-carousel');
+        
+        productCarousels.forEach((carousel, carouselIndex) => {
+            const track = carousel.querySelector('.products-carousel-track');
+            const slides = carousel.querySelectorAll('.products-carousel-slide');
+            const prevBtn = carousel.querySelector('.prev');
+            const nextBtn = carousel.querySelector('.next');
+            const dots = carousel.querySelectorAll('.dot');
+            
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            
+            function updateProductCarousel() {
+                track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+                
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === currentSlide);
+                });
+            }
+            
+            function nextProductSlide() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateProductCarousel();
+            }
+            
+            function prevProductSlide() {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateProductCarousel();
+            }
+            
+            function goToProductSlide(index) {
+                currentSlide = index;
+                updateProductCarousel();
+            }
+            
+            // Event listeners para las flechas
+            if (prevBtn) {
+                prevBtn.addEventListener('click', prevProductSlide);
+            }
+            
+            if (nextBtn) {
+                nextBtn.addEventListener('click', nextProductSlide);
+            }
+            
+            // Event listeners para los dots
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    goToProductSlide(index);
+                });
+            });
+            
+            // Control táctil para productos
+            let productTouchStartX = 0;
+            let productTouchEndX = 0;
+            
+            track.addEventListener('touchstart', (e) => {
+                productTouchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            
+            track.addEventListener('touchend', (e) => {
+                productTouchEndX = e.changedTouches[0].screenX;
+                handleProductSwipe();
+            }, { passive: true });
+            
+            function handleProductSwipe() {
+                const swipeThreshold = 50;
+                const difference = productTouchStartX - productTouchEndX;
+                
+                if (Math.abs(difference) > swipeThreshold) {
+                    if (difference > 0) {
+                        nextProductSlide();
+                    } else {
+                        prevProductSlide();
+                    }
+                }
+            }
+        });
     }
 
     // ===== FUNCIONES DEL MODAL =====
@@ -750,30 +736,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ===== EVENT LISTENERS =====
-    // Carrusel
-    if (nextBtn) nextBtn.addEventListener('click', () => {
-        nextSlide();
-        resetAutoSlide();
-    });
-    
+    // ===== EVENT LISTENERS HERO =====
     if (prevBtn) prevBtn.addEventListener('click', () => {
-        prevSlide();
-        resetAutoSlide();
+        heroPrevSlide();
+        resetHeroAutoSlide();
     });
     
-    dots.forEach((dot, index) => {
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+        heroNextSlide();
+        resetHeroAutoSlide();
+    });
+    
+    heroDots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
-            goToSlide(index);
+            heroGoToSlide(index);
         });
     });
 
-    // Control táctil
-    carouselTrack.addEventListener('touchstart', handleTouchStart, { passive: true });
-    carouselTrack.addEventListener('touchend', handleTouchEnd, { passive: true });
+    // Control táctil hero
+    heroTrack.addEventListener('touchstart', handleHeroTouchStart, { passive: true });
+    heroTrack.addEventListener('touchend', handleHeroTouchEnd, { passive: true });
 
-    // Modal
-    viewButtons.forEach(btn => {
+    // ===== EVENT LISTENERS MODAL =====
+    // Botones Ver Producto
+    document.querySelectorAll('.btn-view').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
             const productId = btn.getAttribute('data-id');
@@ -832,17 +818,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ===== INICIAR CARRUSEL AUTOMÁTICO =====
-    startAutoSlide();
+    // ===== INICIALIZACIÓN =====
+    // Iniciar carruseles de productos
+    initProductCarousels();
     
-    // Pausar al hacer hover
-    carouselTrack.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-    carouselTrack.addEventListener('mouseleave', startAutoSlide);
+    // Iniciar carrusel hero automático
+    startHeroAutoSlide();
+    
+    // Pausar hero al hacer hover
+    heroTrack.addEventListener('mouseenter', () => clearInterval(heroAutoSlide));
+    heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
 
-    console.log('✅ Estilo Nórdico - Web perfectamente cargada');
-    console.log('🎯 CARRUSEL HORIZONTAL: ✓ Funciona con flechas, dots y gestos táctiles');
-    console.log('🎯 MODAL PERFECTO: ✓ Pantalla completa, sin scroll interno');
-    console.log('🎯 6 PRODUCTOS POR CATEGORÍA: ✓ 30 productos en total');
-    console.log('🎯 WHATSAPP INTEGRADO: ✓ Botón de compra directa');
-    console.log('🎯 RESPONSIVE PERFECTO: ✓ Móvil, Tablet, PC');
+    console.log('✅ Estilo Nórdico - CARRUSELES PROFESIONALES CARGADOS');
+    console.log('🎯 CARRUSEL HERO: ✓ Flechas izquierda/derecha funcionan');
+    console.log('🎯 CARRUSELES PRODUCTOS: ✓ 5 productos por categoría');
+    console.log('🎯 3 PRODUCTOS VISIBLES: ✓ Se ven 3, flechas para navegar');
+    console.log('🎯 CONTROL TÁCTIL: ✓ Funciona en móviles');
+    console.log('🎯 MODAL PERFECTO: ✓ Pantalla completa');
 });
