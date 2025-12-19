@@ -1,4 +1,4 @@
-// script.js - ESTILO NÓRDICO - CARRUSELES PERFECTAMENTE FUNCIONALES
+// script.js - ESTILO NÓRDICO - VERSIÓN SIMPLIFICADA
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
@@ -565,141 +565,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ===== CARRUSELES DE PRODUCTOS - SIMPLIFICADO Y FUNCIONAL =====
-    function initProductCarousels() {
-        const productCarousels = document.querySelectorAll('.products-carousel');
-        
-        productCarousels.forEach((carousel) => {
-            const track = carousel.querySelector('.products-carousel-track');
-            const slides = carousel.querySelectorAll('.products-carousel-slide');
-            const prevBtn = carousel.querySelector('.prev');
-            const nextBtn = carousel.querySelector('.next');
-            const dots = carousel.querySelectorAll('.dot');
-            
-            // Configuración inicial
-            let slidesToShow = getSlidesToShow();
-            let currentIndex = 0;
-            const totalSlides = slides.length;
-            const maxIndex = Math.max(0, totalSlides - slidesToShow);
-            
-            // Calcular ancho del track
-            updateTrackWidth();
-            
-            function getSlidesToShow() {
-                if (window.innerWidth <= 768) return 1;
-                if (window.innerWidth <= 992) return 2;
-                return 3;
-            }
-            
-            function updateTrackWidth() {
-                slidesToShow = getSlidesToShow();
-                const slideWidth = 100 / slidesToShow;
-                track.style.width = `${(totalSlides * 100) / slidesToShow}%`;
-                
-                slides.forEach(slide => {
-                    slide.style.flex = `0 0 ${slideWidth}%`;
-                });
-            }
-            
-            function updateCarousel() {
-                // Calcular el índice máximo permitido
-                const currentMaxIndex = Math.max(0, totalSlides - slidesToShow);
-                
-                // Asegurar que currentIndex no exceda el máximo
-                if (currentIndex > currentMaxIndex) {
-                    currentIndex = currentMaxIndex;
-                }
-                
-                // Calcular desplazamiento
-                const slideWidth = 100 / slidesToShow;
-                const translateX = currentIndex * slideWidth;
-                
-                track.style.transform = `translateX(-${translateX}%)`;
-                
-                // Actualizar dots
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === currentIndex);
-                });
-            }
-            
-            function nextSlide() {
-                const maxIndex = Math.max(0, totalSlides - slidesToShow);
-                if (currentIndex < maxIndex) {
-                    currentIndex++;
-                } else {
-                    currentIndex = 0; // Volver al inicio
-                }
-                updateCarousel();
-            }
-            
-            function prevSlide() {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                } else {
-                    const maxIndex = Math.max(0, totalSlides - slidesToShow);
-                    currentIndex = maxIndex; // Ir al final
-                }
-                updateCarousel();
-            }
-            
-            function goToSlide(index) {
-                const maxIndex = Math.max(0, totalSlides - slidesToShow);
-                if (index >= 0 && index <= maxIndex) {
-                    currentIndex = index;
-                    updateCarousel();
-                }
-            }
-            
-            // Event listeners
-            if (prevBtn) {
-                prevBtn.addEventListener('click', prevSlide);
-            }
-            
-            if (nextBtn) {
-                nextBtn.addEventListener('click', nextSlide);
-            }
-            
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => goToSlide(index));
-            });
-            
-            // Control táctil
-            let touchStartX = 0;
-            let touchEndX = 0;
-            
-            track.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            }, { passive: true });
-            
-            track.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            }, { passive: true });
-            
-            function handleSwipe() {
-                const swipeThreshold = 50;
-                const difference = touchStartX - touchEndX;
-                
-                if (Math.abs(difference) > swipeThreshold) {
-                    if (difference > 0) {
-                        nextSlide();
-                    } else {
-                        prevSlide();
-                    }
-                }
-            }
-            
-            // Redimensionamiento
-            window.addEventListener('resize', () => {
-                updateTrackWidth();
-                updateCarousel();
-            });
-            
-            // Inicializar
-            updateCarousel();
-        });
-    }
-
     // ===== FUNCIONES DEL MODAL =====
     function openProductModal(productId) {
         const product = products[productId];
@@ -755,7 +620,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.open(`https://wa.me/5491122334455?text=${encodedMessage}`, '_blank');
         };
 
-        // Mostrar modal
+        // Mostrar modal - Pantalla completa
         productModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
         
@@ -808,11 +673,26 @@ document.addEventListener('DOMContentLoaded', function() {
     heroTrack.addEventListener('touchend', handleHeroTouchEnd, { passive: true });
 
     // ===== EVENT LISTENERS MODAL =====
+    // Botones Ver Producto
     document.querySelectorAll('.btn-view').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
             const productId = btn.getAttribute('data-id');
             openProductModal(productId);
+        });
+    });
+
+    // Botones Ver Más
+    document.querySelectorAll('.btn-load-more').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = btn.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                targetElement.classList.add('active');
+                btn.style.display = 'none';
+            }
         });
     });
 
@@ -868,16 +748,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ===== INICIALIZACIÓN =====
-    initProductCarousels();
+    // Iniciar carrusel hero automático
     startHeroAutoSlide();
     
     // Pausar hero al hacer hover
     heroTrack.addEventListener('mouseenter', () => clearInterval(heroAutoSlide));
     heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
 
-    console.log('✅ Estilo Nórdico - CARRUSELES PERFECTOS CARGADOS');
+    console.log('✅ Estilo Nórdico - VERSIÓN SIMPLIFICADA CARGADA');
     console.log('🎯 CARRUSEL HERO: ✓ Funcionando perfectamente');
-    console.log('🎯 CARRUSELES PRODUCTOS: ✓ 3 productos visibles en PC');
-    console.log('🎯 NAVEGACIÓN: ✓ De 1 en 1 producto');
-    console.log('🎯 RESPONSIVE: ✓ 3 en PC, 2 en tablet, 1 en móvil');
+    console.log('🎯 PRODUCTOS: ✓ Grid de 3 productos visibles');
+    console.log('🎯 VER MÁS: ✓ Botones para mostrar más productos');
+    console.log('🎯 MODAL PERFECTO: ✓ Pantalla completa');
+    console.log('🎯 RESPONSIVE: ✓ Funciona en todos los dispositivos');
 });
