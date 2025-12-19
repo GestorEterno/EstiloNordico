@@ -1,4 +1,4 @@
-// script.js - ESTILO NÓRDICO - HEADER REDISEÑADO PERFECTO CON CARRUSEL CIRCULAR INFINITO
+// script.js - ESTILO NÓRDICO - HEADER REDISEÑADO PERFECTO CON CARRUSEL CIRCULAR INFINITO Y BOTONES FUNCIONALES
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
@@ -467,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ===== CLASE CARRUSEL DE PRODUCTOS - CIRCULAR INFINITO =====
+    // ===== CLASE CARRUSEL DE PRODUCTOS - CIRCULAR INFINITO (CORREGIDO) =====
     class ProductsCarousel {
         constructor(container) {
             this.container = container;
@@ -482,6 +482,9 @@ document.addEventListener('DOMContentLoaded', function() {
             this.totalCards = this.cards.length;
             this.isAnimating = false;
             this.animationDuration = 500;
+            
+            // Solo continuar si hay tarjetas
+            if (this.totalCards === 0) return;
             
             // Duplicar tarjetas para efecto infinito (solo 2 extra, no todas)
             this.setupCircularEffect();
@@ -508,12 +511,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         init() {
+            console.log('Inicializando carrusel con', this.totalCards, 'tarjetas');
+            
             if (this.prevBtn) {
-                this.prevBtn.addEventListener('click', () => this.prev());
+                this.prevBtn.addEventListener('click', () => {
+                    console.log('Clic en prev');
+                    this.prev();
+                });
             }
             
             if (this.nextBtn) {
-                this.nextBtn.addEventListener('click', () => this.next());
+                this.nextBtn.addEventListener('click', () => {
+                    console.log('Clic en next');
+                    this.next();
+                });
             }
             
             this.dots.forEach((dot, index) => {
@@ -532,13 +543,21 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const cardStyle = window.getComputedStyle(this.cards[0]);
             const trackStyle = window.getComputedStyle(this.track);
-            
             const cardWidth = this.cards[0].offsetWidth;
             const trackWidth = this.track.offsetWidth;
             const gap = parseInt(trackStyle.gap) || 30;
             
+            // Si el ancho de la tarjeta es 0, el carrusel no está visible, posponer el cálculo
+            if (cardWidth === 0) {
+                console.warn('Carrusel no visible, reintentando cálculo de dimensiones...');
+                setTimeout(() => this.calculateDimensions(), 100);
+                return;
+            }
+            
             this.cardsPerView = Math.floor(trackWidth / (cardWidth + gap));
             this.cardsPerView = Math.max(1, this.cardsPerView);
+            
+            console.log('cardsPerView:', this.cardsPerView, 'cardWidth:', cardWidth, 'trackWidth:', trackWidth);
             
             this.updatePosition();
         }
@@ -579,7 +598,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         updatePosition(instant = false) {
-            if (this.cards.length === 0 || this.isAnimating) return;
+            if (this.cards.length === 0) return;
             
             const cardStyle = window.getComputedStyle(this.cards[0]);
             const trackStyle = window.getComputedStyle(this.track);
@@ -612,7 +631,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const adjustedIndex = this.currentIndex - 1; // Ajustar por tarjeta clonada al inicio
             
             this.dots.forEach((dot, index) => {
-                const isActive = index === (adjustedIndex % (this.totalCards - 2));
+                const realIndex = adjustedIndex < 0 ? (this.totalCards - 2) + adjustedIndex : adjustedIndex;
+                const isActive = index === (realIndex % (this.totalCards - 2));
                 dot.classList.toggle('active', isActive);
                 
                 if (index < maxSlides) {
@@ -636,14 +656,17 @@ document.addEventListener('DOMContentLoaded', function() {
         prev() {
             if (this.isAnimating) return;
             
+            console.log('prev: currentIndex antes:', this.currentIndex);
             this.isAnimating = true;
             this.currentIndex--;
             
             // Si llegamos al clon del principio, saltar al final real
             if (this.currentIndex === 0) {
+                console.log('Llegó al clon del principio, saltando al final real');
                 setTimeout(() => {
                     this.track.style.transition = 'none';
                     this.currentIndex = this.totalCards - 2; // Saltar al penúltimo (último real)
+                    console.log('prev: currentIndex después del salto:', this.currentIndex);
                     this.updatePosition(true);
                     
                     setTimeout(() => {
@@ -663,14 +686,17 @@ document.addEventListener('DOMContentLoaded', function() {
         next() {
             if (this.isAnimating) return;
             
+            console.log('next: currentIndex antes:', this.currentIndex);
             this.isAnimating = true;
             this.currentIndex++;
             
             // Si llegamos al clon del final, saltar al principio real
             if (this.currentIndex >= this.totalCards - 1) {
+                console.log('Llegó al clon del final, saltando al principio real');
                 setTimeout(() => {
                     this.track.style.transition = 'none';
                     this.currentIndex = 1; // Saltar al segundo (primero real)
+                    console.log('next: currentIndex después del salto:', this.currentIndex);
                     this.updatePosition(true);
                     
                     setTimeout(() => {
@@ -875,6 +901,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 img.addEventListener('load', () => {
                     loadedImages++;
                     if (loadedImages === images.length) {
+                        console.log('Todas las imágenes cargadas, recalculando dimensiones');
                         carousel.handleResize();
                     }
                 });
@@ -882,7 +909,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         if (loadedImages === images.length) {
-            setTimeout(() => carousel.handleResize(), 100);
+            setTimeout(() => {
+                console.log('Imágenes ya cargadas, recalculando dimensiones');
+                carousel.handleResize();
+            }, 100);
         }
     });
     
@@ -890,6 +920,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
+            console.log('Resize, recalculando carruseles');
             carousels.forEach(carousel => carousel.handleResize());
         }, 250);
     });
@@ -911,5 +942,5 @@ document.addEventListener('DOMContentLoaded', function() {
         updateNotificationCount();
     }
 
-    console.log('✅ Estilo Nórdico - HEADER REDISEÑADO CARGADO PERFECTAMENTE CON CARRUSEL CIRCULAR INFINITO');
+    console.log('✅ Estilo Nórdico - HEADER REDISEÑADO CARGADO PERFECTAMENTE CON CARRUSEL CIRCULAR INFINITO Y BOTONES FUNCIONALES');
 });
