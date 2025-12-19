@@ -1,4 +1,4 @@
-// script.js - ESTILO NÓRDICO - VERSIÓN SIMPLIFICADA
+// script.js - ESTILO NÓRDICO - VERSIÓN CON CARRUSELES DE PRODUCTOS
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
@@ -565,6 +565,177 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // ===== CLASE CARRUSEL DE PRODUCTOS =====
+    class ProductsCarousel {
+        constructor(container) {
+            this.container = container;
+            this.track = container.querySelector('.products-carousel-track');
+            this.cards = Array.from(container.querySelectorAll('.product-card'));
+            this.prevBtn = container.querySelector('.prev-arrow');
+            this.nextBtn = container.querySelector('.next-arrow');
+            this.dots = container.querySelectorAll('.carousel-dot');
+            
+            // Calcular dimensiones
+            this.currentIndex = 0;
+            this.totalCards = this.cards.length;
+            
+            // Inicializar
+            this.init();
+            this.calculateDimensions();
+        }
+        
+        init() {
+            // Event listeners para flechas
+            if (this.prevBtn) {
+                this.prevBtn.addEventListener('click', () => this.prev());
+            }
+            
+            if (this.nextBtn) {
+                this.nextBtn.addEventListener('click', () => this.next());
+            }
+            
+            // Event listeners para dots
+            this.dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => this.goTo(index));
+            });
+            
+            // Control táctil
+            this.addTouchControls();
+            
+            // Responsive
+            window.addEventListener('resize', () => this.handleResize());
+            
+            // Actualizar visibilidad de flechas inicial
+            this.updateArrows();
+            this.updateDots();
+        }
+        
+        calculateDimensions() {
+            // Calcular cuántos productos caben en la pantalla
+            if (this.cards.length === 0) return;
+            
+            const cardStyle = window.getComputedStyle(this.cards[0]);
+            const trackStyle = window.getComputedStyle(this.track);
+            
+            const cardWidth = this.cards[0].offsetWidth;
+            const trackWidth = this.track.offsetWidth;
+            const gap = parseInt(trackStyle.gap) || 30;
+            
+            // Calcular cuántos productos caben
+            this.cardsPerView = Math.floor(trackWidth / (cardWidth + gap));
+            
+            // Asegurar que cardsPerView sea al menos 1
+            this.cardsPerView = Math.max(1, this.cardsPerView);
+            
+            // Actualizar posición
+            this.updatePosition();
+        }
+        
+        addTouchControls() {
+            let touchStartX = 0;
+            let touchEndX = 0;
+            const threshold = 50;
+            
+            this.track.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            
+            this.track.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                this.handleSwipe(touchStartX, touchEndX, threshold);
+            }, { passive: true });
+        }
+        
+        handleSwipe(startX, endX, threshold) {
+            const difference = startX - endX;
+            
+            if (Math.abs(difference) > threshold) {
+                if (difference > 0) {
+                    this.next();
+                } else {
+                    this.prev();
+                }
+            }
+        }
+        
+        handleResize() {
+            setTimeout(() => {
+                this.calculateDimensions();
+            }, 100);
+        }
+        
+        updatePosition() {
+            if (this.cards.length === 0) return;
+            
+            const cardStyle = window.getComputedStyle(this.cards[0]);
+            const trackStyle = window.getComputedStyle(this.track);
+            const cardWidth = this.cards[0].offsetWidth;
+            const gap = parseInt(trackStyle.gap) || 30;
+            
+            // Calcular desplazamiento
+            const offset = -this.currentIndex * (cardWidth + gap);
+            this.track.style.transform = `translateX(${offset}px)`;
+            
+            // Actualizar UI
+            this.updateDots();
+            this.updateArrows();
+        }
+        
+        updateDots() {
+            if (!this.dots.length) return;
+            
+            // Calcular número máximo de slides
+            const maxSlides = Math.max(0, this.totalCards - this.cardsPerView + 1);
+            
+            this.dots.forEach((dot, index) => {
+                const isActive = index === this.currentIndex;
+                dot.classList.toggle('active', isActive);
+                
+                // Mostrar solo los dots necesarios
+                if (index < maxSlides) {
+                    dot.style.display = 'block';
+                } else {
+                    dot.style.display = 'none';
+                }
+            });
+        }
+        
+        updateArrows() {
+            if (this.prevBtn) {
+                this.prevBtn.disabled = this.currentIndex === 0;
+            }
+            
+            if (this.nextBtn) {
+                const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
+                this.nextBtn.disabled = this.currentIndex >= maxIndex;
+            }
+        }
+        
+        prev() {
+            if (this.currentIndex > 0) {
+                this.currentIndex--;
+                this.updatePosition();
+            }
+        }
+        
+        next() {
+            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
+            if (this.currentIndex < maxIndex) {
+                this.currentIndex++;
+                this.updatePosition();
+            }
+        }
+        
+        goTo(index) {
+            // Validar índice
+            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
+            const validIndex = Math.max(0, Math.min(index, maxIndex));
+            
+            this.currentIndex = validIndex;
+            this.updatePosition();
+        }
+    }
+
     // ===== FUNCIONES DEL MODAL =====
     function openProductModal(productId) {
         const product = products[productId];
@@ -673,27 +844,14 @@ document.addEventListener('DOMContentLoaded', function() {
     heroTrack.addEventListener('touchend', handleHeroTouchEnd, { passive: true });
 
     // ===== EVENT LISTENERS MODAL =====
-    // Botones Ver Producto
-    document.querySelectorAll('.btn-view').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+    // Botones Ver Producto (delegación de eventos para los nuevos carruseles)
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-view') || e.target.closest('.btn-view')) {
             e.stopPropagation();
+            const btn = e.target.classList.contains('btn-view') ? e.target : e.target.closest('.btn-view');
             const productId = btn.getAttribute('data-id');
             openProductModal(productId);
-        });
-    });
-
-    // Botones Ver Más
-    document.querySelectorAll('.btn-load-more').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = btn.getAttribute('data-target');
-            const targetElement = document.getElementById(targetId);
-            
-            if (targetElement) {
-                targetElement.classList.add('active');
-                btn.style.display = 'none';
-            }
-        });
+        }
     });
 
     // Cerrar modal
@@ -747,7 +905,46 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ===== INICIALIZACIÓN =====
+    // ===== INICIALIZACIÓN CARRUSELES DE PRODUCTOS =====
+    const productContainers = document.querySelectorAll('.products-carousel-container');
+    const carousels = [];
+    
+    productContainers.forEach(container => {
+        const carousel = new ProductsCarousel(container);
+        carousels.push(carousel);
+        
+        // Recalcular cuando se carguen las imágenes
+        const images = container.querySelectorAll('img');
+        let loadedImages = 0;
+        
+        images.forEach(img => {
+            if (img.complete) {
+                loadedImages++;
+            } else {
+                img.addEventListener('load', () => {
+                    loadedImages++;
+                    if (loadedImages === images.length) {
+                        carousel.handleResize();
+                    }
+                });
+            }
+        });
+        
+        if (loadedImages === images.length) {
+            setTimeout(() => carousel.handleResize(), 100);
+        }
+    });
+    
+    // Recalcular carruseles al redimensionar ventana
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            carousels.forEach(carousel => carousel.handleResize());
+        }, 250);
+    });
+
+    // ===== INICIALIZACIÓN GENERAL =====
     // Iniciar carrusel hero automático
     startHeroAutoSlide();
     
@@ -755,10 +952,9 @@ document.addEventListener('DOMContentLoaded', function() {
     heroTrack.addEventListener('mouseenter', () => clearInterval(heroAutoSlide));
     heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
 
-    console.log('✅ Estilo Nórdico - VERSIÓN SIMPLIFICADA CARGADA');
+    console.log('✅ Estilo Nórdico - VERSIÓN CON CARRUSELES DE PRODUCTOS CARGADA');
     console.log('🎯 CARRUSEL HERO: ✓ Funcionando perfectamente');
-    console.log('🎯 PRODUCTOS: ✓ Grid de 3 productos visibles');
-    console.log('🎯 VER MÁS: ✓ Botones para mostrar más productos');
+    console.log('🎯 CARRUSELES DE PRODUCTOS: ✓ Inicializados:', carousels.length);
     console.log('🎯 MODAL PERFECTO: ✓ Pantalla completa');
     console.log('🎯 RESPONSIVE: ✓ Funciona en todos los dispositivos');
 });
