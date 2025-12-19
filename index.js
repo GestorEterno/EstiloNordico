@@ -1,4 +1,4 @@
-// index.js - ESTILO NÓRDICO - CARRUSEL PERFECTO Y ULTRA FLUIDO
+// index.js - ESTILO NÓRDICO - CARRUSEL PERFECTO Y ULTRA FLUIDO (VERSIÓN CORREGIDA)
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
@@ -465,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ===== CARRUSEL DE PRODUCTOS - VERSIÓN PERFECTA =====
+    // ===== CARRUSEL DE PRODUCTOS - VERSIÓN PERFECTA CORREGIDA =====
     class ProductsCarousel {
         constructor(container) {
             this.container = container;
@@ -475,11 +475,13 @@ document.addEventListener('DOMContentLoaded', function() {
             this.nextBtn = container.querySelector('.next-arrow');
             this.dots = container.querySelectorAll('.carousel-dot');
             
-            // Configuración básica
+            // Configuración mejorada
             this.currentIndex = 0;
             this.originalCards = this.cards.length;
             this.isAnimating = false;
-            this.animationDuration = 500;
+            this.animationDuration = 400;
+            this.cardWidth = 0;
+            this.gap = 30;
             
             // Solo continuar si hay tarjetas
             if (this.originalCards === 0) return;
@@ -502,6 +504,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const firstClone = this.cards[0].cloneNode(true);
             const lastClone = this.cards[this.originalCards - 1].cloneNode(true);
             
+            // Marcar clones para identificación
+            firstClone.classList.add('clone');
+            lastClone.classList.add('clone');
+            
             // Agregar clones
             this.track.appendChild(firstClone);
             this.track.insertBefore(lastClone, this.cards[0]);
@@ -518,107 +524,111 @@ document.addEventListener('DOMContentLoaded', function() {
         init() {
             // Event listeners para botones
             if (this.prevBtn) {
-                this.prevBtn.addEventListener('click', () => this.prev());
+                this.prevBtn.addEventListener('click', () => this.safePrev());
             }
             
             if (this.nextBtn) {
-                this.nextBtn.addEventListener('click', () => this.next());
+                this.nextBtn.addEventListener('click', () => this.safeNext());
             }
             
             // Event listeners para dots
             this.dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => this.goTo(index));
+                dot.addEventListener('click', () => this.safeGoTo(index));
             });
             
-            // Evento para detectar fin de transición
-            this.track.addEventListener('transitionend', () => this.handleTransitionEnd());
-            
-            // Control táctil
+            // Control táctil mejorado
             this.addTouchControls();
             
-            // Manejo de resize
-            window.addEventListener('resize', () => this.handleResize());
+            // Manejo de resize con debounce
+            this.handleResize = this.debounce(() => {
+                this.calculateDimensions();
+                this.updatePosition(true);
+            }, 250);
+            
+            window.addEventListener('resize', this.handleResize);
             
             // Estado inicial
             this.updateArrows();
             this.updateDots();
         }
         
+        debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
         calculateDimensions() {
             if (this.cards.length === 0) return;
             
-            const cardWidth = this.cards[0].offsetWidth;
-            const trackWidth = this.track.offsetWidth;
-            const gap = 30;
+            // Obtener el ancho de la primera tarjeta visible
+            const visibleCards = this.track.querySelectorAll('.product-card:not(.clone)');
+            if (visibleCards.length === 0) return;
             
-            if (cardWidth === 0) {
-                setTimeout(() => this.calculateDimensions(), 100);
+            const card = visibleCards[0];
+            this.cardWidth = card.offsetWidth;
+            
+            // Si aún no tenemos ancho, reintentar
+            if (this.cardWidth === 0) {
+                requestAnimationFrame(() => this.calculateDimensions());
                 return;
             }
-            
-            this.cardsPerView = Math.floor(trackWidth / (cardWidth + gap));
-            this.cardsPerView = Math.max(1, this.cardsPerView);
         }
         
         addTouchControls() {
             let touchStartX = 0;
             let touchEndX = 0;
-            const threshold = 50;
+            let touchMoved = false;
             
             this.track.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
+                touchStartX = e.touches[0].clientX;
+                touchMoved = false;
+            }, { passive: true });
+            
+            this.track.addEventListener('touchmove', (e) => {
+                touchMoved = true;
+                touchEndX = e.touches[0].clientX;
             }, { passive: true });
             
             this.track.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                this.handleSwipe(touchStartX, touchEndX, threshold);
+                if (!touchMoved || this.isAnimating) return;
+                
+                const threshold = 50;
+                const difference = touchStartX - touchEndX;
+                
+                if (Math.abs(difference) > threshold) {
+                    if (difference > 0) {
+                        this.safeNext();
+                    } else {
+                        this.safePrev();
+                    }
+                }
             }, { passive: true });
         }
         
-        handleSwipe(startX, endX, threshold) {
-            if (this.isAnimating) return;
-            
-            const difference = startX - endX;
-            
-            if (Math.abs(difference) > threshold) {
-                if (difference > 0) {
-                    this.next();
-                } else {
-                    this.prev();
-                }
-            }
-        }
-        
-        handleResize() {
-            setTimeout(() => {
-                this.calculateDimensions();
-            }, 100);
-        }
-        
         updatePosition(instant = false) {
-            if (this.cards.length === 0) return;
-            
-            const cardWidth = this.cards[0].offsetWidth;
-            const gap = 30;
-            
-            if (cardWidth === 0) {
-                setTimeout(() => this.updatePosition(instant), 100);
+            if (this.cards.length === 0 || this.cardWidth === 0) {
+                requestAnimationFrame(() => this.updatePosition(instant));
                 return;
             }
             
-            const offset = -this.currentIndex * (cardWidth + gap);
+            const offset = -this.currentIndex * (this.cardWidth + this.gap);
             
             if (instant) {
                 this.track.style.transition = 'none';
+                this.track.style.transform = `translateX(${offset}px)`;
+                
+                // Forzar reflow
+                void this.track.offsetWidth;
             } else {
                 this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
-            }
-            
-            this.track.style.transform = `translateX(${offset}px)`;
-            
-            // Forzar reflow si es instantáneo
-            if (instant) {
-                this.track.offsetHeight;
+                this.track.style.transform = `translateX(${offset}px)`;
             }
             
             this.updateDots();
@@ -628,81 +638,103 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDots() {
             if (!this.dots.length) return;
             
-            const realIndex = this.currentIndex - 1;
-            const adjustedIndex = realIndex < 0 ? this.originalCards - 1 : realIndex;
+            let realIndex;
+            
+            if (this.useCircular) {
+                // Ajustar índice para efecto circular
+                if (this.currentIndex === 0) {
+                    realIndex = this.originalCards - 1;
+                } else if (this.currentIndex === this.totalCards - 1) {
+                    realIndex = 0;
+                } else {
+                    realIndex = this.currentIndex - 1;
+                }
+            } else {
+                realIndex = this.currentIndex;
+            }
             
             this.dots.forEach((dot, index) => {
-                const isActive = index === (adjustedIndex % this.originalCards);
+                const isActive = index === (realIndex % this.originalCards);
                 dot.classList.toggle('active', isActive);
             });
         }
         
         updateArrows() {
-            if (this.prevBtn) this.prevBtn.disabled = this.isAnimating;
-            if (this.nextBtn) this.nextBtn.disabled = this.isAnimating;
-        }
-        
-        // ===== LÓGICA PERFECTA DE TRANSICIÓN =====
-        handleTransitionEnd() {
-            if (!this.useCircular) {
-                this.isAnimating = false;
-                this.updateArrows();
-                return;
+            if (this.prevBtn) {
+                this.prevBtn.style.opacity = this.isAnimating ? '0.5' : '1';
+                this.prevBtn.style.cursor = this.isAnimating ? 'not-allowed' : 'pointer';
             }
             
-            // Verificar si estamos en un clon
-            if (this.currentIndex === 0) {
-                // Estamos en el clon del principio, saltar al final real
-                this.jumpToRealCard(this.originalCards);
-            } else if (this.currentIndex === this.totalCards - 1) {
-                // Estamos en el clon del final, saltar al principio real
-                this.jumpToRealCard(1);
+            if (this.nextBtn) {
+                this.nextBtn.style.opacity = this.isAnimating ? '0.5' : '1';
+                this.nextBtn.style.cursor = this.isAnimating ? 'not-allowed' : 'pointer';
             }
-            
-            this.isAnimating = false;
-            this.updateArrows();
         }
         
-        jumpToRealCard(newIndex) {
-            // Desactivar transiciones
-            this.track.style.transition = 'none';
-            this.currentIndex = newIndex;
-            this.updatePosition(true);
-            
-            // Reactivar transiciones en el próximo frame
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
-                });
-            });
-        }
-        
-        prev() {
+        // ===== MÉTODOS SEGUROS PARA NAVEGACIÓN =====
+        safePrev() {
             if (this.isAnimating) return;
             
             this.isAnimating = true;
-            this.updateArrows();
-            
             this.currentIndex--;
+            
             this.updatePosition();
+            
+            // Auto-reset después de la animación
+            setTimeout(() => {
+                this.isAnimating = false;
+                this.handleCircularTransition();
+            }, this.animationDuration);
         }
         
-        next() {
+        safeNext() {
             if (this.isAnimating) return;
             
             this.isAnimating = true;
-            this.updateArrows();
-            
             this.currentIndex++;
+            
             this.updatePosition();
+            
+            // Auto-reset después de la animación
+            setTimeout(() => {
+                this.isAnimating = false;
+                this.handleCircularTransition();
+            }, this.animationDuration);
         }
         
-        goTo(index) {
+        safeGoTo(index) {
             if (this.isAnimating) return;
             
-            const validIndex = Math.max(0, Math.min(index, this.originalCards - 1));
-            this.currentIndex = validIndex + 1;
+            const targetIndex = Math.max(0, Math.min(index, this.originalCards - 1));
+            
+            if (this.useCircular) {
+                this.currentIndex = targetIndex + 1;
+            } else {
+                this.currentIndex = targetIndex;
+            }
+            
+            this.isAnimating = true;
             this.updatePosition();
+            
+            // Auto-reset después de la animación
+            setTimeout(() => {
+                this.isAnimating = false;
+            }, this.animationDuration);
+        }
+        
+        handleCircularTransition() {
+            if (!this.useCircular || this.isAnimating) return;
+            
+            // Si estamos en el clon del final (última posición)
+            if (this.currentIndex === this.totalCards - 1) {
+                this.currentIndex = 1;
+                this.updatePosition(true);
+            }
+            // Si estamos en el clon del principio (primera posición)
+            else if (this.currentIndex === 0) {
+                this.currentIndex = this.originalCards;
+                this.updatePosition(true);
+            }
         }
     }
 
@@ -878,47 +910,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const productContainers = document.querySelectorAll('.products-carousel-container');
     const carousels = [];
     
-    productContainers.forEach(container => {
-        const carousel = new ProductsCarousel(container);
-        carousels.push(carousel);
-        
-        // Esperar carga de imágenes
-        const images = container.querySelectorAll('img');
-        let loadedImages = 0;
-        
-        images.forEach(img => {
-            if (img.complete) {
-                loadedImages++;
-            } else {
-                img.addEventListener('load', () => {
-                    loadedImages++;
-                    if (loadedImages === images.length) {
-                        carousel.handleResize();
-                    }
-                });
-            }
+    // Función para inicializar carruseles después de que las imágenes se carguen
+    function initializeCarousels() {
+        productContainers.forEach(container => {
+            const carousel = new ProductsCarousel(container);
+            carousels.push(carousel);
         });
         
-        if (loadedImages === images.length) {
-            setTimeout(() => {
-                carousel.handleResize();
-            }, 100);
-        }
+        console.log('✅ Carruseles inicializados correctamente');
+    }
+    
+    // Esperar a que todas las imágenes críticas se carguen
+    window.addEventListener('load', () => {
+        setTimeout(initializeCarousels, 100);
     });
     
-    // ===== MANEJO DE RESIZE GLOBAL =====
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            carousels.forEach(carousel => {
-                if (carousel && typeof carousel.handleResize === 'function') {
-                    carousel.handleResize();
-                }
-            });
-        }, 250);
-    });
-
+    // También inicializar si ya están cargadas
+    if (document.readyState === 'complete') {
+        setTimeout(initializeCarousels, 100);
+    }
+    
     // ===== INICIALIZACIÓN GENERAL =====
     startHeroAutoSlide();
     
@@ -938,5 +949,5 @@ document.addEventListener('DOMContentLoaded', function() {
         updateNotificationCount();
     }
 
-    console.log('✅ Estilo Nórdico - CARRUSEL PERFECTO INICIALIZADO');
+    console.log('✅ Estilo Nórdico - CARRUSEL PERFECTO INICIALIZADO - VERSIÓN CORREGIDA');
 });
