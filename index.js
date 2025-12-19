@@ -1,4 +1,4 @@
-// script.js - ESTILO NÓRDICO - VERSIÓN CON CARRUSELES DE PRODUCTOS
+// script.js - ESTILO NÓRDICO - PRODUCTOS REALES
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
@@ -21,482 +21,278 @@ document.addEventListener('DOMContentLoaded', function() {
     const heroTotalSlides = heroSlides.length;
     let heroAutoSlide;
     
-    // ===== BASE DE DATOS DE PRODUCTOS =====
+    // ===== BASE DE DATOS DE PRODUCTOS REALES =====
     const products = {
         1: {
-            name: "Escritorio Oslo",
+            name: "Escritorio Industrial 1.20m",
             category: "Escritorios Industriales",
-            price: "$89,999",
-            description: "Escritorio industrial de diseño nórdico fabricado en madera de roble macizo con estructura metálica reforzada. Perfecto para espacios de trabajo modernos y creativos. Acabado natural que resalta la veta de la madera.",
+            price: "Consultar Precio",
+            description: "Escritorio industrial de 1.20 metros fabricado en madera maciza con estructura metálica robusta. Perfecto para espacios de trabajo compactos. Acabado industrial que resalta la veta natural de la madera.",
             images: [
-                "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
+                "imagenes/escritorios/120/k1escritorio01.png",
+                "imagenes/escritorios/120/k1escritorio02.png"
+            ],
+            specs: [
+                { name: "Material", value: "Madera maciza y hierro" },
+                { name: "Dimensiones", value: "120cm x 60cm x 75cm" },
+                { name: "Peso", value: "25 kg" },
+                { name: "Color", value: "Natural industrial" },
+                { name: "Garantía", value: "1 año" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en el Escritorio Industrial 1.20m"
+        },
+        2: {
+            name: "Escritorio Industrial 1.30m",
+            category: "Escritorios Industriales",
+            price: "Consultar Precio",
+            description: "Escritorio de 1.30 metros con diseño robusto y patas metálicas reforzadas. Ideal para profesionales que necesitan un espacio de trabajo resistente y elegante.",
+            images: [
+                "imagenes/escritorios/130/k2escritorio01.png",
+                "imagenes/escritorios/130/k2escritorio02.png"
+            ],
+            specs: [
+                { name: "Material", value: "Madera maciza y acero" },
+                { name: "Dimensiones", value: "130cm x 65cm x 75cm" },
+                { name: "Peso", value: "28 kg" },
+                { name: "Color", value: "Marrón natural" },
+                { name: "Acabado", value: "Barniz mate" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en el Escritorio Industrial 1.30m"
+        },
+        3: {
+            name: "Escritorio Industrial 1.60m",
+            category: "Escritorios Industriales",
+            price: "Consultar Precio",
+            description: "Elegante escritorio de 1.60 metros fabricado en madera de roble con acabado industrial. Perfecto para espacios de trabajo amplios y modernos.",
+            images: [
+                "imagenes/escritorios/160/k3escritorio01.jpg",
+                "imagenes/escritorios/160/k3escritorio02.jpg"
             ],
             specs: [
                 { name: "Material", value: "Roble macizo y hierro" },
                 { name: "Dimensiones", value: "160cm x 80cm x 75cm" },
-                { name: "Peso", value: "45 kg" },
-                { name: "Color", value: "Natural" },
+                { name: "Peso", value: "35 kg" },
+                { name: "Color", value: "Roble natural" },
                 { name: "Garantía", value: "2 años" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio Oslo - $89,999"
-        },
-        2: {
-            name: "Escritorio Bergen",
-            category: "Escritorios Industriales",
-            price: "$94,999",
-            description: "Diseño minimalista con cajones ocultos y acabado en barniz mate. Perfecto para profesionales que buscan elegancia y funcionalidad en su espacio de trabajo.",
-            images: [
-                "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80",
-                "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "MDF de alta densidad" },
-                { name: "Dimensiones", value: "180cm x 90cm x 76cm" },
-                { name: "Peso", value: "52 kg" },
-                { name: "Color", value: "Gris oscuro mate" },
-                { name: "Cajones", value: "3 cajones" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio Bergen - $94,999"
-        },
-        3: {
-            name: "Escritorio Trondheim",
-            category: "Escritorios Industriales",
-            price: "$79,999",
-            description: "Madera reciclada tratada con patas de hierro forjado. Ideal para quienes buscan un estilo rústico-industrial con conciencia ecológica.",
-            images: [
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera reciclada" },
-                { name: "Dimensiones", value: "140cm x 70cm x 74cm" },
-                { name: "Peso", value: "38 kg" },
-                { name: "Color", value: "Natural rústico" },
-                { name: "Tratamiento", value: "Aceite natural" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio Trondheim - $79,999"
+            whatsappMessage: "Hola! Estoy interesado en el Escritorio Industrial 1.60m"
         },
         4: {
-            name: "Escritorio Helsinki",
+            name: "Escritorio Industrial 2.00m",
             category: "Escritorios Industriales",
-            price: "$99,999",
-            description: "Escritorio moderno fabricado en madera de fresno con patas metálicas ajustables en altura. Perfecto para espacios de trabajo dinámicos.",
+            price: "Consultar Precio",
+            description: "Impresionante escritorio de 2 metros para espacios amplios. Diseño elegante con estructura metálica y tapa de madera maciza. Ideal para oficinas ejecutivas.",
             images: [
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80"
+                "imagenes/escritorios/200/k4escritorio01.jpg",
+                "imagenes/escritorios/200/k4escritorio02.jpg",
+                "imagenes/escritorios/200/k4escritorio03.jpg"
             ],
             specs: [
-                { name: "Material", value: "Fresno macizo" },
-                { name: "Dimensiones", value: "150cm x 75cm x 75cm" },
-                { name: "Peso", value: "42 kg" },
-                { name: "Altura", value: "Ajustable 70-80cm" },
-                { name: "Garantía", value: "3 años" }
+                { name: "Material", value: "Madera maciza y metal" },
+                { name: "Dimensiones", value: "200cm x 100cm x 75cm" },
+                { name: "Peso", value: "45 kg" },
+                { name: "Color", value: "Tono medio" },
+                { name: "Capacidad", value: "Espacio amplio" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio Helsinki - $99,999"
+            whatsappMessage: "Hola! Estoy interesado en el Escritorio Industrial 2.00m"
         },
         5: {
-            name: "Escritorio Stockholm",
-            category: "Escritorios Industriales",
-            price: "$109,999",
-            description: "Diseño ergonómico con sistema integrado de gestión de cables. Acabado premium en color grafito mate.",
+            name: "Mesa Industrial K1",
+            category: "Mesas Industriales",
+            price: "Consultar Precio",
+            description: "Mesa industrial robusta con base metálica y tapa de madera maciza. Perfecta para comedores con estilo industrial.",
             images: [
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                "imagenes/mesas/k1/k1mesa01.jpg",
+                "imagenes/mesas/k1/k1mesa02.jpg"
             ],
             specs: [
-                { name: "Material", value: "MDF premium y metal" },
-                { name: "Dimensiones", value: "180cm x 85cm x 75cm" },
-                { name: "Peso", value: "55 kg" },
-                { name: "Cable Management", value: "Sí, integrado" },
-                { name: "Color", value: "Grafito mate" }
+                { name: "Material", value: "Madera maciza y hierro" },
+                { name: "Dimensiones", value: "180cm x 90cm x 75cm" },
+                { name: "Peso", value: "40 kg" },
+                { name: "Capacidad", value: "6-8 personas" },
+                { name: "Acabado", value: "Industrial" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio Stockholm - $109,999"
+            whatsappMessage: "Hola! Estoy interesado en la Mesa Industrial K1"
         },
         6: {
-            name: "Mesa Nórdica",
+            name: "Mesa Industrial K2",
             category: "Mesas Industriales",
-            price: "$124,999",
-            description: "Mesa de comedor de diseño escandinavo con base metálica y tapa de madera de pino macizo. Ideal para reuniones familiares y cenas especiales.",
+            price: "Consultar Precio",
+            description: "Mesa de diseño clásico con herrajes metálicos visibles. Estructura robusta para uso diario intensivo.",
             images: [
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Pino macizo y hierro" },
-                { name: "Dimensiones", value: "200cm x 100cm x 75cm" },
-                { name: "Peso", value: "65 kg" },
-                { name: "Capacidad", value: "6-8 personas" },
-                { name: "Acabado", value: "Barniz mate" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Nórdica - $124,999"
-        },
-        7: {
-            name: "Mesa Fjord",
-            category: "Mesas Industriales",
-            price: "$149,999",
-            description: "Mesa extensible con sistema de ala oculta. Perfecta para espacios reducidos que necesitan adaptabilidad. Diseño funcional sin sacrificar estilo.",
-            images: [
-                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Roble y acero" },
-                { name: "Dimensiones", value: "140-200cm x 90cm x 75cm" },
-                { name: "Peso", value: "70 kg" },
-                { name: "Extensión", value: "60 cm" },
-                { name: "Capacidad", value: "4-8 personas" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Fjord - $149,999"
-        },
-        8: {
-            name: "Mesa Aurora",
-            category: "Mesas Industriales",
-            price: "$109,999",
-            description: "Diseño rústico con patas cruzadas de hierro forjado. Superficie en madera de pino tratada con aceites naturales.",
-            images: [
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Pino y hierro" },
-                { name: "Dimensiones", value: "180cm x 90cm x 75cm" },
-                { name: "Peso", value: "55 kg" },
-                { name: "Capacidad", value: "6 personas" },
-                { name: "Acabado", value: "Rústico natural" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Aurora - $109,999"
-        },
-        9: {
-            name: "Mesa Tromsø",
-            category: "Mesas Industriales",
-            price: "$134,999",
-            description: "Mesa rectangular con herrajes metálicos visibles que realzan el estilo industrial. Madera de roble macizo.",
-            images: [
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Roble y hierro" },
-                { name: "Dimensiones", value: "220cm x 100cm x 75cm" },
-                { name: "Peso", value: "75 kg" },
-                { name: "Capacidad", value: "8-10 personas" },
-                { name: "Herrajes", value: "Visibles" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Tromsø - $134,999"
-        },
-        10: {
-            name: "Mesa Lofoten",
-            category: "Mesas Industriales",
-            price: "$99,999",
-            description: "Mesa redonda con base de trípode metálico. Ideal para espacios pequeños y conversaciones íntimas.",
-            images: [
-                "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                "imagenes/mesas/k2/k2mesa01.jpg",
+                "imagenes/mesas/k2/k2mesa02.jpg"
             ],
             specs: [
                 { name: "Material", value: "Madera y metal" },
-                { name: "Dimensiones", value: "Ø120cm x 75cm" },
-                { name: "Peso", value: "40 kg" },
-                { name: "Capacidad", value: "4-6 personas" },
-                { name: "Base", value: "Trípode" }
+                { name: "Dimensiones", value: "160cm x 85cm x 75cm" },
+                { name: "Peso", value: "38 kg" },
+                { name: "Capacidad", value: "6 personas" },
+                { name: "Herrajes", value: "Visibles" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Lofoten - $99,999"
+            whatsappMessage: "Hola! Estoy interesado en la Mesa Industrial K2"
         },
-        11: {
-            name: "Rack TV Viking",
+        7: {
+            name: "Mesa Industrial K3",
+            category: "Mesas Industriales",
+            price: "Consultar Precio",
+            description: "Mesa con acabado rústico y patas cruzadas de hierro forjado. Diseño único que combina lo rústico con lo industrial.",
+            images: [
+                "imagenes/mesas/k3/k3mesa01.jpg",
+                "imagenes/mesas/k3/k3mesa02.jpg"
+            ],
+            specs: [
+                { name: "Material", value: "Madera reciclada y hierro" },
+                { name: "Dimensiones", value: "200cm x 95cm x 75cm" },
+                { name: "Peso", value: "42 kg" },
+                { name: "Capacidad", value: "8 personas" },
+                { name: "Estilo", value: "Rústico-industrial" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesa Industrial K3"
+        },
+        8: {
+            name: "Rack TV Industrial K1",
             category: "Racks para Televisores",
-            price: "$64,999",
+            price: "Consultar Precio",
             description: "Rack TV industrial con compartimentos para equipos de sonido y videojuegos. Estructura robusta en metal y madera.",
             images: [
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                "imagenes/racks/k1/k1Rack01.jpg",
+                "imagenes/racks/k1/k1Rack02.jpg"
             ],
             specs: [
                 { name: "Material", value: "Madera y metal" },
                 { name: "Dimensiones", value: "120cm x 40cm x 50cm" },
-                { name: "Peso", value: "25 kg" },
-                { name: "Capacidad TV", value: "Hasta 65 pulgadas" },
+                { name: "Peso", value: "22 kg" },
+                { name: "Capacidad TV", value: "Hasta 55 pulgadas" },
                 { name: "Compartimentos", value: "3 estantes" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Viking - $64,999"
+            whatsappMessage: "Hola! Estoy interesado en el Rack TV Industrial K1"
+        },
+        9: {
+            name: "Rack TV Industrial K2",
+            category: "Racks para Televisores",
+            price: "Consultar Precio",
+            description: "Rack TV modular con estantes ajustables. Diseño industrial moderno perfecto para salas de estar contemporáneas.",
+            images: [
+                "imagenes/racks/k2/k2Rack01.jpg",
+                "imagenes/racks/k2/k2Rack02.jpg"
+            ],
+            specs: [
+                { name: "Material", value: "Madera de pino y acero" },
+                { name: "Dimensiones", value: "140cm x 45cm x 55cm" },
+                { name: "Peso", value: "25 kg" },
+                { name: "Capacidad TV", value: "Hasta 65 pulgadas" },
+                { name: "Estantes", value: "Ajustables" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en el Rack TV Industrial K2"
+        },
+        10: {
+            name: "Mesita Industrial K1",
+            category: "Mesitas Industriales",
+            price: "Consultar Precio",
+            description: "Mesita industrial compacta con estante inferior. Diseño funcional ideal para espacios reducidos.",
+            images: [
+                "imagenes/mesitas/k1/k1mesita01.jpg",
+                "imagenes/mesitas/k1/k1mesita02.jpg"
+            ],
+            specs: [
+                { name: "Material", value: "Madera y metal" },
+                { name: "Dimensiones", value: "50cm x 50cm x 45cm" },
+                { name: "Peso", value: "10 kg" },
+                { name: "Forma", value: "Cuadrada" },
+                { name: "Estante", value: "Inferior" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesita Industrial K1"
+        },
+        11: {
+            name: "Mesita Industrial K2",
+            category: "Mesitas Industriales",
+            price: "Consultar Precio",
+            description: "Mesita cuadrada con cajón metálico. Diseño industrial con detalles en metal forjado.",
+            images: [
+                "imagenes/mesitas/k2/k2mesita01.jpg",
+                "imagenes/mesitas/k2/k2mesita02.jpg"
+            ],
+            specs: [
+                { name: "Material", value: "Madera de pino y hierro" },
+                { name: "Dimensiones", value: "55cm x 55cm x 48cm" },
+                { name: "Peso", value: "12 kg" },
+                { name: "Cajón", value: "Metálico" },
+                { name: "Uso", value: "Living o dormitorio" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesita Industrial K2"
         },
         12: {
-            name: "Rack TV Fjell",
-            category: "Racks para Televisores",
-            price: "$74,999",
-            description: "Rack TV con ruedas para fácil movilidad. Diseño industrial moderno con acabado en negro mate.",
+            name: "Mesita Industrial K3",
+            category: "Mesitas Industriales",
+            price: "Consultar Precio",
+            description: "Mesita redonda con base de trípode metálico. Diseño elegante que se adapta a cualquier decoración.",
             images: [
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                "imagenes/mesitas/k3/k3mesita01.jpg",
+                "imagenes/mesitas/k3/k3mesita02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera de haya y metal" },
-                { name: "Dimensiones", value: "140cm x 45cm x 55cm" },
-                { name: "Peso", value: "30 kg" },
-                { name: "Ruedas", value: "4 ruedas giratorias" },
-                { name: "Capacidad TV", value: "Hasta 75 pulgadas" }
+                { name: "Material", value: "Madera y metal" },
+                { name: "Dimensiones", value: "Ø60cm x 45cm" },
+                { name: "Peso", value: "11 kg" },
+                { name: "Forma", value: "Redonda" },
+                { name: "Base", value: "Trípode metálico" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Fjell - $74,999"
+            whatsappMessage: "Hola! Estoy interesado en la Mesita Industrial K3"
         },
         13: {
-            name: "Rack TV Midnatt",
-            category: "Racks para Televisores",
-            price: "$89,999",
-            description: "Diseño flotente con estantes ajustables. Perfecto para espacios modernos y minimalistas.",
-            images: [
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "MDF y acero" },
-                { name: "Dimensiones", value: "160cm x 35cm x 40cm" },
-                { name: "Peso", value: "28 kg" },
-                { name: "Estantes", value: "4 ajustables" },
-                { name: "Instalación", value: "Pared o piso" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Midnatt - $89,999"
-        },
-        14: {
-            name: "Rack TV Nordlys",
-            category: "Racks para Televisores",
-            price: "$94,999",
-            description: "Rack TV con puertas de vidrio templado para proteger el equipo. Estructura en madera de roble.",
-            images: [
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Roble y vidrio" },
-                { name: "Dimensiones", value: "150cm x 50cm x 55cm" },
-                { name: "Peso", value: "35 kg" },
-                { name: "Puertas", value: "2 de vidrio" },
-                { name: "Estantes", value: "4 ajustables" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Nordlys - $94,999"
-        },
-        15: {
-            name: "Rack TV Polar",
-            category: "Racks para Televisores",
-            price: "$79,999",
-            description: "Rack modular con iluminación LED en los estantes. Perfecto para crear ambiente en la sala de estar.",
-            images: [
-                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "MDF y metal" },
-                { name: "Dimensiones", value: "140cm x 45cm x 50cm" },
-                { name: "Peso", value: "32 kg" },
-                { name: "Iluminación", value: "LED RGB" },
-                { name: "Modular", value: "Sí, expandible" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Polar - $79,999"
-        },
-        16: {
-            name: "Mesita Lofoten",
-            category: "Mesitas Ratonas",
-            price: "$44,999",
-            description: "Mesita ratona redonda con tapa de vidrio templado. Base en madera de roble natural.",
-            images: [
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Roble y vidrio" },
-                { name: "Dimensiones", value: "Ø60cm x 45cm" },
-                { name: "Peso", value: "12 kg" },
-                { name: "Forma", value: "Redonda" },
-                { name: "Vidrio", value: "Templado 8mm" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Lofoten - $44,999"
-        },
-        17: {
-            name: "Mesita Sogne",
-            category: "Mesitas Ratonas",
-            price: "$49,999",
-            description: "Mesita cuadrada con cajón inferior y estante. Diseño funcional y elegante.",
-            images: [
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera de pino" },
-                { name: "Dimensiones", value: "50cm x 50cm x 45cm" },
-                { name: "Peso", value: "15 kg" },
-                { name: "Cajón", value: "1 con manija metálica" },
-                { name: "Estante", value: "Inferior" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Sogne - $49,999"
-        },
-        18: {
-            name: "Mesita Tromsø",
-            category: "Mesitas Ratonas",
-            price: "$59,999",
-            description: "Conjunto nesting de 2 mesitas que se pueden usar por separado o juntas. Diseño versátil.",
-            images: [
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera y metal" },
-                { name: "Dimensiones", value: "40cm/60cm x 40cm x 45cm" },
-                { name: "Peso", value: "18 kg" },
-                { name: "Piezas", value: "2 mesitas" },
-                { name: "Uso", value: "Separado o conjunto" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Tromsø - $59,999"
-        },
-        19: {
-            name: "Mesita Bergen",
-            category: "Mesitas Ratonas",
-            price: "$39,999",
-            description: "Mesita triangular con estante inferior. Diseño único que se adapta a esquinas.",
-            images: [
-                "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera de pino" },
-                { name: "Dimensiones", value: "60cm x 60cm x 45cm" },
-                { name: "Peso", value: "10 kg" },
-                { name: "Forma", value: "Triangular" },
-                { name: "Estante", value: "Inferior" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Bergen - $39,999"
-        },
-        20: {
-            name: "Mesita Trondheim",
-            category: "Mesitas Ratonas",
-            price: "$54,999",
-            description: "Mesita con ruedas y tapa abatible. Ideal para usar como mesa auxiliar o para servir.",
-            images: [
-                "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80",
-                "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera y metal" },
-                { name: "Dimensiones", value: "50cm x 50cm x 60cm" },
-                { name: "Peso", value: "14 kg" },
-                { name: "Ruedas", value: "4 con freno" },
-                { name: "Tapa", value: "Abatible" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Trondheim - $54,999"
-        },
-        21: {
-            name: "Estantería Stavanger",
+            name: "Estantería Industrial K1",
             category: "Estanterías Industriales",
-            price: "$84,999",
-            description: "Estantería modular de 5 niveles con estructura metálica visible. Ideal para libros y decoración.",
+            price: "Consultar Precio",
+            description: "Estantería modular de 4 niveles con estructura metálica visible. Ideal para libros y decoración.",
             images: [
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                "imagenes/estanterias/k1/k1estanteria01.jpg",
+                "imagenes/estanterias/k1/k1estanteria02.jpg"
             ],
             specs: [
                 { name: "Material", value: "Madera y hierro" },
+                { name: "Dimensiones", value: "160cm x 80cm x 30cm" },
+                { name: "Peso", value: "28 kg" },
+                { name: "Niveles", value: "4 estantes" },
+                { name: "Carga máx.", value: "20 kg por estante" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Estantería Industrial K1"
+        },
+        14: {
+            name: "Estantería Industrial K2",
+            category: "Estanterías Industriales",
+            price: "Consultar Precio",
+            description: "Estantería con estructura metálica completamente visible. Diseño industrial auténtico para espacios modernos.",
+            images: [
+                "imagenes/estanterias/k2/k2estanteria01.jpg",
+                "imagenes/estanterias/k2/k2estanteria02.jpg"
+            ],
+            specs: [
+                { name: "Material", value: "Madera de pino y acero" },
                 { name: "Dimensiones", value: "180cm x 90cm x 35cm" },
-                { name: "Peso", value: "40 kg" },
+                { name: "Peso", value: "32 kg" },
                 { name: "Niveles", value: "5 estantes" },
-                { name: "Carga máx.", value: "25 kg por estante" }
+                { name: "Estilo", value: "Industrial puro" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Stavanger - $84,999"
+            whatsappMessage: "Hola! Estoy interesado en la Estantería Industrial K2"
         },
-        22: {
-            name: "Estantería Bergen",
+        15: {
+            name: "Estantería Industrial K3",
             category: "Estanterías Industriales",
-            price: "$94,999",
-            description: "Estantería flotente con iluminación LED integrada. Diseño moderno y elegante.",
+            price: "Consultar Precio",
+            description: "Estantería en forma de escalera con 5 estantes. Diseño único y funcional para cualquier ambiente.",
             images: [
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80",
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                "imagenes/estanterias/k3/k3estanteria01.jpg",
+                "imagenes/estanterias/k3/k3estanteria02.jpg"
             ],
             specs: [
-                { name: "Material", value: "MDF y metal" },
-                { name: "Dimensiones", value: "200cm x 100cm x 30cm" },
-                { name: "Peso", value: "45 kg" },
-                { name: "Iluminación", value: "LED blanco cálido" },
-                { name: "Instalación", value: "Pared" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Bergen - $94,999"
-        },
-        23: {
-            name: "Estantería Ålesund",
-            category: "Estanterías Industriales",
-            price: "$79,999",
-            description: "Estantería en forma de escalera con 6 compartimentos. Diseño único y funcional.",
-            images: [
-                "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera de pino" },
-                { name: "Dimensiones", value: "160cm x 80cm x 35cm" },
-                { name: "Peso", value: "35 kg" },
-                { name: "Compartimentos", value: "6" },
+                { name: "Material", value: "Madera maciza y metal" },
+                { name: "Dimensiones", value: "170cm x 85cm x 40cm" },
+                { name: "Peso", value: "30 kg" },
+                { name: "Compartimentos", value: "5 estantes" },
                 { name: "Forma", value: "Escalera" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Ålesund - $79,999"
-        },
-        24: {
-            name: "Estantería Helsinki",
-            category: "Estanterías Industriales",
-            price: "$104,999",
-            description: "Estantería corrediza de doble cara. Permite acceso desde ambos lados y ahorra espacio.",
-            images: [
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "Madera y metal" },
-                { name: "Dimensiones", value: "200cm x 100cm x 40cm" },
-                { name: "Peso", value: "50 kg" },
-                { name: "Sistema", value: "Corredizo" },
-                { name: "Acceso", value: "Doble cara" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Helsinki - $104,999"
-        },
-        25: {
-            name: "Estantería Copenhagen",
-            category: "Estanterías Industriales",
-            price: "$89,999",
-            description: "Estantería hexagonal modular. Puedes combinar varias unidades para crear formas únicas.",
-            images: [
-                "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-                "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80"
-            ],
-            specs: [
-                { name: "Material", value: "MDF y metal" },
-                { name: "Dimensiones", value: "120cm x 40cm x 180cm" },
-                { name: "Peso", value: "38 kg" },
-                { name: "Forma", value: "Hexagonal" },
-                { name: "Modular", value: "Sí, combinable" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Copenhagen - $89,999"
+            whatsappMessage: "Hola! Estoy interesado en la Estantería Industrial K3"
         }
     };
 
@@ -788,7 +584,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Configurar botón de WhatsApp
         const encodedMessage = encodeURIComponent(product.whatsappMessage);
         whatsappBtn.onclick = () => {
-            window.open(`https://wa.me/5491122334455?text=${encodedMessage}`, '_blank');
+            window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
         };
 
         // Mostrar modal - Pantalla completa
@@ -952,9 +748,11 @@ document.addEventListener('DOMContentLoaded', function() {
     heroTrack.addEventListener('mouseenter', () => clearInterval(heroAutoSlide));
     heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
 
-    console.log('✅ Estilo Nórdico - VERSIÓN CON CARRUSELES DE PRODUCTOS CARGADA');
-    console.log('🎯 CARRUSEL HERO: ✓ Funcionando perfectamente');
-    console.log('🎯 CARRUSELES DE PRODUCTOS: ✓ Inicializados:', carousels.length);
-    console.log('🎯 MODAL PERFECTO: ✓ Pantalla completa');
-    console.log('🎯 RESPONSIVE: ✓ Funciona en todos los dispositivos');
+    console.log('✅ Estilo Nórdico - PRODUCTOS REALES CARGADOS');
+    console.log('📦 TOTAL PRODUCTOS: 15 productos reales');
+    console.log('🎯 ESCRITORIOS: 4 modelos');
+    console.log('🎯 MESAS: 3 modelos');
+    console.log('🎯 RACKS TV: 2 modelos');
+    console.log('🎯 MESITAS INDUSTRIALES: 3 modelos');
+    console.log('🎯 ESTANTERÍAS: 3 modelos');
 });
