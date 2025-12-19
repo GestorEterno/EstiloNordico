@@ -3,84 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estilo Nórdico - Muebles Industriales de Calidad</title>
+    <title>Estilo Nórdico - Muebles Industriales</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪑</text></svg>">
-    <style>
-        html {
-            scroll-padding-top: 70px;
-        }
-    </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="container">
             <nav class="navbar">
-                <a href="#" class="logo" data-animate data-animate-delay="0">
-                    <span class="logo-text">ESTILO NÓRDICO</span>
-                </a>
-                
-                <ul class="nav-menu">
-                    <li class="nav-item" data-animate data-animate-delay="1"><a href="#inicio" class="nav-link active">Inicio</a></li>
-                    <li class="nav-item" data-animate data-animate-delay="2"><a href="#escritorios" class="nav-link">Escritorios</a></li>
-                    <li class="nav-item" data-animate data-animate-delay="3"><a href="#mesas" class="nav-link">Mesas</a></li>
-                    <li class="nav-item" data-animate data-animate-delay="4"><a href="#racks" class="nav-link">Racks TV</a></li>
-                    <li class="nav-item" data-animate data-animate-delay="5"><a href="#mesitas" class="nav-link">Mesitas Ratonas</a></li>
-                    <li class="nav-item" data-animate data-animate-delay="6"><a href="#estanterias" class="nav-link">Estanterías</a></li>
-                </ul>
-                
-                <div class="hamburger" data-animate data-animate-delay="7">
+                <a href="#" class="logo">ESTILO NÓRDICO</a>
+                <div class="hamburger">
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
                 </div>
+                <ul class="nav-menu">
+                    <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+                    <li><a href="#escritorios" class="nav-link">Escritorios</a></li>
+                    <li><a href="#mesas" class="nav-link">Mesas</a></li>
+                    <li><a href="#racks" class="nav-link">Racks TV</a></li>
+                    <li><a href="#mesitas" class="nav-link">Mesitas</a></li>
+                    <li><a href="#estanterias" class="nav-link">Estanterías</a></li>
+                </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Hero con Carrusel -->
+    <!-- Hero con Carrusel Horizontal -->
     <section id="inicio" class="hero">
-        <div class="hero-carousel">
-            <div class="carousel-container">
+        <div class="carousel-container">
+            <div class="carousel-track">
+                <div class="carousel-slide active">
+                    <div class="slide-content">
+                        <h1>Muebles Industriales <span>Nórdicos</span></h1>
+                        <p>Calidad artesanal en cada pieza</p>
+                        <a href="#escritorios" class="btn">Ver Colección</a>
+                    </div>
+                    <div class="slide-image" style="background-image: url('https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"></div>
+                </div>
                 <div class="carousel-slide">
-                    <div class="carousel-item active">
-                        <div class="carousel-image" style="background-image: url('https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"></div>
-                        <div class="carousel-overlay"></div>
-                        <div class="carousel-content">
-                            <h1 class="hero-title" data-animate data-animate-delay="8">Muebles Industriales <span class="highlight">de Diseño Nórdico</span></h1>
-                            <p class="hero-subtitle" data-animate data-animate-delay="9">Calidad artesanal y diseño escandinavo en cada pieza</p>
-                            <a href="#escritorios" class="btn btn-primary" data-animate data-animate-delay="10">Explorar Colección</a>
-                        </div>
+                    <div class="slide-content">
+                        <h1>Diseño <span>Minimalista</span></h1>
+                        <p>Elegancia y funcionalidad</p>
+                        <a href="#mesas" class="btn">Ver Mesas</a>
                     </div>
-                    <div class="carousel-item">
-                        <div class="carousel-image" style="background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80')"></div>
-                        <div class="carousel-overlay"></div>
-                        <div class="carousel-content">
-                            <h1 class="hero-title">Artesanía <span class="highlight">en Madera Maciza</span></h1>
-                            <p class="hero-subtitle">Materiales premium y acabados perfectos</p>
-                            <a href="#mesas" class="btn btn-primary">Ver Mesas</a>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="carousel-image" style="background-image: url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"></div>
-                        <div class="carousel-overlay"></div>
-                        <div class="carousel-content">
-                            <h1 class="hero-title">Diseño Minimalista <span class="highlight">y Funcional</span></h1>
-                            <p class="hero-subtitle">Elegancia y practicidad para tu hogar</p>
-                            <a href="#racks" class="btn btn-primary">Descubrir Racks</a>
-                        </div>
-                    </div>
+                    <div class="slide-image" style="background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80')"></div>
                 </div>
-                <div class="carousel-dots">
-                    <span class="dot active" data-slide="0"></span>
-                    <span class="dot" data-slide="1"></span>
-                    <span class="dot" data-slide="2"></span>
+                <div class="carousel-slide">
+                    <div class="slide-content">
+                        <h1>Artesanía en <span>Madera</span></h1>
+                        <p>Materiales premium y durabilidad</p>
+                        <a href="#racks" class="btn">Ver Racks</a>
+                    </div>
+                    <div class="slide-image" style="background-image: url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"></div>
                 </div>
-                <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
-                <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
+            <div class="carousel-dots">
+                <span class="dot active" data-index="0"></span>
+                <span class="dot" data-index="1"></span>
+                <span class="dot" data-index="2"></span>
             </div>
         </div>
     </section>
@@ -88,55 +74,46 @@
     <!-- Sección Escritorios -->
     <section id="escritorios" class="products-section">
         <div class="container">
-            <h2 class="section-title">Escritorios <span class="highlight">Industriales</span></h2>
-            <p class="section-subtitle">Diseños robustos y funcionales para tu espacio de trabajo</p>
+            <h2 class="section-title">Escritorios <span>Industriales</span></h2>
+            <p class="section-subtitle">Diseños robustos para tu espacio de trabajo</p>
             
             <div class="products-grid">
                 <!-- Producto 1 -->
-                <div class="product-card" data-product="1">
+                <div class="product-card" data-id="1">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Escritorio Industrial Oslo">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Escritorio Oslo">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Escritorio Oslo</h3>
-                        <p class="product-description">Madera de roble con estructura metálica</p>
-                        <div class="product-price">$89,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="1"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Escritorio Oslo</h3>
+                        <p>Madera de roble con estructura metálica</p>
+                        <div class="price">$89,999</div>
+                        <button class="btn btn-view" data-id="1">Ver Producto</button>
                     </div>
                 </div>
 
                 <!-- Producto 2 -->
-                <div class="product-card" data-product="2">
+                <div class="product-card" data-id="2">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80" alt="Escritorio Industrial Bergen">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80" alt="Escritorio Bergen">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Escritorio Bergen</h3>
-                        <p class="product-description">Diseño minimalista con cajones ocultos</p>
-                        <div class="product-price">$94,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="2"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Escritorio Bergen</h3>
+                        <p>Diseño minimalista con cajones ocultos</p>
+                        <div class="price">$94,999</div>
+                        <button class="btn btn-view" data-id="2">Ver Producto</button>
                     </div>
                 </div>
 
                 <!-- Producto 3 -->
-                <div class="product-card" data-product="3">
+                <div class="product-card" data-id="3">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Escritorio Industrial Trondheim">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Escritorio Trondheim">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Escritorio Trondheim</h3>
-                        <p class="product-description">Madera reciclada con patas de hierro</p>
-                        <div class="product-price">$79,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="3"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Escritorio Trondheim</h3>
+                        <p>Madera reciclada con patas de hierro</p>
+                        <div class="price">$79,999</div>
+                        <button class="btn btn-view" data-id="3">Ver Producto</button>
                     </div>
                 </div>
             </div>
@@ -146,55 +123,46 @@
     <!-- Sección Mesas -->
     <section id="mesas" class="products-section">
         <div class="container">
-            <h2 class="section-title">Mesas <span class="highlight">Industriales</span></h2>
-            <p class="section-subtitle">Piezas únicas para reuniones familiares y encuentros sociales</p>
+            <h2 class="section-title">Mesas <span>Industriales</span></h2>
+            <p class="section-subtitle">Piezas únicas para reuniones familiares</p>
             
             <div class="products-grid">
                 <!-- Producto 4 -->
-                <div class="product-card" data-product="4">
+                <div class="product-card" data-id="4">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesa Industrial Nordica">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesa Nórdica">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Mesa Nórdica</h3>
-                        <p class="product-description">Madera de pino con base metálica</p>
-                        <div class="product-price">$124,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="4"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Mesa Nórdica</h3>
+                        <p>Madera de pino con base metálica</p>
+                        <div class="price">$124,999</div>
+                        <button class="btn btn-view" data-id="4">Ver Producto</button>
                     </div>
                 </div>
 
                 <!-- Producto 5 -->
-                <div class="product-card" data-product="5">
+                <div class="product-card" data-id="5">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesa Industrial Fjord">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesa Fjord">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Mesa Fjord</h3>
-                        <p class="product-description">Extensible para 6-8 personas</p>
-                        <div class="product-price">$149,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="5"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Mesa Fjord</h3>
+                        <p>Extensible para 6-8 personas</p>
+                        <div class="price">$149,999</div>
+                        <button class="btn btn-view" data-id="5">Ver Producto</button>
                     </div>
                 </div>
 
                 <!-- Producto 6 -->
-                <div class="product-card" data-product="6">
+                <div class="product-card" data-id="6">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" alt="Mesa Industrial Aurora">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" alt="Mesa Aurora">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Mesa Aurora</h3>
-                        <p class="product-description">Diseño rústico con patas cruzadas</p>
-                        <div class="product-price">$109,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="6"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Mesa Aurora</h3>
+                        <p>Diseño rústico con patas cruzadas</p>
+                        <div class="price">$109,999</div>
+                        <button class="btn btn-view" data-id="6">Ver Producto</button>
                     </div>
                 </div>
             </div>
@@ -204,55 +172,46 @@
     <!-- Sección Racks TV -->
     <section id="racks" class="products-section">
         <div class="container">
-            <h2 class="section-title">Racks para <span class="highlight">Televisores</span></h2>
+            <h2 class="section-title">Racks para <span>Televisores</span></h2>
             <p class="section-subtitle">Organización elegante para tu entretenimiento</p>
             
             <div class="products-grid">
                 <!-- Producto 7 -->
-                <div class="product-card" data-product="7">
+                <div class="product-card" data-id="7">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Rack TV Industrial Viking">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Rack TV Viking">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Rack TV Viking</h3>
-                        <p class="product-description">Con compartimentos para equipo</p>
-                        <div class="product-price">$64,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="7"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Rack TV Viking</h3>
+                        <p>Con compartimentos para equipo</p>
+                        <div class="price">$64,999</div>
+                        <button class="btn btn-view" data-id="7">Ver Producto</button>
                     </div>
                 </div>
 
                 <!-- Producto 8 -->
-                <div class="product-card" data-product="8">
+                <div class="product-card" data-id="8">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Rack TV Industrial Fjell">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Rack TV Fjell">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Rack TV Fjell</h3>
-                        <p class="product-description">Madera de haya con ruedas</p>
-                        <div class="product-price">$74,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="8"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Rack TV Fjell</h3>
+                        <p>Madera de haya con ruedas</p>
+                        <div class="price">$74,999</div>
+                        <button class="btn btn-view" data-id="8">Ver Producto</button>
                     </div>
                 </div>
 
                 <!-- Producto 9 -->
-                <div class="product-card" data-product="9">
+                <div class="product-card" data-id="9">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Rack TV Industrial Midnatt">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Rack TV Midnatt">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Rack TV Midnatt</h3>
-                        <p class="product-description">Diseño flotante con estantes</p>
-                        <div class="product-price">$89,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="9"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Rack TV Midnatt</h3>
+                        <p>Diseño flotente con estantes</p>
+                        <div class="price">$89,999</div>
+                        <button class="btn btn-view" data-id="9">Ver Producto</button>
                     </div>
                 </div>
             </div>
@@ -262,55 +221,46 @@
     <!-- Sección Mesitas Ratonas -->
     <section id="mesitas" class="products-section">
         <div class="container">
-            <h2 class="section-title">Mesitas <span class="highlight">Ratonas</span></h2>
+            <h2 class="section-title">Mesitas <span>Ratonas</span></h2>
             <p class="section-subtitle">Acompañantes perfectos para tu living</p>
             
             <div class="products-grid">
                 <!-- Producto 10 -->
-                <div class="product-card" data-product="10">
+                <div class="product-card" data-id="10">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesita Ratona Industrial Lofoten">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesita Lofoten">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Mesita Lofoten</h3>
-                        <p class="product-description">Redonda con tapa de vidrio</p>
-                        <div class="product-price">$44,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="10"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Mesita Lofoten</h3>
+                        <p>Redonda con tapa de vidrio</p>
+                        <div class="price">$44,999</div>
+                        <button class="btn btn-view" data-id="10">Ver Producto</button>
                     </div>
                 </div>
 
                 <!-- Producto 11 -->
-                <div class="product-card" data-product="11">
+                <div class="product-card" data-id="11">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" alt="Mesita Ratona Industrial Sogne">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" alt="Mesita Sogne">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Mesita Sogne</h3>
-                        <p class="product-description">Cuadrada con cajón inferior</p>
-                        <div class="product-price">$49,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="11"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Mesita Sogne</h3>
+                        <p>Cuadrada con cajón inferior</p>
+                        <div class="price">$49,999</div>
+                        <button class="btn btn-view" data-id="11">Ver Producto</button>
                     </div>
                 </div>
 
                 <!-- Producto 12 -->
-                <div class="product-card" data-product="12">
+                <div class="product-card" data-id="12">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Mesita Ratona Industrial Tromso">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Mesita Tromsø">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Mesita Tromsø</h3>
-                        <p class="product-description">Nesting (conjunto de 2)</p>
-                        <div class="product-price">$59,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="12"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Mesita Tromsø</h3>
+                        <p>Nesting (conjunto de 2)</p>
+                        <div class="price">$59,999</div>
+                        <button class="btn btn-view" data-id="12">Ver Producto</button>
                     </div>
                 </div>
             </div>
@@ -320,91 +270,83 @@
     <!-- Sección Estanterías -->
     <section id="estanterias" class="products-section">
         <div class="container">
-            <h2 class="section-title">Estanterías <span class="highlight">Industriales</span></h2>
-            <p class="section-subtitle">Organización con estilo para tus libros y decoración</p>
+            <h2 class="section-title">Estanterías <span>Industriales</span></h2>
+            <p class="section-subtitle">Organización con estilo para tus libros</p>
             
             <div class="products-grid">
                 <!-- Producto 13 -->
-                <div class="product-card" data-product="13">
+                <div class="product-card" data-id="13">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Estantería Industrial Stavanger">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Estantería Stavanger">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Estantería Stavanger</h3>
-                        <p class="product-description">Modular de 5 niveles</p>
-                        <div class="product-price">$84,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="13"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Estantería Stavanger</h3>
+                        <p>Modular de 5 niveles</p>
+                        <div class="price">$84,999</div>
+                        <button class="btn btn-view" data-id="13">Ver Producto</button>
                     </div>
                 </div>
 
                 <!-- Producto 14 -->
-                <div class="product-card" data-product="14">
+                <div class="product-card" data-id="14">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Estantería Industrial Bergen">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Estantería Bergen">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Estantería Bergen</h3>
-                        <p class="product-description">Flotante con iluminación LED</p>
-                        <div class="product-price">$94,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="14"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Estantería Bergen</h3>
+                        <p>Flotante con iluminación LED</p>
+                        <div class="price">$94,999</div>
+                        <button class="btn btn-view" data-id="14">Ver Producto</button>
                     </div>
                 </div>
 
                 <!-- Producto 15 -->
-                <div class="product-card" data-product="15">
+                <div class="product-card" data-id="15">
                     <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Estantería Industrial Alesund">
-                        <div class="product-overlay">
-                            <button class="quick-view"><i class="fas fa-eye"></i> Ver Detalles</button>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Estantería Ålesund">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">Estantería Ålesund</h3>
-                        <p class="product-description">Escalera con 6 compartimentos</p>
-                        <div class="product-price">$79,999</div>
-                        <button class="btn btn-outline add-to-cart" data-product-id="15"><i class="fas fa-shopping-cart"></i> Comprar</button>
+                        <h3>Estantería Ålesund</h3>
+                        <p>Escalera con 6 compartimentos</p>
+                        <div class="price">$79,999</div>
+                        <button class="btn btn-view" data-id="15">Ver Producto</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Modal de Producto -->
-    <div id="productModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="modal-body">
-                <div class="product-images">
+    <!-- Modal de Producto (Perfecto para todos los dispositivos) -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-container">
+            <button class="modal-close">&times;</button>
+            <div class="modal-content">
+                <div class="product-gallery">
                     <div class="main-image">
-                        <img id="modalMainImage" src="" alt="">
+                        <img id="modalImage" src="" alt="">
                     </div>
-                    <div class="image-thumbnails">
-                        <img class="thumbnail active" src="" alt="">
-                        <img class="thumbnail" src="" alt="">
-                        <img class="thumbnail" src="" alt="">
+                    <div class="image-thumbs">
+                        <img class="thumb active" src="" alt="">
+                        <img class="thumb" src="" alt="">
+                        <img class="thumb" src="" alt="">
                     </div>
                 </div>
                 <div class="product-details">
-                    <h2 id="modalProductName"></h2>
-                    <div class="product-category" id="modalProductCategory"></div>
-                    <div class="product-price" id="modalProductPrice"></div>
-                    <div class="product-description" id="modalProductDescription"></div>
+                    <h2 id="modalTitle"></h2>
+                    <div class="product-category" id="modalCategory"></div>
+                    <div class="product-price" id="modalPrice"></div>
+                    <div class="product-description" id="modalDescription"></div>
+                    
                     <div class="product-specs">
-                        <h4>Especificaciones:</h4>
-                        <ul id="modalProductSpecs"></ul>
+                        <h4>Especificaciones</h4>
+                        <ul id="modalSpecs"></ul>
                     </div>
-                    <div class="product-actions">
-                        <button class="btn btn-primary" id="whatsappButton">
-                            <i class="fab fa-whatsapp"></i> Comprar por WhatsApp
-                        </button>
-                        <button class="btn btn-outline" id="closeModalBtn">Seguir Explorando</button>
-                    </div>
+                    
+                    <button class="btn btn-whatsapp" id="whatsappBtn">
+                        <i class="fab fa-whatsapp"></i> Comprar por WhatsApp
+                    </button>
+                    
+                    <button class="btn btn-close-modal">Seguir Explorando</button>
                 </div>
             </div>
         </div>
@@ -414,27 +356,18 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-left">
-                    <div class="footer-logo-section">
-                        <a href="#inicio" class="logo">
-                            <span class="logo-text">ESTILO NÓRDICO</span>
-                        </a>
-                    </div>
+                <div class="footer-brand">
+                    <h3>ESTILO NÓRDICO</h3>
+                    <p>Muebles industriales de calidad</p>
                 </div>
-                
-                <div class="footer-right">
-                    <div class="social-links">
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
-                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
-            
             <div class="footer-bottom">
                 <p>&copy; 2024 Estilo Nórdico. Todos los derechos reservados.</p>
-                <p class="footer-contact">Consultas: <a href="tel:+5491122334455">+54 9 11 2233-4455</a> | <a href="mailto:ventas@estilonordico.com">ventas@estilonordico.com</a></p>
             </div>
         </div>
     </footer>
