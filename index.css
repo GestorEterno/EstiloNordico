@@ -55,6 +55,7 @@ h1, h2, h3, h4 {
     transition: var(--transition);
     text-decoration: none;
     font-size: 1rem;
+    text-align: center;
 }
 
 .btn:hover {
@@ -121,9 +122,13 @@ h1, h2, h3, h4 {
 .hamburger {
     display: none;
     cursor: pointer;
+    background: none;
+    border: none;
+    padding: 5px;
 }
 
 .bar {
+    display: block;
     width: 25px;
     height: 3px;
     background: var(--dark);
@@ -352,26 +357,30 @@ h1, h2, h3, h4 {
     width: 100%;
     background: var(--primary);
     color: white;
+    border: none;
+    cursor: pointer;
 }
 
 .btn-view:hover {
     background: var(--primary-dark);
 }
 
-/* MODAL PERFECTO - ADAPTADO A TODAS LAS PANTALLAS */
+/* MODAL PERFECTO - PANTALLA COMPLETA */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.9);
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.95);
     z-index: 2000;
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 0;
+    margin: 0;
     animation: fadeIn 0.3s ease;
+    overflow: hidden;
 }
 
 @keyframes fadeIn {
@@ -381,13 +390,18 @@ h1, h2, h3, h4 {
 
 .modal-container {
     background: white;
-    border-radius: var(--border-radius);
-    width: 100%;
-    max-width: 1200px;
-    max-height: 90vh;
+    border-radius: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
     overflow-y: auto;
     position: relative;
     animation: slideUp 0.4s ease;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 @keyframes slideUp {
@@ -402,35 +416,37 @@ h1, h2, h3, h4 {
 }
 
 .modal-close {
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
-    background: none;
+    background: rgba(255,255,255,0.9);
     border: none;
     font-size: 2rem;
     color: var(--primary);
     cursor: pointer;
-    z-index: 10;
-    width: 40px;
-    height: 40px;
+    z-index: 2010;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: white;
     box-shadow: var(--shadow);
     transition: var(--transition);
 }
 
 .modal-close:hover {
+    background: white;
     color: var(--accent);
-    transform: rotate(90deg);
+    transform: rotate(90deg) scale(1.1);
 }
 
 .modal-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 500px;
+    flex: 1;
+    min-height: 100vh;
+    height: 100%;
 }
 
 .product-gallery {
@@ -440,12 +456,14 @@ h1, h2, h3, h4 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .main-image {
     width: 100%;
-    max-width: 400px;
-    height: 400px;
+    height: 60vh;
+    min-height: 400px;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
@@ -464,6 +482,8 @@ h1, h2, h3, h4 {
 .image-thumbs {
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .thumb {
@@ -486,6 +506,8 @@ h1, h2, h3, h4 {
     padding: 40px;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .product-details h2 {
@@ -548,6 +570,8 @@ h1, h2, h3, h4 {
 .btn-whatsapp {
     background: #25D366;
     margin-bottom: 15px;
+    border: none;
+    cursor: pointer;
 }
 
 .btn-whatsapp:hover {
@@ -557,6 +581,8 @@ h1, h2, h3, h4 {
 .btn-close-modal {
     background: var(--primary);
     color: white;
+    border: none;
+    cursor: pointer;
 }
 
 .btn-close-modal:hover {
@@ -618,19 +644,22 @@ h1, h2, h3, h4 {
 @media (max-width: 992px) {
     .modal-content {
         grid-template-columns: 1fr;
-        max-height: 80vh;
+        grid-template-rows: 1fr 1fr;
     }
     
     .product-gallery {
-        padding: 30px;
-    }
-    
-    .main-image {
-        height: 300px;
+        height: 50vh;
+        padding: 20px;
     }
     
     .product-details {
-        padding: 30px;
+        height: 50vh;
+        padding: 20px;
+    }
+    
+    .main-image {
+        height: 40vh;
+        min-height: 300px;
     }
 }
 
@@ -661,6 +690,7 @@ h1, h2, h3, h4 {
         padding: 30px;
         transition: var(--transition);
         box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        z-index: 999;
     }
     
     .nav-menu.active {
@@ -692,7 +722,26 @@ h1, h2, h3, h4 {
     }
     
     .modal-container {
-        max-height: 85vh;
+        max-height: 100vh;
+    }
+    
+    .modal-content {
+        grid-template-rows: auto 1fr;
+    }
+    
+    .product-gallery {
+        height: auto;
+        max-height: 50vh;
+    }
+    
+    .product-details {
+        height: auto;
+        max-height: 50vh;
+    }
+    
+    .main-image {
+        height: 35vh;
+        min-height: 250px;
     }
 }
 
@@ -714,20 +763,28 @@ h1, h2, h3, h4 {
     }
     
     .modal-content {
-        max-height: 90vh;
+        max-height: 100vh;
     }
     
     .product-gallery,
     .product-details {
-        padding: 20px;
+        padding: 15px;
     }
     
     .main-image {
-        height: 250px;
+        height: 30vh;
+        min-height: 200px;
     }
     
     .thumb {
         width: 50px;
         height: 50px;
+    }
+    
+    .modal-close {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
     }
 }
