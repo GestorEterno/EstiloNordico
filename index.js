@@ -24,275 +24,275 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== BASE DE DATOS DE PRODUCTOS REALES =====
     const products = {
         1: {
-            name: "Escritorio Industrial 1.20m",
-            category: "Escritorios Industriales",
-            price: "Consultar Precio",
-            description: "Escritorio industrial de 1.20 metros fabricado en madera maciza con estructura metálica robusta. Perfecto para espacios de trabajo compactos. Acabado industrial que resalta la veta natural de la madera.",
+            name: "Escritorio 1.20m",
+            category: "Escritorios Nórdicos",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Escritorio de 1.20 metros fabricado con base de hierro y madera de eucalipto. Perfecto para espacios de trabajo compactos. Acabado nórdico que resalta la veta natural de la madera.",
             images: [
                 "imagenes/escritorios/120/k1escritorio01.png",
                 "imagenes/escritorios/120/k1escritorio02.png"
             ],
             specs: [
-                { name: "Material", value: "Madera maciza y hierro" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "120cm x 60cm x 75cm" },
                 { name: "Peso", value: "25 kg" },
-                { name: "Color", value: "Natural industrial" },
+                { name: "Color", value: "Natural nórdico" },
                 { name: "Garantía", value: "1 año" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio Industrial 1.20m"
+            whatsappMessage: "Hola! Estoy interesado en el Escritorio 1.20m"
         },
         2: {
-            name: "Escritorio Industrial 1.30m",
-            category: "Escritorios Industriales",
-            price: "Consultar Precio",
-            description: "Escritorio de 1.30 metros con diseño robusto y patas metálicas reforzadas. Ideal para profesionales que necesitan un espacio de trabajo resistente y elegante.",
+            name: "Escritorio 1.30m",
+            category: "Escritorios Nórdicos",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Escritorio de 1.30 metros fabricado con base de hierro y madera de eucalipto. Ideal para profesionales que necesitan un espacio de trabajo resistente y elegante.",
             images: [
                 "imagenes/escritorios/130/k2escritorio01.png",
                 "imagenes/escritorios/130/k2escritorio02.png"
             ],
             specs: [
-                { name: "Material", value: "Madera maciza y acero" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "130cm x 65cm x 75cm" },
                 { name: "Peso", value: "28 kg" },
                 { name: "Color", value: "Marrón natural" },
                 { name: "Acabado", value: "Barniz mate" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio Industrial 1.30m"
+            whatsappMessage: "Hola! Estoy interesado en el Escritorio 1.30m"
         },
         3: {
-            name: "Escritorio Industrial 1.60m",
-            category: "Escritorios Industriales",
-            price: "Consultar Precio",
-            description: "Elegante escritorio de 1.60 metros fabricado en madera de roble con acabado industrial. Perfecto para espacios de trabajo amplios y modernos.",
+            name: "Escritorio 1.60m",
+            category: "Escritorios Nórdicos",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Elegante escritorio de 1.60 metros fabricado con base de hierro y madera de eucalipto. Perfecto para espacios de trabajo amplios y modernos.",
             images: [
                 "imagenes/escritorios/160/k3escritorio01.jpg",
                 "imagenes/escritorios/160/k3escritorio02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Roble macizo y hierro" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "160cm x 80cm x 75cm" },
                 { name: "Peso", value: "35 kg" },
-                { name: "Color", value: "Roble natural" },
+                { name: "Color", value: "Eucalipto natural" },
                 { name: "Garantía", value: "2 años" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio Industrial 1.60m"
+            whatsappMessage: "Hola! Estoy interesado en el Escritorio 1.60m"
         },
         4: {
-            name: "Escritorio Industrial 2.00m",
-            category: "Escritorios Industriales",
-            price: "Consultar Precio",
-            description: "Impresionante escritorio de 2 metros para espacios amplios. Diseño elegante con estructura metálica y tapa de madera maciza. Ideal para oficinas ejecutivas.",
+            name: "Escritorio 2.00m",
+            category: "Escritorios Nórdicos",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Impresionante escritorio de 2 metros para espacios amplios. Fabricado con base de hierro y madera de eucalipto. Ideal para oficinas ejecutivas.",
             images: [
                 "imagenes/escritorios/200/k4escritorio01.jpg",
                 "imagenes/escritorios/200/k4escritorio02.jpg",
                 "imagenes/escritorios/200/k4escritorio03.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera maciza y metal" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "200cm x 100cm x 75cm" },
                 { name: "Peso", value: "45 kg" },
                 { name: "Color", value: "Tono medio" },
                 { name: "Capacidad", value: "Espacio amplio" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio Industrial 2.00m"
+            whatsappMessage: "Hola! Estoy interesado en el Escritorio 2.00m"
         },
         5: {
-            name: "Mesa Industrial K1",
-            category: "Mesas Industriales",
-            price: "Consultar Precio",
-            description: "Mesa industrial robusta con base metálica y tapa de madera maciza. Perfecta para comedores con estilo industrial.",
+            name: "Mesa Modelo Trineo",
+            category: "Mesas Nórdicas",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Mesa modelo trineo fabricada con base de hierro y madera de eucalipto. Perfecta para comedores con estilo nórdico.",
             images: [
                 "imagenes/mesas/k1/k1mesa01.jpg",
                 "imagenes/mesas/k1/k1mesa02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera maciza y hierro" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "180cm x 90cm x 75cm" },
                 { name: "Peso", value: "40 kg" },
                 { name: "Capacidad", value: "6-8 personas" },
-                { name: "Acabado", value: "Industrial" }
+                { name: "Acabado", value: "Nórdico" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Industrial K1"
+            whatsappMessage: "Hola! Estoy interesado en la Mesa Modelo Trineo"
         },
         6: {
-            name: "Mesa Industrial K2",
-            category: "Mesas Industriales",
-            price: "Consultar Precio",
-            description: "Mesa de diseño clásico con herrajes metálicos visibles. Estructura robusta para uso diario intensivo.",
+            name: "Mesa Modelo U",
+            category: "Mesas Nórdicas",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Mesa modelo U fabricada con base de hierro y madera de eucalipto. Estructura robusta para uso diario intensivo.",
             images: [
                 "imagenes/mesas/k2/k2mesa01.jpg",
                 "imagenes/mesas/k2/k2mesa02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera y metal" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "160cm x 85cm x 75cm" },
                 { name: "Peso", value: "38 kg" },
                 { name: "Capacidad", value: "6 personas" },
-                { name: "Herrajes", value: "Visibles" }
+                { name: "Diseño", value: "Modelo U" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Industrial K2"
+            whatsappMessage: "Hola! Estoy interesado en la Mesa Modelo U"
         },
         7: {
-            name: "Mesa Industrial K3",
-            category: "Mesas Industriales",
-            price: "Consultar Precio",
-            description: "Mesa con acabado rústico y patas cruzadas de hierro forjado. Diseño único que combina lo rústico con lo industrial.",
+            name: "Mesa Modelo X",
+            category: "Mesas Nórdicas",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Mesa modelo X fabricada con base de hierro y madera de eucalipto. Diseño único que combina lo moderno con lo nórdico.",
             images: [
                 "imagenes/mesas/k3/k3mesa01.jpg",
                 "imagenes/mesas/k3/k3mesa02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera reciclada y hierro" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "200cm x 95cm x 75cm" },
                 { name: "Peso", value: "42 kg" },
                 { name: "Capacidad", value: "8 personas" },
-                { name: "Estilo", value: "Rústico-industrial" }
+                { name: "Estilo", value: "Modelo X nórdico" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Industrial K3"
+            whatsappMessage: "Hola! Estoy interesado en la Mesa Modelo X"
         },
         8: {
-            name: "Rack TV Industrial K1",
-            category: "Racks para Televisores",
-            price: "Consultar Precio",
-            description: "Rack TV industrial con compartimentos para equipos de sonido y videojuegos. Estructura robusta en metal y madera.",
+            name: "Rack TV Nórdico K1",
+            category: "Racks TV",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Rack TV nórdico fabricado con base de hierro y madera de eucalipto. Estructura robusta con compartimentos para equipos.",
             images: [
                 "imagenes/racks/k1/k1Rack01.jpg",
                 "imagenes/racks/k1/k1Rack02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera y metal" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "120cm x 40cm x 50cm" },
                 { name: "Peso", value: "22 kg" },
                 { name: "Capacidad TV", value: "Hasta 55 pulgadas" },
                 { name: "Compartimentos", value: "3 estantes" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Industrial K1"
+            whatsappMessage: "Hola! Estoy interesado en el Rack TV Nórdico K1"
         },
         9: {
-            name: "Rack TV Industrial K2",
-            category: "Racks para Televisores",
-            price: "Consultar Precio",
-            description: "Rack TV modular con estantes ajustables. Diseño industrial moderno perfecto para salas de estar contemporáneas.",
+            name: "Rack TV Nórdico K2",
+            category: "Racks TV",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Rack TV nórdico fabricado con base de hierro y madera de eucalipto. Diseño moderno perfecto para salas de estar contemporáneas.",
             images: [
                 "imagenes/racks/k2/k2Rack01.jpg",
                 "imagenes/racks/k2/k2Rack02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera de pino y acero" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "140cm x 45cm x 55cm" },
                 { name: "Peso", value: "25 kg" },
                 { name: "Capacidad TV", value: "Hasta 65 pulgadas" },
                 { name: "Estantes", value: "Ajustables" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Industrial K2"
+            whatsappMessage: "Hola! Estoy interesado en el Rack TV Nórdico K2"
         },
         10: {
-            name: "Mesita Industrial K1",
-            category: "Mesitas Industriales",
-            price: "Consultar Precio",
-            description: "Mesita industrial compacta con estante inferior. Diseño funcional ideal para espacios reducidos.",
+            name: "Mesita Nórdica K1",
+            category: "Mesitas Nórdicas",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Mesita nórdica fabricada con base de hierro y madera de eucalipto. Diseño funcional ideal para espacios reducidos.",
             images: [
                 "imagenes/mesitas/k1/k1mesita01.jpg",
                 "imagenes/mesitas/k1/k1mesita02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera y metal" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "50cm x 50cm x 45cm" },
                 { name: "Peso", value: "10 kg" },
                 { name: "Forma", value: "Cuadrada" },
                 { name: "Estante", value: "Inferior" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Industrial K1"
+            whatsappMessage: "Hola! Estoy interesado en la Mesita Nórdica K1"
         },
         11: {
-            name: "Mesita Industrial K2",
-            category: "Mesitas Industriales",
-            price: "Consultar Precio",
-            description: "Mesita cuadrada con cajón metálico. Diseño industrial con detalles en metal forjado.",
+            name: "Mesita Nórdica K2",
+            category: "Mesitas Nórdicas",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Mesita nórdica fabricada con base de hierro y madera de eucalipto. Diseño con detalles en hierro forjado.",
             images: [
                 "imagenes/mesitas/k2/k2mesita01.jpg",
                 "imagenes/mesitas/k2/k2mesita02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera de pino y hierro" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "55cm x 55cm x 48cm" },
                 { name: "Peso", value: "12 kg" },
                 { name: "Cajón", value: "Metálico" },
                 { name: "Uso", value: "Living o dormitorio" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Industrial K2"
+            whatsappMessage: "Hola! Estoy interesado en la Mesita Nórdica K2"
         },
         12: {
-            name: "Mesita Industrial K3",
-            category: "Mesitas Industriales",
-            price: "Consultar Precio",
-            description: "Mesita redonda con base de trípode metálico. Diseño elegante que se adapta a cualquier decoración.",
+            name: "Mesita Nórdica K3",
+            category: "Mesitas Nórdicas",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Mesita nórdica redonda fabricada con base de hierro y madera de eucalipto. Diseño elegante que se adapta a cualquier decoración.",
             images: [
                 "imagenes/mesitas/k3/k3mesita01.jpg",
                 "imagenes/mesitas/k3/k3mesita02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera y metal" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "Ø60cm x 45cm" },
                 { name: "Peso", value: "11 kg" },
                 { name: "Forma", value: "Redonda" },
                 { name: "Base", value: "Trípode metálico" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Industrial K3"
+            whatsappMessage: "Hola! Estoy interesado en la Mesita Nórdica K3"
         },
         13: {
-            name: "Estantería Industrial K1",
-            category: "Estanterías Industriales",
-            price: "Consultar Precio",
-            description: "Estantería modular de 4 niveles con estructura metálica visible. Ideal para libros y decoración.",
+            name: "Estantería Nórdica K1",
+            category: "Estanterías Nórdicas",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Estantería nórdica modular fabricada con base de hierro y madera de eucalipto. Ideal para libros y decoración.",
             images: [
                 "imagenes/estanterias/k1/k1estanteria01.jpg",
                 "imagenes/estanterias/k1/k1estanteria02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera y hierro" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "160cm x 80cm x 30cm" },
                 { name: "Peso", value: "28 kg" },
                 { name: "Niveles", value: "4 estantes" },
                 { name: "Carga máx.", value: "20 kg por estante" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Industrial K1"
+            whatsappMessage: "Hola! Estoy interesado en la Estantería Nórdica K1"
         },
         14: {
-            name: "Estantería Industrial K2",
-            category: "Estanterías Industriales",
-            price: "Consultar Precio",
-            description: "Estantería con estructura metálica completamente visible. Diseño industrial auténtico para espacios modernos.",
+            name: "Estantería Nórdica K2",
+            category: "Estanterías Nórdicas",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Estantería nórdica fabricada con base de hierro y madera de eucalipto. Diseño nórdico auténtico para espacios modernos.",
             images: [
                 "imagenes/estanterias/k2/k2estanteria01.jpg",
                 "imagenes/estanterias/k2/k2estanteria02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera de pino y acero" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "180cm x 90cm x 35cm" },
                 { name: "Peso", value: "32 kg" },
                 { name: "Niveles", value: "5 estantes" },
-                { name: "Estilo", value: "Industrial puro" }
+                { name: "Estilo", value: "Nórdico puro" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Industrial K2"
+            whatsappMessage: "Hola! Estoy interesado en la Estantería Nórdica K2"
         },
         15: {
-            name: "Estantería Industrial K3",
-            category: "Estanterías Industriales",
-            price: "Consultar Precio",
-            description: "Estantería en forma de escalera con 5 estantes. Diseño único y funcional para cualquier ambiente.",
+            name: "Estantería Nórdica K3",
+            category: "Estanterías Nórdicas",
+            price: "Base de hierro y madera de eucalipto",
+            description: "Estantería nórdica en forma de escalera fabricada con base de hierro y madera de eucalipto. Diseño único y funcional.",
             images: [
                 "imagenes/estanterias/k3/k3estanteria01.jpg",
                 "imagenes/estanterias/k3/k3estanteria02.jpg"
             ],
             specs: [
-                { name: "Material", value: "Madera maciza y metal" },
+                { name: "Material", value: "Base de hierro y madera de eucalipto" },
                 { name: "Dimensiones", value: "170cm x 85cm x 40cm" },
                 { name: "Peso", value: "30 kg" },
                 { name: "Compartimentos", value: "5 estantes" },
                 { name: "Forma", value: "Escalera" }
             ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Industrial K3"
+            whatsappMessage: "Hola! Estoy interesado en la Estantería Nórdica K3"
         }
     };
 
@@ -749,10 +749,4 @@ document.addEventListener('DOMContentLoaded', function() {
     heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
 
     console.log('✅ Estilo Nórdico - PRODUCTOS REALES CARGADOS');
-    console.log('📦 TOTAL PRODUCTOS: 15 productos reales');
-    console.log('🎯 ESCRITORIOS: 4 modelos');
-    console.log('🎯 MESAS: 3 modelos');
-    console.log('🎯 RACKS TV: 2 modelos');
-    console.log('🎯 MESITAS INDUSTRIALES: 3 modelos');
-    console.log('🎯 ESTANTERÍAS: 3 modelos');
 });
