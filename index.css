@@ -1,4 +1,4 @@
-/* style.css - ESTILO NÓRDICO - VERSIÓN CON HEADER REDISEÑADO PERFECTO */
+/* style.css - ESTILO NÓRDICO - VERSIÓN CON HEADER REDISEÑADO PERFECTO Y CARRUSEL CIRCULAR */
 :root {
     --primary: #2c3e50;
     --primary-dark: #1a252f;
@@ -209,19 +209,6 @@ h1, h2, h3, h4 {
     justify-content: center;
     font-weight: 600;
     pointer-events: none;
-}
-
-.login-text {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--primary);
-    transition: var(--transition);
-    margin-left: 5px;
-    display: inline-block;
-}
-
-.icon-btn:hover .login-text {
-    color: var(--accent);
 }
 
 /* Hamburger Button */
@@ -450,7 +437,7 @@ h1, h2, h3, h4 {
     font-size: 1.1rem;
 }
 
-/* ===== CARRUSEL DE PRODUCTOS ===== */
+/* ===== CARRUSEL DE PRODUCTOS - CIRCULAR INFINITO ===== */
 .products-carousel-container {
     position: relative;
     display: flex;
@@ -464,7 +451,8 @@ h1, h2, h3, h4 {
     overflow: hidden;
     width: 100%;
     border-radius: var(--border-radius);
-    padding: 10px 0;
+    padding: 10px 5px;
+    margin: 0 -5px;
 }
 
 .products-carousel-track {
@@ -472,6 +460,8 @@ h1, h2, h3, h4 {
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     gap: 30px;
     will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
 .carousel-arrow {
@@ -520,6 +510,9 @@ h1, h2, h3, h4 {
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: var(--transition);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
 }
 
 .product-card:hover {
@@ -923,8 +916,20 @@ h1, h2, h3, h4 {
         font-size: 1rem;
     }
     
-    .login-text {
-        display: none;
+    /* Tooltip para botón de login en móvil */
+    .icon-btn[title]:hover::after {
+        content: attr(title);
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--primary);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        z-index: 1000;
     }
     
     .products-carousel-container {
