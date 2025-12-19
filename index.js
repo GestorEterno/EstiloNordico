@@ -1,4 +1,4 @@
-// script.js - ESTILO NÓRDICO - HEADER REDISEÑADO PERFECTO CON CARRUSEL CIRCULAR INFINITO Y BOTONES FUNCIONALES
+// index.js - ESTILO NÓRDICO - HEADER REDISEÑADO PERFECTO CON CARRUSEL CIRCULAR INFINITO MEJORADO
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
@@ -467,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ===== CLASE CARRUSEL DE PRODUCTOS - CIRCULAR INFINITO (CORREGIDO) =====
+    // ===== CLASE CARRUSEL DE PRODUCTOS - CIRCULAR INFINITO MEJORADO =====
     class ProductsCarousel {
         constructor(container) {
             this.container = container;
@@ -477,27 +477,33 @@ document.addEventListener('DOMContentLoaded', function() {
             this.nextBtn = container.querySelector('.next-arrow');
             this.dots = container.querySelectorAll('.carousel-dot');
             
-            // Configuración para efecto circular
+            // Configuración
             this.currentIndex = 0;
             this.totalCards = this.cards.length;
             this.isAnimating = false;
             this.animationDuration = 500;
+            this.transitionTimeout = null;
+            this.jumpTimeout = null;
+            this.useInfiniteScroll = this.cards.length > 1;
             
             // Solo continuar si hay tarjetas
             if (this.totalCards === 0) return;
             
-            // Duplicar tarjetas para efecto infinito (solo 2 extra, no todas)
-            this.setupCircularEffect();
+            // Configurar efecto circular si hay más de 1 tarjeta
+            if (this.useInfiniteScroll && this.totalCards > 1) {
+                this.setupCircularEffect();
+            }
+            
             this.init();
             this.calculateDimensions();
         }
         
         setupCircularEffect() {
-            // Solo duplicamos las tarjetas necesarias para el efecto
+            // Clonar la primera y última tarjeta para efecto infinito
             const firstCard = this.cards[0].cloneNode(true);
             const lastCard = this.cards[this.totalCards - 1].cloneNode(true);
             
-            // Agregar al principio y final
+            // Agregar al final y al principio
             this.track.appendChild(firstCard);
             this.track.insertBefore(lastCard, this.track.firstChild);
             
@@ -507,12 +513,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Posicionar en la tarjeta real 1 (índice 1 porque añadimos una al principio)
             this.currentIndex = 1;
-            this.updatePosition(true); // Instantáneo
+            this.updatePosition(true);
         }
         
         init() {
-            console.log('Inicializando carrusel con', this.totalCards, 'tarjetas');
+            console.log('Inicializando carrusel con', this.totalCards, 'tarjetas, infinito:', this.useInfiniteScroll);
             
+            // Event listeners para botones
             if (this.prevBtn) {
                 this.prevBtn.addEventListener('click', () => {
                     console.log('Clic en prev');
@@ -527,15 +534,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
             
+            // Event listeners para dots
             this.dots.forEach((dot, index) => {
                 dot.addEventListener('click', () => this.goTo(index));
             });
             
+            // Event listeners para touch
             this.addTouchControls();
+            
+            // Event listener para resize
             window.addEventListener('resize', () => this.handleResize());
             
+            // Inicializar estado
             this.updateArrows();
             this.updateDots();
+            
+            // Event listener para transición completada
+            this.track.addEventListener('transitionend', () => {
+                this.handleTransitionEnd();
+            });
         }
         
         calculateDimensions() {
@@ -547,9 +564,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const trackWidth = this.track.offsetWidth;
             const gap = parseInt(trackStyle.gap) || 30;
             
-            // Si el ancho de la tarjeta es 0, el carrusel no está visible, posponer el cálculo
             if (cardWidth === 0) {
-                console.warn('Carrusel no visible, reintentando cálculo de dimensiones...');
+                console.warn('Carrusel no visible, reintentando cálculo...');
                 setTimeout(() => this.calculateDimensions(), 100);
                 return;
             }
@@ -557,9 +573,12 @@ document.addEventListener('DOMContentLoaded', function() {
             this.cardsPerView = Math.floor(trackWidth / (cardWidth + gap));
             this.cardsPerView = Math.max(1, this.cardsPerView);
             
-            console.log('cardsPerView:', this.cardsPerView, 'cardWidth:', cardWidth, 'trackWidth:', trackWidth);
-            
-            this.updatePosition();
+            console.log('Dimensiones calculadas:', {
+                cardsPerView: this.cardsPerView,
+                cardWidth: cardWidth,
+                trackWidth: trackWidth,
+                gap: gap
+            });
         }
         
         addTouchControls() {
@@ -594,6 +613,7 @@ document.addEventListener('DOMContentLoaded', function() {
         handleResize() {
             setTimeout(() => {
                 this.calculateDimensions();
+                this.updatePosition(true);
             }, 100);
         }
         
@@ -604,6 +624,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const trackStyle = window.getComputedStyle(this.track);
             const cardWidth = this.cards[0].offsetWidth;
             const gap = parseInt(trackStyle.gap) || 30;
+            
+            if (cardWidth === 0) {
+                setTimeout(() => this.updatePosition(instant), 100);
+                return;
+            }
             
             const offset = -this.currentIndex * (cardWidth + gap);
             
@@ -628,7 +653,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!this.dots.length) return;
             
             const maxSlides = Math.max(0, (this.totalCards - 2) - this.cardsPerView + 1);
-            const adjustedIndex = this.currentIndex - 1; // Ajustar por tarjeta clonada al inicio
+            const adjustedIndex = this.currentIndex - 1;
             
             this.dots.forEach((dot, index) => {
                 const realIndex = adjustedIndex < 0 ? (this.totalCards - 2) + adjustedIndex : adjustedIndex;
@@ -653,64 +678,129 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
+        // ===== MÉTODO PREV MEJORADO =====
         prev() {
             if (this.isAnimating) return;
             
             console.log('prev: currentIndex antes:', this.currentIndex);
             this.isAnimating = true;
+            this.updateArrows();
+            
             this.currentIndex--;
             
-            // Si llegamos al clon del principio, saltar al final real
-            if (this.currentIndex === 0) {
-                console.log('Llegó al clon del principio, saltando al final real');
-                setTimeout(() => {
+            // Si no usa scroll infinito, verificar límites
+            if (!this.useInfiniteScroll) {
+                if (this.currentIndex < 0) {
+                    this.currentIndex = 0;
+                    this.isAnimating = false;
+                    this.updateArrows();
+                    return;
+                }
+                this.updatePosition();
+                
+                clearTimeout(this.transitionTimeout);
+                this.transitionTimeout = setTimeout(() => {
+                    this.isAnimating = false;
+                    this.updateArrows();
+                }, this.animationDuration);
+                return;
+            }
+            
+            // Lógica para scroll infinito
+            if (this.currentIndex < 0) {
+                console.log('Llegó al clon del principio');
+                
+                // Mover a la posición del clon
+                this.updatePosition();
+                
+                // Después de la transición, saltar al final real
+                clearTimeout(this.transitionTimeout);
+                this.transitionTimeout = setTimeout(() => {
                     this.track.style.transition = 'none';
-                    this.currentIndex = this.totalCards - 2; // Saltar al penúltimo (último real)
+                    this.currentIndex = this.totalCards - 3; // Saltar al penúltimo real
                     console.log('prev: currentIndex después del salto:', this.currentIndex);
                     this.updatePosition(true);
                     
-                    setTimeout(() => {
+                    clearTimeout(this.jumpTimeout);
+                    this.jumpTimeout = setTimeout(() => {
                         this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
                         this.isAnimating = false;
+                        this.updateArrows();
                     }, 50);
                 }, this.animationDuration);
             } else {
-                setTimeout(() => {
+                // Movimiento normal
+                this.updatePosition();
+                
+                clearTimeout(this.transitionTimeout);
+                this.transitionTimeout = setTimeout(() => {
                     this.isAnimating = false;
+                    this.updateArrows();
                 }, this.animationDuration);
             }
-            
-            this.updatePosition();
         }
         
+        // ===== MÉTODO NEXT MEJORADO =====
         next() {
             if (this.isAnimating) return;
             
             console.log('next: currentIndex antes:', this.currentIndex);
             this.isAnimating = true;
+            this.updateArrows();
+            
             this.currentIndex++;
             
-            // Si llegamos al clon del final, saltar al principio real
-            if (this.currentIndex >= this.totalCards - 1) {
-                console.log('Llegó al clon del final, saltando al principio real');
-                setTimeout(() => {
+            // Si no usa scroll infinito, verificar límites
+            if (!this.useInfiniteScroll) {
+                const maxIndex = this.totalCards - this.cardsPerView;
+                if (this.currentIndex > maxIndex) {
+                    this.currentIndex = maxIndex;
+                    this.isAnimating = false;
+                    this.updateArrows();
+                    return;
+                }
+                this.updatePosition();
+                
+                clearTimeout(this.transitionTimeout);
+                this.transitionTimeout = setTimeout(() => {
+                    this.isAnimating = false;
+                    this.updateArrows();
+                }, this.animationDuration);
+                return;
+            }
+            
+            // Lógica para scroll infinito
+            if (this.currentIndex > this.totalCards - 2) {
+                console.log('Llegó al clon del final');
+                
+                // Mover a la posición del clon
+                this.updatePosition();
+                
+                // Después de la transición, saltar al principio real
+                clearTimeout(this.transitionTimeout);
+                this.transitionTimeout = setTimeout(() => {
                     this.track.style.transition = 'none';
                     this.currentIndex = 1; // Saltar al segundo (primero real)
                     console.log('next: currentIndex después del salto:', this.currentIndex);
                     this.updatePosition(true);
                     
-                    setTimeout(() => {
+                    clearTimeout(this.jumpTimeout);
+                    this.jumpTimeout = setTimeout(() => {
                         this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
                         this.isAnimating = false;
+                        this.updateArrows();
                     }, 50);
                 }, this.animationDuration);
             } else {
-                setTimeout(() => {
+                // Movimiento normal
+                this.updatePosition();
+                
+                clearTimeout(this.transitionTimeout);
+                this.transitionTimeout = setTimeout(() => {
                     this.isAnimating = false;
+                    this.updateArrows();
                 }, this.animationDuration);
             }
-            
-            this.updatePosition();
         }
         
         goTo(index) {
@@ -719,8 +809,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const maxIndex = Math.max(0, (this.totalCards - 2) - this.cardsPerView);
             const validIndex = Math.max(0, Math.min(index, maxIndex));
             
-            this.currentIndex = validIndex + 1; // +1 por tarjeta clonada al inicio
+            this.currentIndex = validIndex + 1;
             this.updatePosition();
+        }
+        
+        handleTransitionEnd() {
+            // Esta función se llama automáticamente cuando termina la transición CSS
+            // Es un respaldo para asegurar que isAnimating se restablezca
+            this.isAnimating = false;
+            this.updateArrows();
+            console.log('Transición completada, isAnimating:', this.isAnimating);
         }
     }
 
@@ -789,17 +887,19 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = '';
     }
 
-    // ===== MENÚ HAMBURGUESA (Nueva estructura) =====
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        headerBottom.classList.toggle('active');
-        document.body.style.overflow = headerBottom.classList.contains('active') ? 'hidden' : '';
-    });
+    // ===== MENÚ HAMBURGUESA =====
+    if (hamburger) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            headerBottom.classList.toggle('active');
+            document.body.style.overflow = headerBottom.classList.contains('active') ? 'hidden' : '';
+        });
+    }
 
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            headerBottom.classList.remove('active');
+            if (hamburger) hamburger.classList.remove('active');
+            if (headerBottom) headerBottom.classList.remove('active');
             document.body.style.overflow = '';
         });
     });
@@ -891,6 +991,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const carousel = new ProductsCarousel(container);
         carousels.push(carousel);
         
+        // Esperar a que las imágenes se carguen para recalcular dimensiones
         const images = container.querySelectorAll('img');
         let loadedImages = 0;
         
@@ -916,20 +1017,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    let resizeTimeout;
+    // ===== MANEJO DE RESIZE GLOBAL =====
+    let globalResizeTimeout;
     window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            console.log('Resize, recalculando carruseles');
-            carousels.forEach(carousel => carousel.handleResize());
+        clearTimeout(globalResizeTimeout);
+        globalResizeTimeout = setTimeout(() => {
+            console.log('Resize global, recalculando carruseles');
+            carousels.forEach(carousel => {
+                if (carousel && typeof carousel.handleResize === 'function') {
+                    carousel.handleResize();
+                }
+            });
         }, 250);
     });
 
     // ===== INICIALIZACIÓN GENERAL =====
     startHeroAutoSlide();
     
-    heroTrack.addEventListener('mouseenter', () => clearInterval(heroAutoSlide));
-    heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
+    if (heroTrack) {
+        heroTrack.addEventListener('mouseenter', () => clearInterval(heroAutoSlide));
+        heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
+    }
 
     // Inicializar contadores
     updateCartCount();
@@ -942,5 +1050,8 @@ document.addEventListener('DOMContentLoaded', function() {
         updateNotificationCount();
     }
 
-    console.log('✅ Estilo Nórdico - HEADER REDISEÑADO CARGADO PERFECTAMENTE CON CARRUSEL CIRCULAR INFINITO Y BOTONES FUNCIONALES');
+    console.log('✅ Estilo Nórdico - HEADER REDISEÑADO CARGADO PERFECTAMENTE CON CARRUSEL CIRCULAR INFINITO MEJORADO');
+    console.log('🚀 Sistema inicializado correctamente');
+    console.log('📱 Carruseles de productos:', carousels.length);
+    console.log('🛒 Productos en base de datos:', Object.keys(products).length);
 });
