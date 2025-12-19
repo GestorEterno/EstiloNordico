@@ -77,72 +77,91 @@
             <h2 class="section-title">Escritorios <span>Industriales</span></h2>
             <p class="section-subtitle">Diseños robustos para tu espacio de trabajo</p>
             
-            <div class="products-grid">
-                <div class="product-card" data-id="1">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Escritorio Oslo">
-                    </div>
-                    <div class="product-info">
-                        <h3>Escritorio Oslo</h3>
-                        <p>Madera de roble con estructura metálica</p>
-                        <div class="price">$89,999</div>
-                        <button class="btn btn-view" data-id="1">Ver Producto</button>
+            <div class="products-carousel-container">
+                <button class="carousel-arrow prev-arrow">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="products-carousel-wrapper">
+                    <div class="products-carousel-track">
+                        <!-- Producto 1 -->
+                        <div class="product-card" data-id="1">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Escritorio Oslo">
+                            </div>
+                            <div class="product-info">
+                                <h3>Escritorio Oslo</h3>
+                                <p>Madera de roble con estructura metálica</p>
+                                <div class="price">$89,999</div>
+                                <button class="btn btn-view" data-id="1">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 2 -->
+                        <div class="product-card" data-id="2">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80" alt="Escritorio Bergen">
+                            </div>
+                            <div class="product-info">
+                                <h3>Escritorio Bergen</h3>
+                                <p>Diseño minimalista con cajones ocultos</p>
+                                <div class="price">$94,999</div>
+                                <button class="btn btn-view" data-id="2">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 3 -->
+                        <div class="product-card" data-id="3">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Escritorio Trondheim">
+                            </div>
+                            <div class="product-info">
+                                <h3>Escritorio Trondheim</h3>
+                                <p>Madera reciclada con patas de hierro</p>
+                                <div class="price">$79,999</div>
+                                <button class="btn btn-view" data-id="3">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 4 -->
+                        <div class="product-card" data-id="4">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Escritorio Helsinki">
+                            </div>
+                            <div class="product-info">
+                                <h3>Escritorio Helsinki</h3>
+                                <p>Madera de fresno con patas ajustables</p>
+                                <div class="price">$99,999</div>
+                                <button class="btn btn-view" data-id="4">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 5 -->
+                        <div class="product-card" data-id="5">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Escritorio Stockholm">
+                            </div>
+                            <div class="product-info">
+                                <h3>Escritorio Stockholm</h3>
+                                <p>Diseño ergonómico con cable management</p>
+                                <div class="price">$109,999</div>
+                                <button class="btn btn-view" data-id="5">Ver Producto</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="product-card" data-id="2">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80" alt="Escritorio Bergen">
-                    </div>
-                    <div class="product-info">
-                        <h3>Escritorio Bergen</h3>
-                        <p>Diseño minimalista con cajones ocultos</p>
-                        <div class="price">$94,999</div>
-                        <button class="btn btn-view" data-id="2">Ver Producto</button>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-id="3">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Escritorio Trondheim">
-                    </div>
-                    <div class="product-info">
-                        <h3>Escritorio Trondheim</h3>
-                        <p>Madera reciclada con patas de hierro</p>
-                        <div class="price">$79,999</div>
-                        <button class="btn btn-view" data-id="3">Ver Producto</button>
-                    </div>
-                </div>
+                <button class="carousel-arrow next-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
             
-            <div class="products-grid hidden-products" id="escritorios-mas">
-                <div class="product-card" data-id="4">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Escritorio Helsinki">
-                    </div>
-                    <div class="product-info">
-                        <h3>Escritorio Helsinki</h3>
-                        <p>Madera de fresno con patas ajustables</p>
-                        <div class="price">$99,999</div>
-                        <button class="btn btn-view" data-id="4">Ver Producto</button>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-id="5">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Escritorio Stockholm">
-                    </div>
-                    <div class="product-info">
-                        <h3>Escritorio Stockholm</h3>
-                        <p>Diseño ergonómico con cable management</p>
-                        <div class="price">$109,999</div>
-                        <button class="btn btn-view" data-id="5">Ver Producto</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center">
-                <button class="btn btn-load-more" data-target="escritorios-mas">Ver más escritorios</button>
+            <div class="carousel-dots-container">
+                <span class="carousel-dot active" data-index="0"></span>
+                <span class="carousel-dot" data-index="1"></span>
+                <span class="carousel-dot" data-index="2"></span>
+                <span class="carousel-dot" data-index="3"></span>
+                <span class="carousel-dot" data-index="4"></span>
             </div>
         </div>
     </section>
@@ -153,72 +172,91 @@
             <h2 class="section-title">Mesas <span>Industriales</span></h2>
             <p class="section-subtitle">Piezas únicas para reuniones familiares</p>
             
-            <div class="products-grid">
-                <div class="product-card" data-id="6">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesa Nórdica">
-                    </div>
-                    <div class="product-info">
-                        <h3>Mesa Nórdica</h3>
-                        <p>Madera de pino con base metálica</p>
-                        <div class="price">$124,999</div>
-                        <button class="btn btn-view" data-id="6">Ver Producto</button>
+            <div class="products-carousel-container">
+                <button class="carousel-arrow prev-arrow">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="products-carousel-wrapper">
+                    <div class="products-carousel-track">
+                        <!-- Producto 6 -->
+                        <div class="product-card" data-id="6">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesa Nórdica">
+                            </div>
+                            <div class="product-info">
+                                <h3>Mesa Nórdica</h3>
+                                <p>Madera de pino con base metálica</p>
+                                <div class="price">$124,999</div>
+                                <button class="btn btn-view" data-id="6">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 7 -->
+                        <div class="product-card" data-id="7">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesa Fjord">
+                            </div>
+                            <div class="product-info">
+                                <h3>Mesa Fjord</h3>
+                                <p>Extensible para 6-8 personas</p>
+                                <div class="price">$149,999</div>
+                                <button class="btn btn-view" data-id="7">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 8 -->
+                        <div class="product-card" data-id="8">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" alt="Mesa Aurora">
+                            </div>
+                            <div class="product-info">
+                                <h3>Mesa Aurora</h3>
+                                <p>Diseño rústico con patas cruzadas</p>
+                                <div class="price">$109,999</div>
+                                <button class="btn btn-view" data-id="8">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 9 -->
+                        <div class="product-card" data-id="9">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Mesa Tromsø">
+                            </div>
+                            <div class="product-info">
+                                <h3>Mesa Tromsø</h3>
+                                <p>Rectangular con herrajes visibles</p>
+                                <div class="price">$134,999</div>
+                                <button class="btn btn-view" data-id="9">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 10 -->
+                        <div class="product-card" data-id="10">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesa Lofoten">
+                            </div>
+                            <div class="product-info">
+                                <h3>Mesa Lofoten</h3>
+                                <p>Redonda con base de trípode</p>
+                                <div class="price">$99,999</div>
+                                <button class="btn btn-view" data-id="10">Ver Producto</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="product-card" data-id="7">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesa Fjord">
-                    </div>
-                    <div class="product-info">
-                        <h3>Mesa Fjord</h3>
-                        <p>Extensible para 6-8 personas</p>
-                        <div class="price">$149,999</div>
-                        <button class="btn btn-view" data-id="7">Ver Producto</button>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-id="8">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" alt="Mesa Aurora">
-                    </div>
-                    <div class="product-info">
-                        <h3>Mesa Aurora</h3>
-                        <p>Diseño rústico con patas cruzadas</p>
-                        <div class="price">$109,999</div>
-                        <button class="btn btn-view" data-id="8">Ver Producto</button>
-                    </div>
-                </div>
+                <button class="carousel-arrow next-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
             
-            <div class="products-grid hidden-products" id="mesas-mas">
-                <div class="product-card" data-id="9">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Mesa Tromsø">
-                    </div>
-                    <div class="product-info">
-                        <h3>Mesa Tromsø</h3>
-                        <p>Rectangular con herrajes visibles</p>
-                        <div class="price">$134,999</div>
-                        <button class="btn btn-view" data-id="9">Ver Producto</button>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-id="10">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesa Lofoten">
-                    </div>
-                    <div class="product-info">
-                        <h3>Mesa Lofoten</h3>
-                        <p>Redonda con base de trípode</p>
-                        <div class="price">$99,999</div>
-                        <button class="btn btn-view" data-id="10">Ver Producto</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center">
-                <button class="btn btn-load-more" data-target="mesas-mas">Ver más mesas</button>
+            <div class="carousel-dots-container">
+                <span class="carousel-dot active" data-index="0"></span>
+                <span class="carousel-dot" data-index="1"></span>
+                <span class="carousel-dot" data-index="2"></span>
+                <span class="carousel-dot" data-index="3"></span>
+                <span class="carousel-dot" data-index="4"></span>
             </div>
         </div>
     </section>
@@ -229,72 +267,91 @@
             <h2 class="section-title">Racks para <span>Televisores</span></h2>
             <p class="section-subtitle">Organización elegante para tu entretenimiento</p>
             
-            <div class="products-grid">
-                <div class="product-card" data-id="11">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Rack TV Viking">
-                    </div>
-                    <div class="product-info">
-                        <h3>Rack TV Viking</h3>
-                        <p>Con compartimentos para equipo</p>
-                        <div class="price">$64,999</div>
-                        <button class="btn btn-view" data-id="11">Ver Producto</button>
+            <div class="products-carousel-container">
+                <button class="carousel-arrow prev-arrow">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="products-carousel-wrapper">
+                    <div class="products-carousel-track">
+                        <!-- Producto 11 -->
+                        <div class="product-card" data-id="11">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Rack TV Viking">
+                            </div>
+                            <div class="product-info">
+                                <h3>Rack TV Viking</h3>
+                                <p>Con compartimentos para equipo</p>
+                                <div class="price">$64,999</div>
+                                <button class="btn btn-view" data-id="11">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 12 -->
+                        <div class="product-card" data-id="12">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Rack TV Fjell">
+                            </div>
+                            <div class="product-info">
+                                <h3>Rack TV Fjell</h3>
+                                <p>Madera de haya con ruedas</p>
+                                <div class="price">$74,999</div>
+                                <button class="btn btn-view" data-id="12">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 13 -->
+                        <div class="product-card" data-id="13">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Rack TV Midnatt">
+                            </div>
+                            <div class="product-info">
+                                <h3>Rack TV Midnatt</h3>
+                                <p>Diseño flotente con estantes</p>
+                                <div class="price">$89,999</div>
+                                <button class="btn btn-view" data-id="13">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 14 -->
+                        <div class="product-card" data-id="14">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Rack TV Nordlys">
+                            </div>
+                            <div class="product-info">
+                                <h3>Rack TV Nordlys</h3>
+                                <p>Con puertas de vidrio templado</p>
+                                <div class="price">$94,999</div>
+                                <button class="btn btn-view" data-id="14">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 15 -->
+                        <div class="product-card" data-id="15">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Rack TV Polar">
+                            </div>
+                            <div class="product-info">
+                                <h3>Rack TV Polar</h3>
+                                <p>Modular con iluminación LED</p>
+                                <div class="price">$79,999</div>
+                                <button class="btn btn-view" data-id="15">Ver Producto</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="product-card" data-id="12">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Rack TV Fjell">
-                    </div>
-                    <div class="product-info">
-                        <h3>Rack TV Fjell</h3>
-                        <p>Madera de haya con ruedas</p>
-                        <div class="price">$74,999</div>
-                        <button class="btn btn-view" data-id="12">Ver Producto</button>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-id="13">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Rack TV Midnatt">
-                    </div>
-                    <div class="product-info">
-                        <h3>Rack TV Midnatt</h3>
-                        <p>Diseño flotente con estantes</p>
-                        <div class="price">$89,999</div>
-                        <button class="btn btn-view" data-id="13">Ver Producto</button>
-                    </div>
-                </div>
+                <button class="carousel-arrow next-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
             
-            <div class="products-grid hidden-products" id="racks-mas">
-                <div class="product-card" data-id="14">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Rack TV Nordlys">
-                    </div>
-                    <div class="product-info">
-                        <h3>Rack TV Nordlys</h3>
-                        <p>Con puertas de vidrio templado</p>
-                        <div class="price">$94,999</div>
-                        <button class="btn btn-view" data-id="14">Ver Producto</button>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-id="15">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Rack TV Polar">
-                    </div>
-                    <div class="product-info">
-                        <h3>Rack TV Polar</h3>
-                        <p>Modular con iluminación LED</p>
-                        <div class="price">$79,999</div>
-                        <button class="btn btn-view" data-id="15">Ver Producto</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center">
-                <button class="btn btn-load-more" data-target="racks-mas">Ver más racks</button>
+            <div class="carousel-dots-container">
+                <span class="carousel-dot active" data-index="0"></span>
+                <span class="carousel-dot" data-index="1"></span>
+                <span class="carousel-dot" data-index="2"></span>
+                <span class="carousel-dot" data-index="3"></span>
+                <span class="carousel-dot" data-index="4"></span>
             </div>
         </div>
     </section>
@@ -305,72 +362,91 @@
             <h2 class="section-title">Mesitas <span>Ratonas</span></h2>
             <p class="section-subtitle">Acompañantes perfectos para tu living</p>
             
-            <div class="products-grid">
-                <div class="product-card" data-id="16">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesita Lofoten">
-                    </div>
-                    <div class="product-info">
-                        <h3>Mesita Lofoten</h3>
-                        <p>Redonda con tapa de vidrio</p>
-                        <div class="price">$44,999</div>
-                        <button class="btn btn-view" data-id="16">Ver Producto</button>
+            <div class="products-carousel-container">
+                <button class="carousel-arrow prev-arrow">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="products-carousel-wrapper">
+                    <div class="products-carousel-track">
+                        <!-- Producto 16 -->
+                        <div class="product-card" data-id="16">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesita Lofoten">
+                            </div>
+                            <div class="product-info">
+                                <h3>Mesita Lofoten</h3>
+                                <p>Redonda con tapa de vidrio</p>
+                                <div class="price">$44,999</div>
+                                <button class="btn btn-view" data-id="16">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 17 -->
+                        <div class="product-card" data-id="17">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" alt="Mesita Sogne">
+                            </div>
+                            <div class="product-info">
+                                <h3>Mesita Sogne</h3>
+                                <p>Cuadrada con cajón inferior</p>
+                                <div class="price">$49,999</div>
+                                <button class="btn btn-view" data-id="17">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 18 -->
+                        <div class="product-card" data-id="18">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Mesita Tromsø">
+                            </div>
+                            <div class="product-info">
+                                <h3>Mesita Tromsø</h3>
+                                <p>Nesting (conjunto de 2)</p>
+                                <div class="price">$59,999</div>
+                                <button class="btn btn-view" data-id="18">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 19 -->
+                        <div class="product-card" data-id="19">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesita Bergen">
+                            </div>
+                            <div class="product-info">
+                                <h3>Mesita Bergen</h3>
+                                <p>Triangular con estante inferior</p>
+                                <div class="price">$39,999</div>
+                                <button class="btn btn-view" data-id="19">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 20 -->
+                        <div class="product-card" data-id="20">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80" alt="Mesita Trondheim">
+                            </div>
+                            <div class="product-info">
+                                <h3>Mesita Trondheim</h3>
+                                <p>Con ruedas y tapa abatible</p>
+                                <div class="price">$54,999</div>
+                                <button class="btn btn-view" data-id="20">Ver Producto</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="product-card" data-id="17">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" alt="Mesita Sogne">
-                    </div>
-                    <div class="product-info">
-                        <h3>Mesita Sogne</h3>
-                        <p>Cuadrada con cajón inferior</p>
-                        <div class="price">$49,999</div>
-                        <button class="btn btn-view" data-id="17">Ver Producto</button>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-id="18">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Mesita Tromsø">
-                    </div>
-                    <div class="product-info">
-                        <h3>Mesita Tromsø</h3>
-                        <p>Nesting (conjunto de 2)</p>
-                        <div class="price">$59,999</div>
-                        <button class="btn btn-view" data-id="18">Ver Producto</button>
-                    </div>
-                </div>
+                <button class="carousel-arrow next-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
             
-            <div class="products-grid hidden-products" id="mesitas-mas">
-                <div class="product-card" data-id="19">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Mesita Bergen">
-                    </div>
-                    <div class="product-info">
-                        <h3>Mesita Bergen</h3>
-                        <p>Triangular con estante inferior</p>
-                        <div class="price">$39,999</div>
-                        <button class="btn btn-view" data-id="19">Ver Producto</button>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-id="20">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2067&q=80" alt="Mesita Trondheim">
-                    </div>
-                    <div class="product-info">
-                        <h3>Mesita Trondheim</h3>
-                        <p>Con ruedas y tapa abatible</p>
-                        <div class="price">$54,999</div>
-                        <button class="btn btn-view" data-id="20">Ver Producto</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center">
-                <button class="btn btn-load-more" data-target="mesitas-mas">Ver más mesitas</button>
+            <div class="carousel-dots-container">
+                <span class="carousel-dot active" data-index="0"></span>
+                <span class="carousel-dot" data-index="1"></span>
+                <span class="carousel-dot" data-index="2"></span>
+                <span class="carousel-dot" data-index="3"></span>
+                <span class="carousel-dot" data-index="4"></span>
             </div>
         </div>
     </section>
@@ -381,72 +457,91 @@
             <h2 class="section-title">Estanterías <span>Industriales</span></h2>
             <p class="section-subtitle">Organización con estilo para tus libros</p>
             
-            <div class="products-grid">
-                <div class="product-card" data-id="21">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Estantería Stavanger">
-                    </div>
-                    <div class="product-info">
-                        <h3>Estantería Stavanger</h3>
-                        <p>Modular de 5 niveles</p>
-                        <div class="price">$84,999</div>
-                        <button class="btn btn-view" data-id="21">Ver Producto</button>
+            <div class="products-carousel-container">
+                <button class="carousel-arrow prev-arrow">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="products-carousel-wrapper">
+                    <div class="products-carousel-track">
+                        <!-- Producto 21 -->
+                        <div class="product-card" data-id="21">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2058&q=80" alt="Estantería Stavanger">
+                            </div>
+                            <div class="product-info">
+                                <h3>Estantería Stavanger</h3>
+                                <p>Modular de 5 niveles</p>
+                                <div class="price">$84,999</div>
+                                <button class="btn btn-view" data-id="21">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 22 -->
+                        <div class="product-card" data-id="22">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Estantería Bergen">
+                            </div>
+                            <div class="product-info">
+                                <h3>Estantería Bergen</h3>
+                                <p>Flotante con iluminación LED</p>
+                                <div class="price">$94,999</div>
+                                <button class="btn btn-view" data-id="22">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 23 -->
+                        <div class="product-card" data-id="23">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Estantería Ålesund">
+                            </div>
+                            <div class="product-info">
+                                <h3>Estantería Ålesund</h3>
+                                <p>Escalera con 6 compartimentos</p>
+                                <div class="price">$79,999</div>
+                                <button class="btn btn-view" data-id="23">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 24 -->
+                        <div class="product-card" data-id="24">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Estantería Helsinki">
+                            </div>
+                            <div class="product-info">
+                                <h3>Estantería Helsinki</h3>
+                                <p>Corrediza de doble cara</p>
+                                <div class="price">$104,999</div>
+                                <button class="btn btn-view" data-id="24">Ver Producto</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Producto 25 -->
+                        <div class="product-card" data-id="25">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Estantería Copenhagen">
+                            </div>
+                            <div class="product-info">
+                                <h3>Estantería Copenhagen</h3>
+                                <p>Hexagonal modular</p>
+                                <div class="price">$89,999</div>
+                                <button class="btn btn-view" data-id="25">Ver Producto</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="product-card" data-id="22">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Estantería Bergen">
-                    </div>
-                    <div class="product-info">
-                        <h3>Estantería Bergen</h3>
-                        <p>Flotante con iluminación LED</p>
-                        <div class="price">$94,999</div>
-                        <button class="btn btn-view" data-id="22">Ver Producto</button>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-id="23">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Estantería Ålesund">
-                    </div>
-                    <div class="product-info">
-                        <h3>Estantería Ålesund</h3>
-                        <p>Escalera con 6 compartimentos</p>
-                        <div class="price">$79,999</div>
-                        <button class="btn btn-view" data-id="23">Ver Producto</button>
-                    </div>
-                </div>
+                <button class="carousel-arrow next-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
             
-            <div class="products-grid hidden-products" id="estanterias-mas">
-                <div class="product-card" data-id="24">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Estantería Helsinki">
-                    </div>
-                    <div class="product-info">
-                        <h3>Estantería Helsinki</h3>
-                        <p>Corrediza de doble cara</p>
-                        <div class="price">$104,999</div>
-                        <button class="btn btn-view" data-id="24">Ver Producto</button>
-                    </div>
-                </div>
-                
-                <div class="product-card" data-id="25">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Estantería Copenhagen">
-                    </div>
-                    <div class="product-info">
-                        <h3>Estantería Copenhagen</h3>
-                        <p>Hexagonal modular</p>
-                        <div class="price">$89,999</div>
-                        <button class="btn btn-view" data-id="25">Ver Producto</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center">
-                <button class="btn btn-load-more" data-target="estanterias-mas">Ver más estanterías</button>
+            <div class="carousel-dots-container">
+                <span class="carousel-dot active" data-index="0"></span>
+                <span class="carousel-dot" data-index="1"></span>
+                <span class="carousel-dot" data-index="2"></span>
+                <span class="carousel-dot" data-index="3"></span>
+                <span class="carousel-dot" data-index="4"></span>
             </div>
         </div>
     </section>
