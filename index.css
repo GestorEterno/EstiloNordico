@@ -266,7 +266,7 @@ h1, h2, h3, h4 {
     transform: scale(1.2);
 }
 
-/* CARRUSEL DE PRODUCTOS */
+/* CARRUSEL DE PRODUCTOS - MODIFICADO */
 .products-carousel {
     position: relative;
     overflow: hidden;
@@ -277,14 +277,29 @@ h1, h2, h3, h4 {
 .products-carousel-track {
     display: flex;
     transition: transform 0.5s ease;
+    /* El ancho se calcula dinámicamente en JS */
 }
 
+/* MODIFICACIÓN IMPORTANTE: Cada slide ocupa 1/3 del ancho visible */
 .products-carousel-slide {
-    min-width: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    min-width: calc(100% / 3); /* Cada slide ocupa 1/3 del ancho visible */
+    display: flex;
+    justify-content: center;
     padding: 10px;
+    transition: opacity 0.3s ease;
+}
+
+/* Para pantallas pequeñas, ajustamos el número de slides visibles */
+@media (max-width: 992px) {
+    .products-carousel-slide {
+        min-width: 50%; /* 2 slides visibles en tablet */
+    }
+}
+
+@media (max-width: 768px) {
+    .products-carousel-slide {
+        min-width: 100%; /* 1 slide visible en móvil */
+    }
 }
 
 .products-carousel .carousel-btn {
@@ -376,6 +391,9 @@ h1, h2, h3, h4 {
     box-shadow: var(--shadow);
     transition: var(--transition);
     position: relative;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
 }
 
 .product-card:hover {
@@ -711,9 +729,8 @@ h1, h2, h3, h4 {
 
 /* RESPONSIVE */
 @media (max-width: 1200px) {
-    .products-carousel-slide {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
+    .products-carousel {
+        padding: 0 50px;
     }
 }
 
@@ -739,11 +756,11 @@ h1, h2, h3, h4 {
     }
     
     .products-carousel-slide {
-        grid-template-columns: repeat(2, 1fr);
+        min-width: 50%; /* 2 slides visibles en tablet */
     }
     
     .products-carousel {
-        padding: 0 50px;
+        padding: 0 40px;
     }
 }
 
@@ -829,12 +846,17 @@ h1, h2, h3, h4 {
     }
     
     .products-carousel-slide {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        min-width: 100%; /* 1 slide visible en móvil */
     }
     
     .products-carousel {
-        padding: 0 40px;
+        padding: 0 30px;
+    }
+    
+    .products-carousel .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
     }
 }
 
@@ -879,11 +901,5 @@ h1, h2, h3, h4 {
     
     .products-carousel {
         padding: 0 20px;
-    }
-    
-    .products-carousel .carousel-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
     }
 }
