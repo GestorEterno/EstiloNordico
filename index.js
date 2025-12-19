@@ -1,4 +1,4 @@
-// index.js - ESTILO NÓRDICO - CARRUSEL PERFECTO Y ULTRA FLUIDO (VERSIÓN CORREGIDA)
+// index.js - ESTILO NÓRDICO - CARRUSEL SIMPLE Y PERFECTO SIN BUGS
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
@@ -465,8 +465,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ===== CARRUSEL DE PRODUCTOS - VERSIÓN PERFECTA CORREGIDA =====
-    class ProductsCarousel {
+    // ===== CARRUSEL DE PRODUCTOS SIMPLE Y ROBUSTO =====
+    // ELIMINAMOS LA COMPLEJIDAD DEL EFECTO CIRCULAR
+    
+    class SimpleCarousel {
         constructor(container) {
             this.container = container;
             this.track = container.querySelector('.products-carousel-track');
@@ -475,109 +477,66 @@ document.addEventListener('DOMContentLoaded', function() {
             this.nextBtn = container.querySelector('.next-arrow');
             this.dots = container.querySelectorAll('.carousel-dot');
             
-            // Configuración mejorada
+            // Configuración simple
             this.currentIndex = 0;
-            this.originalCards = this.cards.length;
+            this.totalCards = this.cards.length;
             this.isAnimating = false;
             this.animationDuration = 400;
             this.cardWidth = 0;
             this.gap = 30;
+            this.cardsPerView = 3; // Por defecto
             
-            // Solo continuar si hay tarjetas
-            if (this.originalCards === 0) return;
-            
-            // Determinar si usar efecto circular
-            this.useCircular = this.originalCards > 1;
-            
-            if (this.useCircular) {
-                this.setupCircularEffect();
-            } else {
-                this.totalCards = this.originalCards;
-            }
+            if (this.totalCards === 0) return;
             
             this.init();
             this.calculateDimensions();
-        }
-        
-        setupCircularEffect() {
-            // Clonar primera y última tarjeta
-            const firstClone = this.cards[0].cloneNode(true);
-            const lastClone = this.cards[this.originalCards - 1].cloneNode(true);
-            
-            // Marcar clones para identificación
-            firstClone.classList.add('clone');
-            lastClone.classList.add('clone');
-            
-            // Agregar clones
-            this.track.appendChild(firstClone);
-            this.track.insertBefore(lastClone, this.cards[0]);
-            
-            // Actualizar lista
-            this.cards = Array.from(this.track.querySelectorAll('.product-card'));
-            this.totalCards = this.cards.length;
-            
-            // Posicionar en tarjeta real 1 (índice 1)
-            this.currentIndex = 1;
-            this.updatePosition(true);
+            this.updatePosition(true); // Posición inicial
         }
         
         init() {
             // Event listeners para botones
             if (this.prevBtn) {
-                this.prevBtn.addEventListener('click', () => this.safePrev());
+                this.prevBtn.addEventListener('click', () => this.prev());
             }
             
             if (this.nextBtn) {
-                this.nextBtn.addEventListener('click', () => this.safeNext());
+                this.nextBtn.addEventListener('click', () => this.next());
             }
             
             // Event listeners para dots
             this.dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => this.safeGoTo(index));
+                dot.addEventListener('click', () => this.goTo(index));
             });
             
-            // Control táctil mejorado
+            // Control táctil
             this.addTouchControls();
             
-            // Manejo de resize con debounce
-            this.handleResize = this.debounce(() => {
-                this.calculateDimensions();
-                this.updatePosition(true);
-            }, 250);
-            
-            window.addEventListener('resize', this.handleResize);
+            // Manejo de resize
+            window.addEventListener('resize', () => {
+                setTimeout(() => {
+                    this.calculateDimensions();
+                    this.updatePosition(true);
+                }, 100);
+            });
             
             // Estado inicial
             this.updateArrows();
             this.updateDots();
         }
         
-        debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-        
         calculateDimensions() {
             if (this.cards.length === 0) return;
             
-            // Obtener el ancho de la primera tarjeta visible
-            const visibleCards = this.track.querySelectorAll('.product-card:not(.clone)');
-            if (visibleCards.length === 0) return;
+            // Obtener el ancho de la primera tarjeta
+            if (this.cards[0].offsetWidth > 0) {
+                this.cardWidth = this.cards[0].offsetWidth;
+            }
             
-            const card = visibleCards[0];
-            this.cardWidth = card.offsetWidth;
-            
-            // Si aún no tenemos ancho, reintentar
-            if (this.cardWidth === 0) {
-                requestAnimationFrame(() => this.calculateDimensions());
-                return;
+            // Calcular cuántas tarjetas caben en la vista
+            const containerWidth = this.track.parentElement.offsetWidth;
+            if (containerWidth > 0 && this.cardWidth > 0) {
+                this.cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap));
+                this.cardsPerView = Math.max(1, this.cardsPerView);
             }
         }
         
@@ -596,7 +555,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 touchEndX = e.touches[0].clientX;
             }, { passive: true });
             
-            this.track.addEventListener('touchend', (e) => {
+            this.track.addEventListener('touchend', () => {
                 if (!touchMoved || this.isAnimating) return;
                 
                 const threshold = 50;
@@ -604,9 +563,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (Math.abs(difference) > threshold) {
                     if (difference > 0) {
-                        this.safeNext();
+                        this.next();
                     } else {
-                        this.safePrev();
+                        this.prev();
                     }
                 }
             }, { passive: true });
@@ -618,6 +577,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
+            // Calcular el desplazamiento máximo permitido
+            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
+            this.currentIndex = Math.min(this.currentIndex, maxIndex);
+            
             const offset = -this.currentIndex * (this.cardWidth + this.gap);
             
             if (instant) {
@@ -625,7 +588,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.track.style.transform = `translateX(${offset}px)`;
                 
                 // Forzar reflow
-                void this.track.offsetWidth;
+                void this.track.offsetHeight;
             } else {
                 this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
                 this.track.style.transform = `translateX(${offset}px)`;
@@ -638,103 +601,80 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDots() {
             if (!this.dots.length) return;
             
-            let realIndex;
+            // Calcular cuántos dots necesitamos basados en el número de "páginas"
+            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
+            const totalDots = Math.max(1, Math.ceil((this.totalCards) / this.cardsPerView));
             
-            if (this.useCircular) {
-                // Ajustar índice para efecto circular
-                if (this.currentIndex === 0) {
-                    realIndex = this.originalCards - 1;
-                } else if (this.currentIndex === this.totalCards - 1) {
-                    realIndex = 0;
-                } else {
-                    realIndex = this.currentIndex - 1;
-                }
-            } else {
-                realIndex = this.currentIndex;
+            // Asegurarnos de que tenemos suficientes dots
+            if (this.dots.length !== totalDots) {
+                // Los dots se manejan desde el HTML, así que ajustamos la visualización
+                this.dots.forEach((dot, index) => {
+                    dot.style.display = index < totalDots ? 'inline-block' : 'none';
+                });
             }
             
+            // Calcular qué dot está activo
+            const activeDotIndex = Math.floor(this.currentIndex / this.cardsPerView);
+            
             this.dots.forEach((dot, index) => {
-                const isActive = index === (realIndex % this.originalCards);
-                dot.classList.toggle('active', isActive);
+                dot.classList.toggle('active', index === activeDotIndex);
             });
         }
         
         updateArrows() {
             if (this.prevBtn) {
-                this.prevBtn.style.opacity = this.isAnimating ? '0.5' : '1';
-                this.prevBtn.style.cursor = this.isAnimating ? 'not-allowed' : 'pointer';
+                const isAtStart = this.currentIndex === 0;
+                this.prevBtn.style.opacity = isAtStart ? '0.3' : '1';
+                this.prevBtn.style.cursor = isAtStart ? 'not-allowed' : 'pointer';
             }
             
             if (this.nextBtn) {
-                this.nextBtn.style.opacity = this.isAnimating ? '0.5' : '1';
-                this.nextBtn.style.cursor = this.isAnimating ? 'not-allowed' : 'pointer';
+                const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
+                const isAtEnd = this.currentIndex >= maxIndex;
+                this.nextBtn.style.opacity = isAtEnd ? '0.3' : '1';
+                this.nextBtn.style.cursor = isAtEnd ? 'not-allowed' : 'pointer';
             }
         }
         
-        // ===== MÉTODOS SEGUROS PARA NAVEGACIÓN =====
-        safePrev() {
+        prev() {
             if (this.isAnimating) return;
             
             this.isAnimating = true;
-            this.currentIndex--;
+            this.currentIndex = Math.max(0, this.currentIndex - 1);
             
             this.updatePosition();
             
-            // Auto-reset después de la animación
-            setTimeout(() => {
-                this.isAnimating = false;
-                this.handleCircularTransition();
-            }, this.animationDuration);
-        }
-        
-        safeNext() {
-            if (this.isAnimating) return;
-            
-            this.isAnimating = true;
-            this.currentIndex++;
-            
-            this.updatePosition();
-            
-            // Auto-reset después de la animación
-            setTimeout(() => {
-                this.isAnimating = false;
-                this.handleCircularTransition();
-            }, this.animationDuration);
-        }
-        
-        safeGoTo(index) {
-            if (this.isAnimating) return;
-            
-            const targetIndex = Math.max(0, Math.min(index, this.originalCards - 1));
-            
-            if (this.useCircular) {
-                this.currentIndex = targetIndex + 1;
-            } else {
-                this.currentIndex = targetIndex;
-            }
-            
-            this.isAnimating = true;
-            this.updatePosition();
-            
-            // Auto-reset después de la animación
             setTimeout(() => {
                 this.isAnimating = false;
             }, this.animationDuration);
         }
         
-        handleCircularTransition() {
-            if (!this.useCircular || this.isAnimating) return;
+        next() {
+            if (this.isAnimating) return;
             
-            // Si estamos en el clon del final (última posición)
-            if (this.currentIndex === this.totalCards - 1) {
-                this.currentIndex = 1;
-                this.updatePosition(true);
-            }
-            // Si estamos en el clon del principio (primera posición)
-            else if (this.currentIndex === 0) {
-                this.currentIndex = this.originalCards;
-                this.updatePosition(true);
-            }
+            this.isAnimating = true;
+            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
+            this.currentIndex = Math.min(maxIndex, this.currentIndex + 1);
+            
+            this.updatePosition();
+            
+            setTimeout(() => {
+                this.isAnimating = false;
+            }, this.animationDuration);
+        }
+        
+        goTo(index) {
+            if (this.isAnimating) return;
+            
+            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
+            this.currentIndex = Math.min(maxIndex, index * this.cardsPerView);
+            
+            this.isAnimating = true;
+            this.updatePosition();
+            
+            setTimeout(() => {
+                this.isAnimating = false;
+            }, this.animationDuration);
         }
     }
 
@@ -907,25 +847,25 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ===== INICIALIZACIÓN CARRUSELES DE PRODUCTOS =====
+    // Usamos SimpleCarousel en lugar de la versión circular compleja
+    
     const productContainers = document.querySelectorAll('.products-carousel-container');
     const carousels = [];
     
-    // Función para inicializar carruseles después de que las imágenes se carguen
+    // Esperar a que las imágenes se carguen para calcular dimensiones correctamente
     function initializeCarousels() {
         productContainers.forEach(container => {
-            const carousel = new ProductsCarousel(container);
+            const carousel = new SimpleCarousel(container);
             carousels.push(carousel);
         });
         
-        console.log('✅ Carruseles inicializados correctamente');
+        console.log('✅ Carruseles SIMPLES inicializados correctamente');
     }
     
-    // Esperar a que todas las imágenes críticas se carguen
     window.addEventListener('load', () => {
         setTimeout(initializeCarousels, 100);
     });
     
-    // También inicializar si ya están cargadas
     if (document.readyState === 'complete') {
         setTimeout(initializeCarousels, 100);
     }
@@ -949,5 +889,5 @@ document.addEventListener('DOMContentLoaded', function() {
         updateNotificationCount();
     }
 
-    console.log('✅ Estilo Nórdico - CARRUSEL PERFECTO INICIALIZADO - VERSIÓN CORREGIDA');
+    console.log('✅ Estilo Nórdico - CARRUSEL SIMPLE Y PERFECTO INICIALIZADO');
 });
