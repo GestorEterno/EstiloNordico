@@ -1,4 +1,4 @@
-// script.js - ESTILO NÓRDICO - HEADER REDISEÑADO PERFECTO
+// script.js - ESTILO NÓRDICO - HEADER REDISEÑADO PERFECTO CON CARRUSEL CIRCULAR INFINITO
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
@@ -467,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ===== CLASE CARRUSEL DE PRODUCTOS =====
+    // ===== CLASE CARRUSEL DE PRODUCTOS - CIRCULAR INFINITO =====
     class ProductsCarousel {
         constructor(container) {
             this.container = container;
@@ -477,11 +477,34 @@ document.addEventListener('DOMContentLoaded', function() {
             this.nextBtn = container.querySelector('.next-arrow');
             this.dots = container.querySelectorAll('.carousel-dot');
             
+            // Configuración para efecto circular
             this.currentIndex = 0;
             this.totalCards = this.cards.length;
+            this.isAnimating = false;
+            this.animationDuration = 500;
             
+            // Duplicar tarjetas para efecto infinito (solo 2 extra, no todas)
+            this.setupCircularEffect();
             this.init();
             this.calculateDimensions();
+        }
+        
+        setupCircularEffect() {
+            // Solo duplicamos las tarjetas necesarias para el efecto
+            const firstCard = this.cards[0].cloneNode(true);
+            const lastCard = this.cards[this.totalCards - 1].cloneNode(true);
+            
+            // Agregar al principio y final
+            this.track.appendChild(firstCard);
+            this.track.insertBefore(lastCard, this.track.firstChild);
+            
+            // Actualizar lista de tarjetas
+            this.cards = Array.from(this.track.querySelectorAll('.product-card'));
+            this.totalCards = this.cards.length;
+            
+            // Posicionar en la tarjeta real 1 (índice 1 porque añadimos una al principio)
+            this.currentIndex = 1;
+            this.updatePosition(true); // Instantáneo
         }
         
         init() {
@@ -536,6 +559,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         handleSwipe(startX, endX, threshold) {
+            if (this.isAnimating) return;
+            
             const difference = startX - endX;
             
             if (Math.abs(difference) > threshold) {
@@ -553,8 +578,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 100);
         }
         
-        updatePosition() {
-            if (this.cards.length === 0) return;
+        updatePosition(instant = false) {
+            if (this.cards.length === 0 || this.isAnimating) return;
             
             const cardStyle = window.getComputedStyle(this.cards[0]);
             const trackStyle = window.getComputedStyle(this.track);
@@ -562,7 +587,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const gap = parseInt(trackStyle.gap) || 30;
             
             const offset = -this.currentIndex * (cardWidth + gap);
+            
+            if (instant) {
+                this.track.style.transition = 'none';
+            } else {
+                this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+            }
+            
             this.track.style.transform = `translateX(${offset}px)`;
+            
+            // Forzar reflow para transición instantánea
+            if (instant) {
+                this.track.offsetHeight;
+            }
             
             this.updateDots();
             this.updateArrows();
@@ -571,10 +608,11 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDots() {
             if (!this.dots.length) return;
             
-            const maxSlides = Math.max(0, this.totalCards - this.cardsPerView + 1);
+            const maxSlides = Math.max(0, (this.totalCards - 2) - this.cardsPerView + 1);
+            const adjustedIndex = this.currentIndex - 1; // Ajustar por tarjeta clonada al inicio
             
             this.dots.forEach((dot, index) => {
-                const isActive = index === this.currentIndex;
+                const isActive = index === (adjustedIndex % (this.totalCards - 2));
                 dot.classList.toggle('active', isActive);
                 
                 if (index < maxSlides) {
@@ -587,35 +625,75 @@ document.addEventListener('DOMContentLoaded', function() {
         
         updateArrows() {
             if (this.prevBtn) {
-                this.prevBtn.disabled = this.currentIndex === 0;
+                this.prevBtn.disabled = this.isAnimating;
             }
             
             if (this.nextBtn) {
-                const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
-                this.nextBtn.disabled = this.currentIndex >= maxIndex;
+                this.nextBtn.disabled = this.isAnimating;
             }
         }
         
         prev() {
-            if (this.currentIndex > 0) {
-                this.currentIndex--;
-                this.updatePosition();
+            if (this.isAnimating) return;
+            
+            this.isAnimating = true;
+            this.currentIndex--;
+            
+            // Si llegamos al clon del principio, saltar al final real
+            if (this.currentIndex === 0) {
+                setTimeout(() => {
+                    this.track.style.transition = 'none';
+                    this.currentIndex = this.totalCards - 2; // Saltar al penúltimo (último real)
+                    this.updatePosition(true);
+                    
+                    setTimeout(() => {
+                        this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+                        this.isAnimating = false;
+                    }, 50);
+                }, this.animationDuration);
+            } else {
+                setTimeout(() => {
+                    this.isAnimating = false;
+                }, this.animationDuration);
             }
+            
+            this.updatePosition();
         }
         
         next() {
-            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
-            if (this.currentIndex < maxIndex) {
-                this.currentIndex++;
-                this.updatePosition();
+            if (this.isAnimating) return;
+            
+            this.isAnimating = true;
+            this.currentIndex++;
+            
+            // Si llegamos al clon del final, saltar al principio real
+            if (this.currentIndex >= this.totalCards - 1) {
+                setTimeout(() => {
+                    this.track.style.transition = 'none';
+                    this.currentIndex = 1; // Saltar al segundo (primero real)
+                    this.updatePosition(true);
+                    
+                    setTimeout(() => {
+                        this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+                        this.isAnimating = false;
+                    }, 50);
+                }, this.animationDuration);
+            } else {
+                setTimeout(() => {
+                    this.isAnimating = false;
+                }, this.animationDuration);
             }
+            
+            this.updatePosition();
         }
         
         goTo(index) {
-            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
+            if (this.isAnimating) return;
+            
+            const maxIndex = Math.max(0, (this.totalCards - 2) - this.cardsPerView);
             const validIndex = Math.max(0, Math.min(index, maxIndex));
             
-            this.currentIndex = validIndex;
+            this.currentIndex = validIndex + 1; // +1 por tarjeta clonada al inicio
             this.updatePosition();
         }
     }
@@ -833,5 +911,5 @@ document.addEventListener('DOMContentLoaded', function() {
         updateNotificationCount();
     }
 
-    console.log('✅ Estilo Nórdico - HEADER REDISEÑADO CARGADO PERFECTAMENTE');
+    console.log('✅ Estilo Nórdico - HEADER REDISEÑADO CARGADO PERFECTAMENTE CON CARRUSEL CIRCULAR INFINITO');
 });
