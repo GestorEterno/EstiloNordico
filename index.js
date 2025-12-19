@@ -1,4 +1,4 @@
-// index.js - ESTILO NÓRDICO - HEADER REDISEÑADO PERFECTO CON CARRUSEL CIRCULAR INFINITO MEJORADO
+// index.js - ESTILO NÓRDICO - CARRUSEL PERFECTO Y ULTRA FLUIDO
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
@@ -315,7 +315,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Buscar en los productos
         const results = [];
         Object.keys(products).forEach(key => {
             const product = products[key];
@@ -327,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         if (results.length > 0) {
-            // Abrir el primer resultado
             openProductModal(results[0].id);
             searchInput.value = '';
         } else {
@@ -345,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 2. CARRITO (Simulación - luego Firebase)
+    // 2. CARRITO
     let cart = JSON.parse(localStorage.getItem('nordic_cart')) || [];
     
     function updateCartCount() {
@@ -398,7 +396,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 4. LOGIN
     if (loginBtn) {
         loginBtn.addEventListener('click', () => {
-            alert('Funcionalidad de login - Preparada para conectar con Firebase Authentication\n\nEn la siguiente versión implementaremos:\n• Login con email/password\n• Login con Google\n• Registro de usuarios\n• Recuperación de contraseña');
+            alert('Funcionalidad de login - Preparada para conectar con Firebase Authentication');
         });
     }
     
@@ -467,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ===== CLASE CARRUSEL DE PRODUCTOS - CIRCULAR INFINITO MEJORADO =====
+    // ===== CARRUSEL DE PRODUCTOS - VERSIÓN PERFECTA =====
     class ProductsCarousel {
         constructor(container) {
             this.container = container;
@@ -477,21 +475,22 @@ document.addEventListener('DOMContentLoaded', function() {
             this.nextBtn = container.querySelector('.next-arrow');
             this.dots = container.querySelectorAll('.carousel-dot');
             
-            // Configuración
+            // Configuración básica
             this.currentIndex = 0;
-            this.totalCards = this.cards.length;
+            this.originalCards = this.cards.length;
             this.isAnimating = false;
             this.animationDuration = 500;
-            this.transitionTimeout = null;
-            this.jumpTimeout = null;
-            this.useInfiniteScroll = this.cards.length > 1;
             
             // Solo continuar si hay tarjetas
-            if (this.totalCards === 0) return;
+            if (this.originalCards === 0) return;
             
-            // Configurar efecto circular si hay más de 1 tarjeta
-            if (this.useInfiniteScroll && this.totalCards > 1) {
+            // Determinar si usar efecto circular
+            this.useCircular = this.originalCards > 1;
+            
+            if (this.useCircular) {
                 this.setupCircularEffect();
+            } else {
+                this.totalCards = this.originalCards;
             }
             
             this.init();
@@ -499,39 +498,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         setupCircularEffect() {
-            // Clonar la primera y última tarjeta para efecto infinito
-            const firstCard = this.cards[0].cloneNode(true);
-            const lastCard = this.cards[this.totalCards - 1].cloneNode(true);
+            // Clonar primera y última tarjeta
+            const firstClone = this.cards[0].cloneNode(true);
+            const lastClone = this.cards[this.originalCards - 1].cloneNode(true);
             
-            // Agregar al final y al principio
-            this.track.appendChild(firstCard);
-            this.track.insertBefore(lastCard, this.track.firstChild);
+            // Agregar clones
+            this.track.appendChild(firstClone);
+            this.track.insertBefore(lastClone, this.cards[0]);
             
-            // Actualizar lista de tarjetas
+            // Actualizar lista
             this.cards = Array.from(this.track.querySelectorAll('.product-card'));
             this.totalCards = this.cards.length;
             
-            // Posicionar en la tarjeta real 1 (índice 1 porque añadimos una al principio)
+            // Posicionar en tarjeta real 1 (índice 1)
             this.currentIndex = 1;
             this.updatePosition(true);
         }
         
         init() {
-            console.log('Inicializando carrusel con', this.totalCards, 'tarjetas, infinito:', this.useInfiniteScroll);
-            
             // Event listeners para botones
             if (this.prevBtn) {
-                this.prevBtn.addEventListener('click', () => {
-                    console.log('Clic en prev');
-                    this.prev();
-                });
+                this.prevBtn.addEventListener('click', () => this.prev());
             }
             
             if (this.nextBtn) {
-                this.nextBtn.addEventListener('click', () => {
-                    console.log('Clic en next');
-                    this.next();
-                });
+                this.nextBtn.addEventListener('click', () => this.next());
             }
             
             // Event listeners para dots
@@ -539,46 +530,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 dot.addEventListener('click', () => this.goTo(index));
             });
             
-            // Event listeners para touch
+            // Evento para detectar fin de transición
+            this.track.addEventListener('transitionend', () => this.handleTransitionEnd());
+            
+            // Control táctil
             this.addTouchControls();
             
-            // Event listener para resize
+            // Manejo de resize
             window.addEventListener('resize', () => this.handleResize());
             
-            // Inicializar estado
+            // Estado inicial
             this.updateArrows();
             this.updateDots();
-            
-            // Event listener para transición completada
-            this.track.addEventListener('transitionend', () => {
-                this.handleTransitionEnd();
-            });
         }
         
         calculateDimensions() {
             if (this.cards.length === 0) return;
             
-            const cardStyle = window.getComputedStyle(this.cards[0]);
-            const trackStyle = window.getComputedStyle(this.track);
             const cardWidth = this.cards[0].offsetWidth;
             const trackWidth = this.track.offsetWidth;
-            const gap = parseInt(trackStyle.gap) || 30;
+            const gap = 30;
             
             if (cardWidth === 0) {
-                console.warn('Carrusel no visible, reintentando cálculo...');
                 setTimeout(() => this.calculateDimensions(), 100);
                 return;
             }
             
             this.cardsPerView = Math.floor(trackWidth / (cardWidth + gap));
             this.cardsPerView = Math.max(1, this.cardsPerView);
-            
-            console.log('Dimensiones calculadas:', {
-                cardsPerView: this.cardsPerView,
-                cardWidth: cardWidth,
-                trackWidth: trackWidth,
-                gap: gap
-            });
         }
         
         addTouchControls() {
@@ -613,17 +592,14 @@ document.addEventListener('DOMContentLoaded', function() {
         handleResize() {
             setTimeout(() => {
                 this.calculateDimensions();
-                this.updatePosition(true);
             }, 100);
         }
         
         updatePosition(instant = false) {
             if (this.cards.length === 0) return;
             
-            const cardStyle = window.getComputedStyle(this.cards[0]);
-            const trackStyle = window.getComputedStyle(this.track);
             const cardWidth = this.cards[0].offsetWidth;
-            const gap = parseInt(trackStyle.gap) || 30;
+            const gap = 30;
             
             if (cardWidth === 0) {
                 setTimeout(() => this.updatePosition(instant), 100);
@@ -640,7 +616,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             this.track.style.transform = `translateX(${offset}px)`;
             
-            // Forzar reflow para transición instantánea
+            // Forzar reflow si es instantáneo
             if (instant) {
                 this.track.offsetHeight;
             }
@@ -652,173 +628,81 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDots() {
             if (!this.dots.length) return;
             
-            const maxSlides = Math.max(0, (this.totalCards - 2) - this.cardsPerView + 1);
-            const adjustedIndex = this.currentIndex - 1;
+            const realIndex = this.currentIndex - 1;
+            const adjustedIndex = realIndex < 0 ? this.originalCards - 1 : realIndex;
             
             this.dots.forEach((dot, index) => {
-                const realIndex = adjustedIndex < 0 ? (this.totalCards - 2) + adjustedIndex : adjustedIndex;
-                const isActive = index === (realIndex % (this.totalCards - 2));
+                const isActive = index === (adjustedIndex % this.originalCards);
                 dot.classList.toggle('active', isActive);
-                
-                if (index < maxSlides) {
-                    dot.style.display = 'block';
-                } else {
-                    dot.style.display = 'none';
-                }
             });
         }
         
         updateArrows() {
-            if (this.prevBtn) {
-                this.prevBtn.disabled = this.isAnimating;
-            }
-            
-            if (this.nextBtn) {
-                this.nextBtn.disabled = this.isAnimating;
-            }
+            if (this.prevBtn) this.prevBtn.disabled = this.isAnimating;
+            if (this.nextBtn) this.nextBtn.disabled = this.isAnimating;
         }
         
-        // ===== MÉTODO PREV MEJORADO =====
+        // ===== LÓGICA PERFECTA DE TRANSICIÓN =====
+        handleTransitionEnd() {
+            if (!this.useCircular) {
+                this.isAnimating = false;
+                this.updateArrows();
+                return;
+            }
+            
+            // Verificar si estamos en un clon
+            if (this.currentIndex === 0) {
+                // Estamos en el clon del principio, saltar al final real
+                this.jumpToRealCard(this.originalCards);
+            } else if (this.currentIndex === this.totalCards - 1) {
+                // Estamos en el clon del final, saltar al principio real
+                this.jumpToRealCard(1);
+            }
+            
+            this.isAnimating = false;
+            this.updateArrows();
+        }
+        
+        jumpToRealCard(newIndex) {
+            // Desactivar transiciones
+            this.track.style.transition = 'none';
+            this.currentIndex = newIndex;
+            this.updatePosition(true);
+            
+            // Reactivar transiciones en el próximo frame
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+                });
+            });
+        }
+        
         prev() {
             if (this.isAnimating) return;
             
-            console.log('prev: currentIndex antes:', this.currentIndex);
             this.isAnimating = true;
             this.updateArrows();
             
             this.currentIndex--;
-            
-            // Si no usa scroll infinito, verificar límites
-            if (!this.useInfiniteScroll) {
-                if (this.currentIndex < 0) {
-                    this.currentIndex = 0;
-                    this.isAnimating = false;
-                    this.updateArrows();
-                    return;
-                }
-                this.updatePosition();
-                
-                clearTimeout(this.transitionTimeout);
-                this.transitionTimeout = setTimeout(() => {
-                    this.isAnimating = false;
-                    this.updateArrows();
-                }, this.animationDuration);
-                return;
-            }
-            
-            // Lógica para scroll infinito
-            if (this.currentIndex < 0) {
-                console.log('Llegó al clon del principio');
-                
-                // Mover a la posición del clon
-                this.updatePosition();
-                
-                // Después de la transición, saltar al final real
-                clearTimeout(this.transitionTimeout);
-                this.transitionTimeout = setTimeout(() => {
-                    this.track.style.transition = 'none';
-                    this.currentIndex = this.totalCards - 3; // Saltar al penúltimo real
-                    console.log('prev: currentIndex después del salto:', this.currentIndex);
-                    this.updatePosition(true);
-                    
-                    clearTimeout(this.jumpTimeout);
-                    this.jumpTimeout = setTimeout(() => {
-                        this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
-                        this.isAnimating = false;
-                        this.updateArrows();
-                    }, 50);
-                }, this.animationDuration);
-            } else {
-                // Movimiento normal
-                this.updatePosition();
-                
-                clearTimeout(this.transitionTimeout);
-                this.transitionTimeout = setTimeout(() => {
-                    this.isAnimating = false;
-                    this.updateArrows();
-                }, this.animationDuration);
-            }
+            this.updatePosition();
         }
         
-        // ===== MÉTODO NEXT MEJORADO =====
         next() {
             if (this.isAnimating) return;
             
-            console.log('next: currentIndex antes:', this.currentIndex);
             this.isAnimating = true;
             this.updateArrows();
             
             this.currentIndex++;
-            
-            // Si no usa scroll infinito, verificar límites
-            if (!this.useInfiniteScroll) {
-                const maxIndex = this.totalCards - this.cardsPerView;
-                if (this.currentIndex > maxIndex) {
-                    this.currentIndex = maxIndex;
-                    this.isAnimating = false;
-                    this.updateArrows();
-                    return;
-                }
-                this.updatePosition();
-                
-                clearTimeout(this.transitionTimeout);
-                this.transitionTimeout = setTimeout(() => {
-                    this.isAnimating = false;
-                    this.updateArrows();
-                }, this.animationDuration);
-                return;
-            }
-            
-            // Lógica para scroll infinito
-            if (this.currentIndex > this.totalCards - 2) {
-                console.log('Llegó al clon del final');
-                
-                // Mover a la posición del clon
-                this.updatePosition();
-                
-                // Después de la transición, saltar al principio real
-                clearTimeout(this.transitionTimeout);
-                this.transitionTimeout = setTimeout(() => {
-                    this.track.style.transition = 'none';
-                    this.currentIndex = 1; // Saltar al segundo (primero real)
-                    console.log('next: currentIndex después del salto:', this.currentIndex);
-                    this.updatePosition(true);
-                    
-                    clearTimeout(this.jumpTimeout);
-                    this.jumpTimeout = setTimeout(() => {
-                        this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
-                        this.isAnimating = false;
-                        this.updateArrows();
-                    }, 50);
-                }, this.animationDuration);
-            } else {
-                // Movimiento normal
-                this.updatePosition();
-                
-                clearTimeout(this.transitionTimeout);
-                this.transitionTimeout = setTimeout(() => {
-                    this.isAnimating = false;
-                    this.updateArrows();
-                }, this.animationDuration);
-            }
+            this.updatePosition();
         }
         
         goTo(index) {
             if (this.isAnimating) return;
             
-            const maxIndex = Math.max(0, (this.totalCards - 2) - this.cardsPerView);
-            const validIndex = Math.max(0, Math.min(index, maxIndex));
-            
+            const validIndex = Math.max(0, Math.min(index, this.originalCards - 1));
             this.currentIndex = validIndex + 1;
             this.updatePosition();
-        }
-        
-        handleTransitionEnd() {
-            // Esta función se llama automáticamente cuando termina la transición CSS
-            // Es un respaldo para asegurar que isAnimating se restablezca
-            this.isAnimating = false;
-            this.updateArrows();
-            console.log('Transición completada, isAnimating:', this.isAnimating);
         }
     }
 
@@ -830,11 +714,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Actualizar contenido
         document.getElementById('modalTitle').textContent = product.name;
         document.getElementById('modalCategory').textContent = product.category;
         document.getElementById('modalPrice').textContent = product.price;
         document.getElementById('modalDescription').textContent = product.description;
 
+        // Actualizar imágenes
         const mainImg = document.getElementById('modalImage');
         const thumbs = document.querySelectorAll('.thumb');
         
@@ -860,6 +746,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // Actualizar especificaciones
         const specsList = document.getElementById('modalSpecs');
         specsList.innerHTML = '';
         product.specs.forEach(spec => {
@@ -868,17 +755,19 @@ document.addEventListener('DOMContentLoaded', function() {
             specsList.appendChild(li);
         });
 
+        // Configurar WhatsApp
         const encodedMessage = encodeURIComponent(product.whatsappMessage);
         whatsappBtn.onclick = () => {
             window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
         };
 
+        // Mostrar modal
         productModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
         
+        // Scroll al inicio
         setTimeout(() => {
             productModal.scrollTop = 0;
-            document.querySelector('.modal-container').scrollTop = 0;
         }, 10);
     }
 
@@ -921,8 +810,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    heroTrack.addEventListener('touchstart', handleHeroTouchStart, { passive: true });
-    heroTrack.addEventListener('touchend', handleHeroTouchEnd, { passive: true });
+    if (heroTrack) {
+        heroTrack.addEventListener('touchstart', handleHeroTouchStart, { passive: true });
+        heroTrack.addEventListener('touchend', handleHeroTouchEnd, { passive: true });
+    }
 
     // ===== EVENT LISTENERS MODAL =====
     document.addEventListener('click', (e) => {
@@ -991,7 +882,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const carousel = new ProductsCarousel(container);
         carousels.push(carousel);
         
-        // Esperar a que las imágenes se carguen para recalcular dimensiones
+        // Esperar carga de imágenes
         const images = container.querySelectorAll('img');
         let loadedImages = 0;
         
@@ -1002,7 +893,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 img.addEventListener('load', () => {
                     loadedImages++;
                     if (loadedImages === images.length) {
-                        console.log('Todas las imágenes cargadas, recalculando dimensiones');
                         carousel.handleResize();
                     }
                 });
@@ -1011,18 +901,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (loadedImages === images.length) {
             setTimeout(() => {
-                console.log('Imágenes ya cargadas, recalculando dimensiones');
                 carousel.handleResize();
             }, 100);
         }
     });
     
     // ===== MANEJO DE RESIZE GLOBAL =====
-    let globalResizeTimeout;
+    let resizeTimeout;
     window.addEventListener('resize', () => {
-        clearTimeout(globalResizeTimeout);
-        globalResizeTimeout = setTimeout(() => {
-            console.log('Resize global, recalculando carruseles');
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
             carousels.forEach(carousel => {
                 if (carousel && typeof carousel.handleResize === 'function') {
                     carousel.handleResize();
@@ -1043,15 +931,12 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCartCount();
     updateNotificationCount();
 
-    // Cargar notificaciones desde localStorage si existen
+    // Cargar notificaciones desde localStorage
     const savedNotifications = localStorage.getItem('nordic_notifications');
     if (savedNotifications) {
         notifications = JSON.parse(savedNotifications);
         updateNotificationCount();
     }
 
-    console.log('✅ Estilo Nórdico - HEADER REDISEÑADO CARGADO PERFECTAMENTE CON CARRUSEL CIRCULAR INFINITO MEJORADO');
-    console.log('🚀 Sistema inicializado correctamente');
-    console.log('📱 Carruseles de productos:', carousels.length);
-    console.log('🛒 Productos en base de datos:', Object.keys(products).length);
+    console.log('✅ Estilo Nórdico - CARRUSEL PERFECTO INICIALIZADO');
 });
