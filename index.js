@@ -1,14 +1,23 @@
-// script.js - ESTILO NÓRDICO - PRODUCTOS REALES
+// script.js - ESTILO NÓRDICO - HEADER REDISEÑADO PERFECTO
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
     const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
+    const headerBottom = document.querySelector('.header-bottom');
     const navLinks = document.querySelectorAll('.nav-link');
     const productModal = document.getElementById('productModal');
     const closeModalBtn = document.querySelector('.modal-close');
     const closeModalBtn2 = document.querySelector('.btn-close-modal');
     const whatsappBtn = document.getElementById('whatsappBtn');
+    
+    // ===== ELEMENTOS DEL HEADER REDISEÑADO =====
+    const searchInput = document.querySelector('.search-input');
+    const searchBtn = document.querySelector('.search-btn');
+    const cartBtn = document.getElementById('cartBtn');
+    const notificationBtn = document.getElementById('notificationBtn');
+    const loginBtn = document.getElementById('loginBtn');
+    const cartCount = document.querySelector('.cart-count');
+    const notificationCount = document.querySelector('.notification-count');
     
     // ===== CARRUSEL HERO =====
     const heroTrack = document.querySelector('.carousel-track');
@@ -296,6 +305,103 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    // ===== FUNCIONALIDADES DEL HEADER REDISEÑADO =====
+    
+    // 1. BUSCADOR
+    function handleSearch() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        if (!searchTerm) {
+            alert('Por favor, ingresa un término de búsqueda.');
+            return;
+        }
+        
+        // Buscar en los productos
+        const results = [];
+        Object.keys(products).forEach(key => {
+            const product = products[key];
+            if (product.name.toLowerCase().includes(searchTerm) || 
+                product.category.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm)) {
+                results.push({ id: key, ...product });
+            }
+        });
+        
+        if (results.length > 0) {
+            // Abrir el primer resultado
+            openProductModal(results[0].id);
+            searchInput.value = '';
+        } else {
+            alert('No se encontraron productos con ese término de búsqueda.');
+        }
+    }
+    
+    if (searchBtn) {
+        searchBtn.addEventListener('click', handleSearch);
+    }
+    
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSearch();
+        });
+    }
+    
+    // 2. CARRITO (Simulación - luego Firebase)
+    let cart = JSON.parse(localStorage.getItem('nordic_cart')) || [];
+    
+    function updateCartCount() {
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCount.textContent = totalItems;
+        localStorage.setItem('nordic_cart', JSON.stringify(cart));
+    }
+    
+    if (cartBtn) {
+        cartBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío. Agrega productos para continuar.');
+            } else {
+                alert(`Carrito de compras:\n\n${cart.map(item => `• ${item.name} x${item.quantity}`).join('\n')}`);
+            }
+        });
+    }
+    
+    // 3. NOTIFICACIONES
+    let notifications = [
+        { id: 1, text: '¡Nuevo producto disponible!', read: false },
+        { id: 2, text: 'Oferta especial en escritorios', read: false },
+        { id: 3, text: 'Envío gratis en compras superiores a $300.000', read: false }
+    ];
+    
+    function updateNotificationCount() {
+        const unread = notifications.filter(n => !n.read).length;
+        notificationCount.textContent = unread;
+        localStorage.setItem('nordic_notifications', JSON.stringify(notifications));
+    }
+    
+    if (notificationBtn) {
+        notificationBtn.addEventListener('click', () => {
+            if (notifications.length === 0) {
+                alert('No hay notificaciones nuevas');
+                return;
+            }
+            
+            const unreadNotifications = notifications.filter(n => !n.read);
+            if (unreadNotifications.length > 0) {
+                alert('Notificaciones:\n\n' + unreadNotifications.map(n => `• ${n.text}`).join('\n'));
+                notifications.forEach(n => n.read = true);
+                updateNotificationCount();
+            } else {
+                alert('No hay notificaciones nuevas');
+            }
+        });
+    }
+    
+    // 4. LOGIN
+    if (loginBtn) {
+        loginBtn.addEventListener('click', () => {
+            alert('Funcionalidad de login - Preparada para conectar con Firebase Authentication\n\nEn la siguiente versión implementaremos:\n• Login con email/password\n• Login con Google\n• Registro de usuarios\n• Recuperación de contraseña');
+        });
+    }
+    
     // ===== FUNCIONES DEL CARRUSEL HERO =====
     function updateHeroCarousel() {
         heroTrack.style.transform = `translateX(-${heroCurrentSlide * 100}%)`;
@@ -371,17 +477,14 @@ document.addEventListener('DOMContentLoaded', function() {
             this.nextBtn = container.querySelector('.next-arrow');
             this.dots = container.querySelectorAll('.carousel-dot');
             
-            // Calcular dimensiones
             this.currentIndex = 0;
             this.totalCards = this.cards.length;
             
-            // Inicializar
             this.init();
             this.calculateDimensions();
         }
         
         init() {
-            // Event listeners para flechas
             if (this.prevBtn) {
                 this.prevBtn.addEventListener('click', () => this.prev());
             }
@@ -390,24 +493,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.nextBtn.addEventListener('click', () => this.next());
             }
             
-            // Event listeners para dots
             this.dots.forEach((dot, index) => {
                 dot.addEventListener('click', () => this.goTo(index));
             });
             
-            // Control táctil
             this.addTouchControls();
-            
-            // Responsive
             window.addEventListener('resize', () => this.handleResize());
             
-            // Actualizar visibilidad de flechas inicial
             this.updateArrows();
             this.updateDots();
         }
         
         calculateDimensions() {
-            // Calcular cuántos productos caben en la pantalla
             if (this.cards.length === 0) return;
             
             const cardStyle = window.getComputedStyle(this.cards[0]);
@@ -417,13 +514,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const trackWidth = this.track.offsetWidth;
             const gap = parseInt(trackStyle.gap) || 30;
             
-            // Calcular cuántos productos caben
             this.cardsPerView = Math.floor(trackWidth / (cardWidth + gap));
-            
-            // Asegurar que cardsPerView sea al menos 1
             this.cardsPerView = Math.max(1, this.cardsPerView);
             
-            // Actualizar posición
             this.updatePosition();
         }
         
@@ -468,11 +561,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const cardWidth = this.cards[0].offsetWidth;
             const gap = parseInt(trackStyle.gap) || 30;
             
-            // Calcular desplazamiento
             const offset = -this.currentIndex * (cardWidth + gap);
             this.track.style.transform = `translateX(${offset}px)`;
             
-            // Actualizar UI
             this.updateDots();
             this.updateArrows();
         }
@@ -480,14 +571,12 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDots() {
             if (!this.dots.length) return;
             
-            // Calcular número máximo de slides
             const maxSlides = Math.max(0, this.totalCards - this.cardsPerView + 1);
             
             this.dots.forEach((dot, index) => {
                 const isActive = index === this.currentIndex;
                 dot.classList.toggle('active', isActive);
                 
-                // Mostrar solo los dots necesarios
                 if (index < maxSlides) {
                     dot.style.display = 'block';
                 } else {
@@ -523,7 +612,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         goTo(index) {
-            // Validar índice
             const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
             const validIndex = Math.max(0, Math.min(index, maxIndex));
             
@@ -540,13 +628,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Actualizar contenido
         document.getElementById('modalTitle').textContent = product.name;
         document.getElementById('modalCategory').textContent = product.category;
         document.getElementById('modalPrice').textContent = product.price;
         document.getElementById('modalDescription').textContent = product.description;
 
-        // Actualizar imágenes
         const mainImg = document.getElementById('modalImage');
         const thumbs = document.querySelectorAll('.thumb');
         
@@ -572,7 +658,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Actualizar especificaciones
         const specsList = document.getElementById('modalSpecs');
         specsList.innerHTML = '';
         product.specs.forEach(spec => {
@@ -581,17 +666,14 @@ document.addEventListener('DOMContentLoaded', function() {
             specsList.appendChild(li);
         });
 
-        // Configurar botón de WhatsApp
         const encodedMessage = encodeURIComponent(product.whatsappMessage);
         whatsappBtn.onclick = () => {
             window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
         };
 
-        // Mostrar modal - Pantalla completa
         productModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
         
-        // Forzar scroll al inicio
         setTimeout(() => {
             productModal.scrollTop = 0;
             document.querySelector('.modal-container').scrollTop = 0;
@@ -603,17 +685,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = '';
     }
 
-    // ===== MENÚ HAMBURGUESA =====
+    // ===== MENÚ HAMBURGUESA (Nueva estructura) =====
     hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-        document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        headerBottom.classList.toggle('active');
+        document.body.style.overflow = headerBottom.classList.contains('active') ? 'hidden' : '';
     });
 
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+            headerBottom.classList.remove('active');
             document.body.style.overflow = '';
         });
     });
@@ -635,12 +717,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Control táctil hero
     heroTrack.addEventListener('touchstart', handleHeroTouchStart, { passive: true });
     heroTrack.addEventListener('touchend', handleHeroTouchEnd, { passive: true });
 
     // ===== EVENT LISTENERS MODAL =====
-    // Botones Ver Producto (delegación de eventos para los nuevos carruseles)
     document.addEventListener('click', (e) => {
         if (e.target.classList.contains('btn-view') || e.target.closest('.btn-view')) {
             e.stopPropagation();
@@ -650,7 +730,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Cerrar modal
     closeModalBtn.addEventListener('click', closeProductModal);
     closeModalBtn2.addEventListener('click', closeProductModal);
     
@@ -658,7 +737,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target === productModal) closeProductModal();
     });
 
-    // Cerrar con Escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeProductModal();
     });
@@ -694,7 +772,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 window.scrollTo({
-                    top: targetElement.offsetTop - 80,
+                    top: targetElement.offsetTop - 90,
                     behavior: 'smooth'
                 });
             }
@@ -709,7 +787,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const carousel = new ProductsCarousel(container);
         carousels.push(carousel);
         
-        // Recalcular cuando se carguen las imágenes
         const images = container.querySelectorAll('img');
         let loadedImages = 0;
         
@@ -731,7 +808,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Recalcular carruseles al redimensionar ventana
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
@@ -741,12 +817,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ===== INICIALIZACIÓN GENERAL =====
-    // Iniciar carrusel hero automático
     startHeroAutoSlide();
     
-    // Pausar hero al hacer hover
     heroTrack.addEventListener('mouseenter', () => clearInterval(heroAutoSlide));
     heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
 
-    console.log('✅ Estilo Nórdico - PRODUCTOS REALES CARGADOS');
+    // Inicializar contadores
+    updateCartCount();
+    updateNotificationCount();
+
+    // Cargar notificaciones desde localStorage si existen
+    const savedNotifications = localStorage.getItem('nordic_notifications');
+    if (savedNotifications) {
+        notifications = JSON.parse(savedNotifications);
+        updateNotificationCount();
+    }
+
+    console.log('✅ Estilo Nórdico - HEADER REDISEÑADO CARGADO PERFECTAMENTE');
 });
