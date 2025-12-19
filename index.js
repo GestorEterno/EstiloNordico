@@ -1,4 +1,4 @@
-// script.js - ESTILO NÓRDICO - CARRUSELES PROFESIONALES
+// script.js - ESTILO NÓRDICO - CARRUSELES PROFESIONALES CORREGIDOS
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
@@ -565,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ===== CARRUSELES DE PRODUCTOS =====
+    // ===== CARRUSELES DE PRODUCTOS - CORREGIDO =====
     function initProductCarousels() {
         const productCarousels = document.querySelectorAll('.products-carousel');
         
@@ -576,34 +576,71 @@ document.addEventListener('DOMContentLoaded', function() {
             const nextBtn = carousel.querySelector('.next');
             const dots = carousel.querySelectorAll('.dot');
             
-            let currentSlide = 0;
+            // Configuración
+            let slidesToShow = 3; // Mostrar 3 productos a la vez en desktop
+            if (window.innerWidth <= 992 && window.innerWidth > 768) {
+                slidesToShow = 2; // 2 en tablet
+            } else if (window.innerWidth <= 768) {
+                slidesToShow = 1; // 1 en móvil
+            }
+            
             const totalSlides = slides.length;
+            const maxIndex = Math.max(0, totalSlides - slidesToShow);
+            
+            let currentSlide = 0;
+            
+            // Calcular ancho del track y de cada slide
+            const slideWidth = 100 / slidesToShow; // Porcentaje de cada slide
+            track.style.width = `${(totalSlides * 100) / slidesToShow}%`;
+            
+            // Inicializar slides
+            slides.forEach((slide, index) => {
+                slide.style.width = `${slideWidth}%`;
+                slide.classList.toggle('active', index >= currentSlide && index < currentSlide + slidesToShow);
+            });
             
             function updateProductCarousel() {
-                track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                // Mover track para mostrar el slide actual
+                const translateX = (currentSlide * slideWidth);
+                track.style.transform = `translateX(-${translateX}%)`;
                 
+                // Actualizar dots
                 dots.forEach((dot, index) => {
                     dot.classList.toggle('active', index === currentSlide);
                 });
                 
+                // Actualizar clase active en slides
                 slides.forEach((slide, index) => {
-                    slide.classList.toggle('active', index === currentSlide);
+                    slide.classList.toggle('active', 
+                        index >= currentSlide && index < currentSlide + slidesToShow);
                 });
             }
             
             function nextProductSlide() {
-                currentSlide = (currentSlide + 1) % totalSlides;
+                if (currentSlide < maxIndex) {
+                    currentSlide++;
+                } else {
+                    // Si estamos al final, volver al inicio
+                    currentSlide = 0;
+                }
                 updateProductCarousel();
             }
             
             function prevProductSlide() {
-                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                if (currentSlide > 0) {
+                    currentSlide--;
+                } else {
+                    // Si estamos al inicio, ir al final
+                    currentSlide = maxIndex;
+                }
                 updateProductCarousel();
             }
             
             function goToProductSlide(index) {
-                currentSlide = index;
-                updateProductCarousel();
+                if (index <= maxIndex) {
+                    currentSlide = index;
+                    updateProductCarousel();
+                }
             }
             
             // Event listeners para las flechas
@@ -622,7 +659,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
             
-            // Control táctil para productos
+            // Control táctil
             let productTouchStartX = 0;
             let productTouchEndX = 0;
             
@@ -647,6 +684,39 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             }
+            
+            // Inicializar
+            updateProductCarousel();
+            
+            // Redimensionar ventana
+            window.addEventListener('resize', () => {
+                // Recalcular slidesToShow según el tamaño de la pantalla
+                if (window.innerWidth <= 992 && window.innerWidth > 768) {
+                    slidesToShow = 2;
+                } else if (window.innerWidth <= 768) {
+                    slidesToShow = 1;
+                } else {
+                    slidesToShow = 3;
+                }
+                
+                // Recalcular maxIndex
+                const newMaxIndex = Math.max(0, totalSlides - slidesToShow);
+                
+                // Ajustar currentSlide si es necesario
+                if (currentSlide > newMaxIndex) {
+                    currentSlide = newMaxIndex;
+                }
+                
+                // Recalcular ancho de slides y track
+                const newSlideWidth = 100 / slidesToShow;
+                track.style.width = `${(totalSlides * 100) / slidesToShow}%`;
+                
+                slides.forEach((slide, index) => {
+                    slide.style.width = `${newSlideWidth}%`;
+                });
+                
+                updateProductCarousel();
+            });
         });
     }
 
@@ -829,10 +899,10 @@ document.addEventListener('DOMContentLoaded', function() {
     heroTrack.addEventListener('mouseenter', () => clearInterval(heroAutoSlide));
     heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
 
-    console.log('✅ Estilo Nórdico - CARRUSELES PROFESIONALES CARGADOS');
+    console.log('✅ Estilo Nórdico - CARRUSELES PROFESIONALES CARGADOS Y CORREGIDOS');
     console.log('🎯 CARRUSEL HERO: ✓ Flechas izquierda/derecha funcionan');
-    console.log('🎯 CARRUSELES PRODUCTOS: ✓ 5 productos por categoría');
-    console.log('🎯 3 PRODUCTOS VISIBLES: ✓ Se ven 3, flechas para navegar');
+    console.log('🎯 CARRUSELES PRODUCTOS: ✓ Se mueven de 1 en 1 producto');
+    console.log('🎯 3 PRODUCTOS VISIBLES: ✓ Siempre se ven 3 (2 en tablet, 1 en móvil)');
     console.log('🎯 CONTROL TÁCTIL: ✓ Funciona en móviles');
     console.log('🎯 MODAL PERFECTO: ✓ Pantalla completa');
 });
