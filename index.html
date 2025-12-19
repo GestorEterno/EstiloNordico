@@ -10,16 +10,48 @@
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪑</text></svg>">
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header Compacto Rediseñado -->
     <header class="header">
         <div class="container">
-            <nav class="navbar">
+            <!-- Primera Fila: Logo + Utilidades -->
+            <div class="header-top">
                 <a href="#" class="logo">ESTILO NÓRDICO</a>
-                <div class="hamburger">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
+                <div class="header-utils">
+                    <!-- Buscador -->
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Buscar productos...">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Iconos de Utilidad -->
+                    <div class="utility-icons">
+                        <button class="icon-btn" id="cartBtn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </button>
+                        <button class="icon-btn" id="notificationBtn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-count">0</span>
+                        </button>
+                        <button class="icon-btn" id="loginBtn">
+                            <i class="fas fa-user"></i>
+                            <span class="login-text">Iniciar Sesión</span>
+                        </button>
+                    </div>
                 </div>
+                
+                <!-- Hamburger para Móvil -->
+                <button class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+            
+            <!-- Segunda Fila: Menú de Navegación -->
+            <nav class="header-bottom">
                 <ul class="nav-menu">
                     <li><a href="#inicio" class="nav-link active">Inicio</a></li>
                     <li><a href="#escritorios" class="nav-link">Escritorios</a></li>
@@ -32,7 +64,7 @@
         </div>
     </header>
 
-    <!-- Hero con Carrusel Horizontal -->
+    <!-- Hero con Carrusel Horizontal - Sin Espacios Innecesarios -->
     <section id="inicio" class="hero">
         <div class="carousel-container">
             <div class="carousel-track">
