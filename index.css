@@ -491,15 +491,16 @@ h1, h2, h3, h4 {
 }
 
 .carousel-arrow:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
+    opacity: 0.7;
+    cursor: pointer;
     transform: none;
 }
 
 .carousel-arrow:disabled:hover {
-    background: white;
-    color: var(--primary);
-    border-color: var(--light-gray);
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: scale(1.1);
 }
 
 /* ===== TARJETAS DE PRODUCTO ===== */
