@@ -22,11 +22,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginModal = document.getElementById('loginModal');
     const notificationBtn = document.getElementById('notificationBtn');
     const loginBtn = document.getElementById('loginBtn');
-    const markAllBtn = document.querySelector('.btn-mark-all');
+    const notificationCloseBtn = document.querySelector('.notification-close');
+    const loginCloseBtn = document.querySelector('.login-close');
+    const markAllBtn = document.getElementById('markAllReadBtn');
     const authTabs = document.querySelectorAll('.auth-tab');
     const authForms = document.querySelectorAll('.auth-form');
     const loginForm = document.getElementById('loginFormContent');
     const registerForm = document.getElementById('registerFormContent');
+    const notificationsList = document.getElementById('notificationsList');
+    const noNotifications = document.getElementById('noNotifications');
 
     // ===== CARRUSEL HERO =====
     let heroCurrentSlide = 0;
@@ -102,30 +106,104 @@ document.addEventListener('DOMContentLoaded', function() {
             whatsappMessage: "Hola! Estoy interesado en la Estantería Nórdica K3 - Precio: $80.000" }
     };
 
+    // ===== NOTIFICACIONES =====
+    let notifications = []; // Array vacío para notificaciones
+
+    function loadNotifications() {
+        // Por ahora, dejamos el array vacío
+        notifications = [];
+        
+        // Actualizar la interfaz
+        updateNotificationsUI();
+        updateNotificationCount();
+    }
+
+    function updateNotificationsUI() {
+        if (!notificationsList || !noNotifications) return;
+        
+        // Limpiar lista
+        notificationsList.innerHTML = '';
+        
+        if (notifications.length === 0) {
+            // Mostrar mensaje de "no hay notificaciones"
+            noNotifications.style.display = 'block';
+            notificationsList.style.display = 'none';
+        } else {
+            // Mostrar notificaciones
+            noNotifications.style.display = 'none';
+            notificationsList.style.display = 'block';
+            
+            // Crear elementos para cada notificación
+            notifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.className = `notification-item ${notification.read ? '' : 'unread'}`;
+                notificationItem.setAttribute('data-id', notification.id);
+                
+                notificationItem.innerHTML = `
+                    <div class="notification-icon">
+                        <i class="${notification.icon}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>${notification.title}</h4>
+                        <p>${notification.message}</p>
+                        <span class="notification-time">${notification.time}</span>
+                    </div>
+                `;
+                
+                // Añadir event listener para marcar como leída
+                notificationItem.addEventListener('click', () => {
+                    markAsRead(notification.id);
+                });
+                
+                notificationsList.appendChild(notificationItem);
+            });
+        }
+    }
+
+    function updateNotificationCount() {
+        const notificationCount = document.querySelector('.notification-count');
+        if (notificationCount) {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            notificationCount.textContent = unreadCount;
+            notificationCount.style.display = unreadCount > 0 ? 'flex' : 'none';
+        }
+    }
+
+    function markAsRead(notificationId) {
+        const notification = notifications.find(n => n.id === notificationId);
+        if (notification && !notification.read) {
+            notification.read = true;
+            updateNotificationsUI();
+            updateNotificationCount();
+        }
+    }
+
+    function markAllAsRead() {
+        notifications.forEach(notification => {
+            notification.read = true;
+        });
+        updateNotificationsUI();
+        updateNotificationCount();
+    }
+
     // ===== FUNCIONALIDAD DE NOTIFICACIONES =====
     if (notificationBtn) {
         notificationBtn.addEventListener('click', () => {
             openModal(notificationModal);
-            updateNotificationCount(0); // Resetear contador cuando se abren
+            loadNotifications(); // Cargar notificaciones al abrir
+        });
+    }
+
+    if (notificationCloseBtn) {
+        notificationCloseBtn.addEventListener('click', () => {
+            closeModal(notificationModal);
         });
     }
 
     if (markAllBtn) {
         markAllBtn.addEventListener('click', () => {
-            const notifications = document.querySelectorAll('.notification-item.unread');
-            notifications.forEach(notification => {
-                notification.classList.remove('unread');
-            });
-            updateNotificationCount(0);
+            markAllAsRead();
         });
-    }
-
-    function updateNotificationCount(count) {
-        const notificationCount = document.querySelector('.notification-count');
-        if (notificationCount) {
-            notificationCount.textContent = count;
-            notificationCount.style.display = count > 0 ? 'flex' : 'none';
-        }
     }
 
     // ===== FUNCIONALIDAD DE LOGIN/REGISTRO =====
@@ -134,6 +212,12 @@ document.addEventListener('DOMContentLoaded', function() {
             openModal(loginModal);
             // Mostrar formulario de login por defecto
             switchAuthTab('login');
+        });
+    }
+
+    if (loginCloseBtn) {
+        loginCloseBtn.addEventListener('click', () => {
+            closeModal(loginModal);
         });
     }
 
@@ -642,6 +726,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target === productModal) closeProductModal();
     });
 
+    notificationModal.addEventListener('click', (e) => {
+        if (e.target === notificationModal) closeModal(notificationModal);
+    });
+
+    loginModal.addEventListener('click', (e) => {
+        if (e.target === loginModal) closeModal(loginModal);
+    });
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             if (productModal.style.display === 'flex') closeProductModal();
@@ -660,14 +752,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initializeAuthSystem() {
-        // Agregar event listeners para cerrar modales
-        notificationModal.addEventListener('click', (e) => {
-            if (e.target === notificationModal) closeModal(notificationModal);
-        });
-        
-        loginModal.addEventListener('click', (e) => {
-            if (e.target === loginModal) closeModal(loginModal);
-        });
+        // Cargar notificaciones iniciales
+        loadNotifications();
         
         console.log('✅ Sistema de autenticación y notificaciones inicializado');
     }
