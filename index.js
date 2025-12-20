@@ -1,4 +1,4 @@
-// index.js - ESTILO NÓRDICO - CARRUSEL CIRCULAR PERFECTO CON REGRESO AL INICIO
+// index.js - ESTILO NÓRDICO - CARRUSEL FINITO PERFECTO (NO INFINITO)
 
 document.addEventListener('DOMContentLoaded', function() {
     // ===== ELEMENTOS PRINCIPALES =====
@@ -465,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ===== CARRUSEL DE PRODUCTOS - VERSIÓN PERFECTA CON REGRESO AL INICIO =====
+    // ===== CARRUSEL DE PRODUCTOS - VERSIÓN FINITA PERFECTA =====
     class ProductsCarousel {
         constructor(container) {
             this.container = container;
@@ -477,48 +477,20 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Configuración básica
             this.currentIndex = 0;
-            this.originalCards = this.cards.length;
+            this.totalCards = this.cards.length;
             this.isAnimating = false;
             this.animationDuration = 500;
-            this.totalVisible = 3; // Por defecto, mostrar 3 productos
+            this.cardsPerView = 3; // Por defecto 3 en desktop
             
             // Solo continuar si hay tarjetas
-            if (this.originalCards === 0) return;
+            if (this.totalCards === 0) return;
             
             this.init();
             this.calculateDimensions();
-            this.setupCircularEffect();
-        }
-        
-        setupCircularEffect() {
-            // Solo crear efecto circular si hay más de 1 tarjeta
-            if (this.originalCards <= 1) return;
+            this.updateArrows();
+            this.updateDots();
             
-            // Determinar cuántas tarjetas clonar (máximo 3)
-            const clonesToAdd = Math.min(3, this.originalCards);
-            
-            // Clonar las primeras tarjetas y agregarlas al final
-            for (let i = 0; i < clonesToAdd; i++) {
-                const clone = this.cards[i].cloneNode(true);
-                clone.classList.add('cloned');
-                clone.style.order = this.originalCards + i;
-                this.track.appendChild(clone);
-            }
-            
-            // Clonar las últimas tarjetas y agregarlas al principio
-            for (let i = this.originalCards - 1; i >= Math.max(0, this.originalCards - clonesToAdd); i--) {
-                const clone = this.cards[i].cloneNode(true);
-                clone.classList.add('cloned');
-                clone.style.order = i - this.originalCards;
-                this.track.insertBefore(clone, this.cards[0]);
-            }
-            
-            // Actualizar lista de tarjetas
-            this.cards = Array.from(this.track.querySelectorAll('.product-card'));
-            this.totalCards = this.cards.length;
-            
-            // Posicionar en la primera tarjeta real (índice clonesToAdd)
-            this.currentIndex = clonesToAdd;
+            // Posicionar en el inicio (lado izquierdo)
             this.updatePosition(true);
         }
         
@@ -545,29 +517,28 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Manejo de resize
             window.addEventListener('resize', () => this.handleResize());
-            
-            // Estado inicial
-            this.updateArrows();
-            this.updateDots();
         }
         
         calculateDimensions() {
             if (this.cards.length === 0) return;
             
-            // Determinar cuántas tarjetas caben en la vista
-            const containerWidth = this.container.offsetWidth;
-            const firstCard = this.cards[0];
-            
-            if (!firstCard) return;
-            
-            const cardWidth = firstCard.offsetWidth;
+            const cardWidth = this.cards[0].offsetWidth;
+            const trackWidth = this.track.offsetWidth;
             const gap = 30;
             
-            // Calcular cuántas tarjetas caben
-            this.totalVisible = Math.floor(containerWidth / (cardWidth + gap));
-            this.totalVisible = Math.max(1, Math.min(this.totalVisible, 3)); // Máximo 3, mínimo 1
+            if (cardWidth === 0) {
+                setTimeout(() => this.calculateDimensions(), 100);
+                return;
+            }
             
-            console.log(`Tarjetas visibles: ${this.totalVisible}`);
+            // Calcular cuántas tarjetas caben en la vista
+            this.cardsPerView = Math.floor(trackWidth / (cardWidth + gap));
+            this.cardsPerView = Math.max(1, this.cardsPerView);
+            
+            // Asegurar que el primer elemento esté visible al inicio
+            if (this.currentIndex === 0) {
+                this.track.style.transform = 'translateX(0px)';
+            }
         }
         
         addTouchControls() {
@@ -603,6 +574,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 this.calculateDimensions();
                 this.updatePosition(true);
+                this.updateArrows();
             }, 100);
         }
         
@@ -617,6 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
+            // Calcular offset basado en el índice actual
             const offset = -this.currentIndex * (cardWidth + gap);
             
             if (instant) {
@@ -639,72 +612,38 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDots() {
             if (!this.dots.length) return;
             
-            // Calcular índice real para los dots
-            let realIndex;
-            const clonesToAdd = Math.min(3, this.originalCards);
-            
-            if (this.originalCards > 1) {
-                // Con efecto circular
-                realIndex = (this.currentIndex - clonesToAdd) % this.originalCards;
-                if (realIndex < 0) realIndex += this.originalCards;
-            } else {
-                // Sin efecto circular
-                realIndex = this.currentIndex % this.originalCards;
-            }
-            
-            // Asegurar que el índice esté dentro del rango
-            realIndex = Math.max(0, Math.min(realIndex, this.originalCards - 1));
-            
             this.dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === realIndex);
+                dot.classList.toggle('active', index === this.currentIndex);
             });
         }
         
         updateArrows() {
-            if (this.prevBtn) this.prevBtn.disabled = this.isAnimating;
-            if (this.nextBtn) this.nextBtn.disabled = this.isAnimating;
-        }
-        
-        // ===== LÓGICA PERFECTA DE REGRESO AL INICIO =====
-        handleTransitionEnd() {
-            this.isAnimating = false;
-            this.updateArrows();
+            if (this.prevBtn) {
+                const isAtStart = this.currentIndex === 0;
+                this.prevBtn.disabled = isAtStart;
+                this.prevBtn.style.opacity = isAtStart ? '0.3' : '1';
+                this.prevBtn.style.cursor = isAtStart ? 'not-allowed' : 'pointer';
+            }
             
-            // Si no hay efecto circular, no hacer nada
-            if (this.originalCards <= 1) return;
-            
-            const clonesToAdd = Math.min(3, this.originalCards);
-            
-            // Verificar si estamos en un clon del principio
-            const isAtStartClone = this.currentIndex < clonesToAdd;
-            
-            // Verificar si estamos en un clon del final
-            const maxRealIndex = clonesToAdd + this.originalCards - 1;
-            const isAtEndClone = this.currentIndex > maxRealIndex - clonesToAdd;
-            
-            if (isAtStartClone) {
-                // Estamos en clones del principio, saltar al final real
-                this.jumpToPosition(maxRealIndex - clonesToAdd + 1);
-            } else if (isAtEndClone) {
-                // Estamos en clones del final, saltar al principio real
-                this.jumpToPosition(clonesToAdd);
+            if (this.nextBtn) {
+                // Calcular el último índice posible basado en cardsPerView
+                const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
+                const isAtEnd = this.currentIndex >= maxIndex;
+                
+                this.nextBtn.disabled = isAtEnd;
+                this.nextBtn.style.opacity = isAtEnd ? '0.3' : '1';
+                this.nextBtn.style.cursor = isAtEnd ? 'not-allowed' : 'pointer';
             }
         }
         
-        jumpToPosition(newIndex) {
-            // Desactivar transiciones
-            this.track.style.transition = 'none';
-            this.currentIndex = newIndex;
-            this.updatePosition(true);
-            
-            // Reactivar transiciones en el próximo frame
-            requestAnimationFrame(() => {
-                this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
-            });
+        handleTransitionEnd() {
+            this.isAnimating = false;
+            this.updateArrows();
         }
         
+        // ===== LÓGICA PERFECTA DE NAVEGACIÓN =====
         prev() {
-            if (this.isAnimating) return;
+            if (this.isAnimating || this.currentIndex === 0) return;
             
             this.isAnimating = true;
             this.updateArrows();
@@ -716,28 +655,30 @@ document.addEventListener('DOMContentLoaded', function() {
         next() {
             if (this.isAnimating) return;
             
+            // Calcular el último índice posible
+            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
+            
+            // Si estamos en el último índice, volver al inicio
+            if (this.currentIndex >= maxIndex) {
+                this.currentIndex = 0;
+                this.updatePosition();
+            } else {
+                this.currentIndex++;
+                this.updatePosition();
+            }
+            
             this.isAnimating = true;
             this.updateArrows();
-            
-            this.currentIndex++;
-            this.updatePosition();
         }
         
         goTo(index) {
             if (this.isAnimating) return;
             
-            const clonesToAdd = Math.min(3, this.originalCards);
-            
-            if (this.originalCards > 1) {
-                // Con efecto circular, ajustar índice
-                const adjustedIndex = index + clonesToAdd;
-                this.currentIndex = adjustedIndex;
-            } else {
-                // Sin efecto circular
-                this.currentIndex = index;
-            }
-            
+            const validIndex = Math.max(0, Math.min(index, this.totalCards - 1));
+            this.currentIndex = validIndex;
             this.updatePosition();
+            this.isAnimating = true;
+            this.updateArrows();
         }
     }
 
@@ -928,9 +869,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 img.addEventListener('load', () => {
                     loadedImages++;
                     if (loadedImages === images.length) {
-                        setTimeout(() => {
-                            carousel.handleResize();
-                        }, 100);
+                        carousel.handleResize();
                     }
                 });
             }
@@ -975,5 +914,5 @@ document.addEventListener('DOMContentLoaded', function() {
         updateNotificationCount();
     }
 
-    console.log('✅ Estilo Nórdico - CARRUSEL CIRCULAR PERFECTO INICIALIZADO');
+    console.log('✅ Estilo Nórdico - CARRUSEL FINITO PERFECTO INICIALIZADO');
 });
