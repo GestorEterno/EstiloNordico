@@ -1,4 +1,4 @@
-/* index.css - ESTILO NÓRDICO - VERSIÓN SIMPLE Y ESTABLE */
+/* style.css - ESTILO NÓRDICO - VERSIÓN CON HEADER REDISEÑADO PERFECTO Y CARRUSEL FINITO PERFECTO */
 :root {
     --primary: #2c3e50;
     --primary-dark: #1a252f;
@@ -437,7 +437,7 @@ h1, h2, h3, h4 {
     font-size: 1.1rem;
 }
 
-/* ===== CARRUSEL DE PRODUCTOS SIMPLE ===== */
+/* ===== CARRUSEL DE PRODUCTOS - FINITO PERFECTO ===== */
 .products-carousel-container {
     position: relative;
     display: flex;
@@ -445,7 +445,6 @@ h1, h2, h3, h4 {
     gap: 15px;
     margin: 0 auto 40px;
     max-width: 1200px;
-    min-height: 350px;
 }
 
 .products-carousel-wrapper {
@@ -454,17 +453,18 @@ h1, h2, h3, h4 {
     border-radius: var(--border-radius);
     padding: 10px 5px;
     margin: 0 -5px;
-    flex: 1;
 }
 
 .products-carousel-track {
     display: flex;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     gap: 30px;
     will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
+    flex-wrap: nowrap;
 }
 
-/* Flechas de navegación */
 .carousel-arrow {
     background: white;
     border: 2px solid var(--light-gray);
@@ -483,7 +483,7 @@ h1, h2, h3, h4 {
     z-index: 10;
 }
 
-.carousel-arrow:hover {
+.carousel-arrow:hover:not(:disabled) {
     background: var(--accent);
     color: white;
     border-color: var(--accent);
@@ -500,7 +500,6 @@ h1, h2, h3, h4 {
     background: white;
     color: var(--primary);
     border-color: var(--light-gray);
-    transform: none;
 }
 
 /* ===== TARJETAS DE PRODUCTO ===== */
@@ -512,6 +511,9 @@ h1, h2, h3, h4 {
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: var(--transition);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
 }
 
 .product-card:hover {
@@ -567,6 +569,15 @@ h1, h2, h3, h4 {
 }
 
 .btn-view:hover {
+    background: var(--primary-dark);
+}
+
+.btn-load-more {
+    margin-top: 20px;
+    background: var(--primary);
+}
+
+.btn-load-more:hover {
     background: var(--primary-dark);
 }
 
@@ -904,6 +915,22 @@ h1, h2, h3, h4 {
         width: 36px;
         height: 36px;
         font-size: 1rem;
+    }
+    
+    /* Tooltip para botón de login en móvil */
+    .icon-btn[title]:hover::after {
+        content: attr(title);
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--primary);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        z-index: 1000;
     }
     
     .products-carousel-container {
