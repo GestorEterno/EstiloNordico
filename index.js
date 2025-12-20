@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Botones de cierre de modales
     const modalCloseBtns = document.querySelectorAll('.modal-close');
-    const closeModalBtn2 = document.querySelector('.btn-close-modal');
     
     // Elementos del carrito
     const cartItemsContainer = document.getElementById('cartItems');
@@ -965,12 +964,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (modal) closeModal(modal);
             });
         });
-
-        if (closeModalBtn2) {
-            closeModalBtn2.addEventListener('click', () => {
-                closeProductModal();
-            });
-        }
 
         // Funcionalidad del carrito
         if (clearCartBtn) {
