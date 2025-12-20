@@ -388,7 +388,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (hamburger) hamburger.classList.remove('active');
             if (headerBottom) headerBottom.classList.remove('active');
         });
-    });
+    }
 
     // ===== EVENTOS =====
     if (heroPrevBtn) heroPrevBtn.addEventListener('click', heroPrevSlide);
@@ -413,6 +413,501 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.key === 'Escape') closeProductModal();
     });
 
+    // ===== SISTEMA DE BÚSQUEDA EN TIEMPO REAL =====
+    const searchOverlay = document.getElementById('searchOverlay');
+    const mainSearchInput = document.getElementById('mainSearchInput');
+    const mainSearchBtn = document.getElementById('mainSearchBtn');
+    const closeSearchBtn = document.getElementById('closeSearchBtn');
+    const searchResults = document.getElementById('searchResults');
+    const searchCount = document.getElementById('searchCount');
+
+    // ===== SISTEMA DE AUTENTICACIÓN =====
+    const authModal = document.getElementById('authModal');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const closeAuthModal = document.getElementById('closeAuthModal');
+    const loginBtnPanel = document.getElementById('loginBtnPanel');
+    const registerBtnPanel = document.getElementById('registerBtnPanel');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // ===== PANELES DESPLEGABLES =====
+    const notificationBtn = document.getElementById('notificationBtn');
+    const userBtn = document.getElementById('userBtn');
+    const notificationsPanel = document.getElementById('notificationsPanel');
+    const userPanel = document.getElementById('userPanel');
+
+    // ===== BÚSQUEDA EN TIEMPO REAL =====
+    function initializeSearchSystem() {
+        if (!mainSearchInput) return;
+        
+        let searchTimeout;
+        
+        mainSearchInput.addEventListener('input', function(e) {
+            clearTimeout(searchTimeout);
+            
+            searchTimeout = setTimeout(() => {
+                const query = e.target.value.trim().toLowerCase();
+                if (query.length > 2) {
+                    performSearch(query);
+                } else if (query.length === 0) {
+                    closeSearchOverlay();
+                }
+            }, 300);
+        });
+        
+        mainSearchInput.addEventListener('focus', function() {
+            if (this.value.trim().length > 2) {
+                performSearch(this.value.trim());
+            }
+        });
+        
+        mainSearchBtn.addEventListener('click', function() {
+            const query = mainSearchInput.value.trim();
+            if (query.length > 0) {
+                performSearch(query);
+            }
+        });
+        
+        closeSearchBtn.addEventListener('click', closeSearchOverlay);
+        
+        // Cerrar búsqueda con Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && searchOverlay.style.display === 'block') {
+                closeSearchOverlay();
+            }
+        });
+        
+        // Cerrar al hacer clic fuera
+        searchOverlay.addEventListener('click', function(e) {
+            if (e.target === searchOverlay) {
+                closeSearchOverlay();
+            }
+        });
+    }
+
+    function performSearch(query) {
+        const results = [];
+        
+        // Buscar en todos los productos
+        Object.keys(products).forEach(id => {
+            const product = products[id];
+            const searchText = `${product.name} ${product.category} ${product.description}`.toLowerCase();
+            
+            if (searchText.includes(query)) {
+                results.push({ id, ...product });
+            }
+        });
+        
+        displaySearchResults(results);
+        openSearchOverlay();
+    }
+
+    function displaySearchResults(results) {
+        if (!searchResults || !searchCount) return;
+        
+        searchResults.innerHTML = '';
+        searchCount.textContent = `${results.length} productos encontrados`;
+        
+        if (results.length === 0) {
+            searchResults.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <h3>No se encontraron productos</h3>
+                    <p>Intenta con otras palabras clave</p>
+                </div>
+            `;
+            return;
+        }
+        
+        results.forEach(product => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'search-result-item';
+            resultItem.innerHTML = `
+                <div class="search-result-img">
+                    <img src="${product.images[0]}" alt="${product.name}" loading="lazy">
+                </div>
+                <div class="search-result-info">
+                    <h4>${product.name}</h4>
+                    <span class="search-result-category">${product.category}</span>
+                    <div class="search-result-price">${product.price}</div>
+                    <div class="search-result-actions">
+                        <button class="btn btn-search-view" data-id="${product.id}">Ver Producto</button>
+                    </div>
+                </div>
+            `;
+            
+            resultItem.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('btn-search-view')) {
+                    const viewBtn = this.querySelector('.btn-search-view');
+                    if (viewBtn) {
+                        viewBtn.click();
+                    }
+                }
+            });
+            
+            const viewBtn = resultItem.querySelector('.btn-search-view');
+            if (viewBtn) {
+                viewBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    openProductModal(product.id);
+                    closeSearchOverlay();
+                });
+            }
+            
+            searchResults.appendChild(resultItem);
+        });
+    }
+
+    function openSearchOverlay() {
+        searchOverlay.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSearchOverlay() {
+        searchOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+        mainSearchInput.value = '';
+    }
+
+    // ===== SISTEMA DE AUTENTICACIÓN =====
+    function initializeAuthSystem() {
+        if (!authModal) return;
+        
+        // Abrir modal de login
+        if (loginBtnPanel) {
+            loginBtnPanel.addEventListener('click', function(e) {
+                e.preventDefault();
+                openAuthModal('login');
+            });
+        }
+        
+        // Abrir modal de registro
+        if (registerBtnPanel) {
+            registerBtnPanel.addEventListener('click', function(e) {
+                e.preventDefault();
+                openAuthModal('register');
+            });
+        }
+        
+        // Cerrar modal de auth
+        if (closeAuthModal) {
+            closeAuthModal.addEventListener('click', closeAuthModalFunc);
+        }
+        
+        // Cerrar con Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && authModal.style.display === 'flex') {
+                closeAuthModalFunc();
+            }
+        });
+        
+        // Cerrar al hacer clic fuera
+        authModal.addEventListener('click', function(e) {
+            if (e.target === authModal) {
+                closeAuthModalFunc();
+            }
+        });
+        
+        // Tabs del modal de auth
+        const authTabs = document.querySelectorAll('.auth-tab');
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
+                switchAuthTab(tabName);
+            });
+        });
+        
+        // Formulario de login
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('loginUsername').value;
+                const password = document.getElementById('loginPassword').value;
+                
+                handleLogin(username, password);
+            });
+        }
+        
+        // Formulario de registro
+        if (registerForm) {
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('registerName').value;
+                const email = document.getElementById('registerEmail').value;
+                const username = document.getElementById('registerUser').value;
+                const password = document.getElementById('registerPassword').value;
+                
+                handleRegister(name, email, username, password);
+            });
+        }
+        
+        // Botón de logout
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                handleLogout();
+            });
+        }
+        
+        // Botón de login en el header (si existe)
+        const headerLoginBtn = document.getElementById('loginBtn');
+        if (headerLoginBtn) {
+            headerLoginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openAuthModal('login');
+            });
+        }
+    }
+
+    function openAuthModal(tab = 'login') {
+        authModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        switchAuthTab(tab);
+    }
+
+    function closeAuthModalFunc() {
+        authModal.style.display = 'none';
+        document.body.style.overflow = '';
+        
+        // Limpiar formularios
+        if (loginForm) loginForm.reset();
+        if (registerForm) registerForm.reset();
+    }
+
+    function switchAuthTab(tabName) {
+        // Actualizar tabs
+        const authTabs = document.querySelectorAll('.auth-tab');
+        authTabs.forEach(tab => {
+            tab.classList.remove('active');
+            if (tab.getAttribute('data-tab') === tabName) {
+                tab.classList.add('active');
+            }
+        });
+        
+        // Actualizar formularios
+        const authForms = document.querySelectorAll('.auth-form');
+        authForms.forEach(form => {
+            form.classList.remove('active');
+            if (form.id === tabName + 'Form') {
+                form.classList.add('active');
+            }
+        });
+    }
+
+    function handleLogin(username, password) {
+        // Credenciales del gestor (temporales)
+        if (username === 'gestor' && password === '1234') {
+            const userData = {
+                username: 'gestor',
+                name: 'Gestor Administrador',
+                email: 'gestor@estilonordico.com',
+                role: 'admin',
+                isAdmin: true
+            };
+            
+            sessionStorage.setItem('userData', JSON.stringify(userData));
+            showAuthSuccess('¡Bienvenido Gestor!');
+            updateUserInterface(userData);
+            closeAuthModalFunc();
+            
+            // Si ya está cargado el admin.js, abrir panel automáticamente
+            setTimeout(() => {
+                if (typeof openAdminPanel === 'function') {
+                    openAdminPanel();
+                }
+            }, 1000);
+            
+            return;
+        }
+        
+        // Simulación de login para usuarios normales
+        if (username && password) {
+            const userData = {
+                username: username,
+                name: username.charAt(0).toUpperCase() + username.slice(1),
+                email: `${username}@ejemplo.com`,
+                role: 'user',
+                isAdmin: false
+            };
+            
+            sessionStorage.setItem('userData', JSON.stringify(userData));
+            showAuthSuccess(`¡Bienvenido ${userData.name}!`);
+            updateUserInterface(userData);
+            closeAuthModalFunc();
+            return;
+        }
+        
+        showAuthError('Credenciales incorrectas');
+    }
+
+    function handleRegister(name, email, username, password) {
+        if (name && email && username && password) {
+            const userData = {
+                username: username,
+                name: name,
+                email: email,
+                role: 'user',
+                isAdmin: false
+            };
+            
+            sessionStorage.setItem('userData', JSON.stringify(userData));
+            showAuthSuccess(`¡Registro exitoso! Bienvenido ${name}`);
+            updateUserInterface(userData);
+            closeAuthModalFunc();
+        } else {
+            showAuthError('Por favor completa todos los campos');
+        }
+    }
+
+    function handleLogout() {
+        sessionStorage.removeItem('userData');
+        showAuthSuccess('Sesión cerrada correctamente');
+        updateUserInterface(null);
+        closeUserPanel();
+        
+        // Cerrar panel admin si está abierto
+        if (typeof closeAdminPanel === 'function') {
+            closeAdminPanel();
+        }
+    }
+
+    function updateUserInterface(userData) {
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const guestState = document.getElementById('guestState');
+        const loggedInState = document.getElementById('loggedInState');
+        const adminPanelBtn = document.getElementById('adminPanelBtn');
+        const userBtn = document.getElementById('userBtn');
+        
+        if (userData) {
+            // Usuario logueado
+            userName.textContent = userData.name;
+            userEmail.textContent = userData.email;
+            
+            if (guestState) guestState.style.display = 'none';
+            if (loggedInState) loggedInState.style.display = 'block';
+            
+            // Mostrar botón de admin si es gestor
+            if (adminPanelBtn) {
+                adminPanelBtn.style.display = userData.isAdmin ? 'block' : 'none';
+            }
+            
+            // Actualizar icono de usuario en header
+            if (userBtn) {
+                userBtn.innerHTML = `<i class="fas fa-user-check"></i>`;
+            }
+        } else {
+            // Usuario no logueado
+            userName.textContent = 'Invitado';
+            userEmail.textContent = 'Inicia sesión para continuar';
+            
+            if (guestState) guestState.style.display = 'block';
+            if (loggedInState) loggedInState.style.display = 'none';
+            if (adminPanelBtn) adminPanelBtn.style.display = 'none';
+            
+            // Restaurar icono de usuario en header
+            if (userBtn) {
+                userBtn.innerHTML = `<i class="fas fa-user"></i>`;
+            }
+        }
+    }
+
+    function showAuthSuccess(message) {
+        alert(`✅ ${message}`);
+    }
+
+    function showAuthError(message) {
+        alert(`❌ ${message}`);
+    }
+
+    // ===== PANELES DESPLEGABLES =====
+    function initializeDropdownPanels() {
+        // Panel de notificaciones
+        if (notificationBtn && notificationsPanel) {
+            notificationBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                togglePanel(notificationsPanel);
+                closeOtherPanels(notificationsPanel);
+            });
+        }
+        
+        // Panel de usuario
+        if (userBtn && userPanel) {
+            userBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                togglePanel(userPanel);
+                closeOtherPanels(userPanel);
+            });
+        }
+        
+        // Cerrar paneles al hacer clic fuera
+        document.addEventListener('click', function() {
+            closeAllPanels();
+        });
+        
+        // Evitar que los paneles se cierren al hacer clic dentro
+        if (notificationsPanel) {
+            notificationsPanel.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+        
+        if (userPanel) {
+            userPanel.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+    }
+
+    function togglePanel(panel) {
+        if (panel.style.display === 'block') {
+            panel.style.display = 'none';
+        } else {
+            panel.style.display = 'block';
+        }
+    }
+
+    function closePanel(panel) {
+        if (panel) {
+            panel.style.display = 'none';
+        }
+    }
+
+    function closeOtherPanels(currentPanel) {
+        const panels = [notificationsPanel, userPanel];
+        panels.forEach(panel => {
+            if (panel && panel !== currentPanel) {
+                closePanel(panel);
+            }
+        });
+    }
+
+    function closeAllPanels() {
+        closePanel(notificationsPanel);
+        closePanel(userPanel);
+    }
+
+    function closeUserPanel() {
+        closePanel(userPanel);
+    }
+
+    // ===== INICIALIZACIÓN COMPLETA =====
+    function initializeCompleteSystem() {
+        // Inicializar sistemas
+        initializeSearchSystem();
+        initializeAuthSystem();
+        initializeDropdownPanels();
+        
+        // Verificar si hay usuario logueado al cargar
+        const savedUser = sessionStorage.getItem('userData');
+        if (savedUser) {
+            const userData = JSON.parse(savedUser);
+            updateUserInterface(userData);
+        }
+        
+        console.log('🚀 Sistema completo inicializado');
+    }
+
     // ===== INICIALIZACIÓN =====
     function initializeCarousels() {
         const productContainers = document.querySelectorAll('.products-carousel-container');
@@ -431,6 +926,9 @@ document.addEventListener('DOMContentLoaded', function() {
             heroTrack.addEventListener('mouseenter', () => clearInterval(heroAutoSlide));
             heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
         }
+        
+        // Inicializar sistema completo
+        initializeCompleteSystem();
         
         console.log('✅ Sistema inicializado correctamente');
     }
