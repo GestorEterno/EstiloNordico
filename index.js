@@ -1,4 +1,4 @@
-// index.js - ESTILO NÓRDICO - VERSIÓN DEFINITIVA CORREGIDA
+// index.js - ESTILO NÓRDICO - VERSIÓN CORREGIDA COMPLETA Y FUNCIONAL
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Estilo Nórdico - Sistema inicializado');
 
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
         heroAutoSlide = setInterval(heroNextSlide, CONFIG.heroAutoSlideInterval);
     }
 
-    // ===== CARRUSEL DE PRODUCTOS CORREGIDO =====
+    // ===== CARRUSEL DE PRODUCTOS SIMPLE Y CORRECTO =====
     class SimpleCarousel {
         constructor(container) {
             this.container = container;
@@ -139,45 +139,37 @@ document.addEventListener('DOMContentLoaded', function() {
             this.totalCards = this.cards.length;
             this.cardWidth = 0;
             this.gap = 30;
-            this.visibleCards = 1;
             
             this.init();
-            this.setupResizeListener();
         }
         
         init() {
-            this.calculateDimensions();
-            this.setupEvents();
-            this.updatePosition(true);
-            this.updateDots();
-            this.updateArrows();
+            // Esperar un momento para que las tarjetas tengan su tamaño
+            setTimeout(() => {
+                this.calculateDimensions();
+                this.setupEvents();
+                this.updatePosition(true);
+                this.updateDots();
+                this.updateArrows();
+            }, 100);
         }
         
         calculateDimensions() {
-            if (this.cards.length === 0) return;
+            if (this.cards.length === 0 || !this.cards[0]) return;
             
-            const container = this.track.parentElement;
-            const containerWidth = container.offsetWidth;
+            const firstCard = this.cards[0];
+            const cardStyle = window.getComputedStyle(firstCard);
+            this.cardWidth = firstCard.offsetWidth + parseInt(cardStyle.marginLeft || 0) + parseInt(cardStyle.marginRight || 0);
             
-            if (this.cards[0]) {
-                this.cardWidth = this.cards[0].offsetWidth;
-                
-                const cardWidthWithGap = this.cardWidth + this.gap;
-                this.visibleCards = Math.floor(containerWidth / cardWidthWithGap);
-                this.visibleCards = Math.max(1, this.visibleCards);
+            // Forzar que el máximo índice sea el correcto
+            const trackWidth = this.track.scrollWidth;
+            const containerWidth = this.track.parentElement.offsetWidth;
+            const maxPossibleIndex = Math.max(0, this.totalCards - Math.floor(containerWidth / this.cardWidth));
+            
+            // Ajustar el índice actual si es necesario
+            if (this.currentIndex > maxPossibleIndex) {
+                this.currentIndex = maxPossibleIndex;
             }
-        }
-        
-        setupResizeListener() {
-            let resizeTimeout;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    this.calculateDimensions();
-                    this.updatePosition(true);
-                    this.updateArrows();
-                }, 250);
-            });
         }
         
         setupEvents() {
@@ -191,6 +183,12 @@ document.addEventListener('DOMContentLoaded', function() {
             
             this.dots.forEach((dot, index) => {
                 dot.addEventListener('click', () => this.goTo(index));
+            });
+            
+            // Agregar listener para resize
+            window.addEventListener('resize', () => {
+                this.calculateDimensions();
+                this.updatePosition(true);
             });
         }
         
@@ -206,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.track.style.transform = `translateX(${offset}px)`;
             
             if (instant) {
-                this.track.offsetHeight;
+                this.track.offsetHeight; // Forzar reflow
             }
             
             this.updateDots();
@@ -222,7 +220,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         updateArrows() {
-            const maxIndex = Math.max(0, this.totalCards - this.visibleCards);
+            // Calcular el máximo índice basado en el ancho real
+            const trackWidth = this.track.scrollWidth;
+            const containerWidth = this.track.parentElement.offsetWidth;
+            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (this.prevBtn) {
                 this.prevBtn.disabled = this.currentIndex === 0;
@@ -234,12 +236,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         next() {
-            const maxIndex = Math.max(0, this.totalCards - this.visibleCards);
+            const trackWidth = this.track.scrollWidth;
+            const containerWidth = this.track.parentElement.offsetWidth;
+            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (this.currentIndex < maxIndex) {
                 this.currentIndex++;
                 this.updatePosition();
             } else {
+                // Volver al inicio (comportamiento circular)
                 this.currentIndex = 0;
                 this.updatePosition();
             }
@@ -250,14 +256,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.currentIndex--;
                 this.updatePosition();
             } else {
-                const maxIndex = Math.max(0, this.totalCards - this.visibleCards);
+                // Ir al final (comportamiento circular)
+                const trackWidth = this.track.scrollWidth;
+                const containerWidth = this.track.parentElement.offsetWidth;
+                const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+                const maxIndex = Math.max(0, this.totalCards - cardsPerView);
                 this.currentIndex = maxIndex;
                 this.updatePosition();
             }
         }
         
         goTo(index) {
-            const maxIndex = Math.max(0, this.totalCards - this.visibleCards);
+            const trackWidth = this.track.scrollWidth;
+            const containerWidth = this.track.parentElement.offsetWidth;
+            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const maxIndex = Math.max(0, this.totalCards - cardsPerView);
+            
             if (index >= 0 && index <= maxIndex) {
                 this.currentIndex = index;
                 this.updatePosition();
