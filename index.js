@@ -1,4 +1,4 @@
-// index.js - ESTILO NÓRDICO - VERSIÓN DEFINITIVA FUNCIONAL
+// index.js - ESTILO NÓRDICO - VERSIÓN DEFINITIVA CON CARRUSEL PERFECTO
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Estilo Nórdico - Sistema inicializado');
 
@@ -30,22 +30,186 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ===== PRODUCTOS =====
     const products = {
-        1: { name: "Escritorio 1.20m", category: "Escritorios Nórdicos", price: "$120.000",
-            description: "Escritorio de 1.20 metros fabricado con base de hierro y madera de eucalipto.", images: ["imagenes/escritorios/120/k1escritorio01.png", "imagenes/escritorios/120/k1escritorio02.png"],
-            specs: [{ name: "Material", value: "Base de hierro y madera de eucalipto" }, { name: "Dimensiones", value: "120cm x 60cm x 75cm" }],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio 1.20m - Precio: $120.000" },
-        2: { name: "Escritorio 1.30m", category: "Escritorios Nórdicos", price: "$150.000",
-            description: "Escritorio de 1.30 metros fabricado con base de hierro y madera de eucalipto.", images: ["imagenes/escritorios/130/k2escritorio01.png", "imagenes/escritorios/130/k2escritorio02.png"],
-            specs: [{ name: "Material", value: "Base de hierro y madera de eucalipto" }, { name: "Dimensiones", value: "130cm x 65cm x 75cm" }],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio 1.30m - Precio: $150.000" },
-        3: { name: "Escritorio 1.60m", category: "Escritorios Nórdicos", price: "$200.000",
-            description: "Elegante escritorio de 1.60 metros fabricado con base de hierro y madera de eucalipto.", images: ["imagenes/escritorios/160/k3escritorio01.jpg", "imagenes/escritorios/160/k3escritorio02.jpg"],
-            specs: [{ name: "Material", value: "Base de hierro y madera de eucalipto" }, { name: "Dimensiones", value: "160cm x 80cm x 75cm" }],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio 1.60m - Precio: $200.000" },
-        4: { name: "Escritorio 2.00m", category: "Escritorios Nórdicos", price: "$250.000",
-            description: "Impresionante escritorio de 2 metros para espacios amplios.", images: ["imagenes/escritorios/200/k4escritorio01.jpg", "imagenes/escritorios/200/k4escritorio02.jpg"],
-            specs: [{ name: "Material", value: "Base de hierro y madera de eucalipto" }, { name: "Dimensiones", value: "200cm x 100cm x 75cm" }],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio 2.00m - Precio: $250.000" }
+        1: { 
+            name: "Escritorio 1.20m", 
+            category: "Escritorios Nórdicos", 
+            price: "$120.000",
+            description: "Escritorio de 1.20 metros fabricado con base de hierro y madera de eucalipto.", 
+            images: ["imagenes/escritorios/120/k1escritorio01.png", "imagenes/escritorios/120/k1escritorio02.png"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "120cm x 60cm x 75cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en el Escritorio 1.20m - Precio: $120.000" 
+        },
+        2: { 
+            name: "Escritorio 1.30m", 
+            category: "Escritorios Nórdicos", 
+            price: "$150.000",
+            description: "Escritorio de 1.30 metros fabricado con base de hierro y madera de eucalipto.", 
+            images: ["imagenes/escritorios/130/k2escritorio01.png", "imagenes/escritorios/130/k2escritorio02.png"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "130cm x 65cm x 75cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en el Escritorio 1.30m - Precio: $150.000" 
+        },
+        3: { 
+            name: "Escritorio 1.60m", 
+            category: "Escritorios Nórdicos", 
+            price: "$200.000",
+            description: "Elegante escritorio de 1.60 metros fabricado con base de hierro y madera de eucalipto.", 
+            images: ["imagenes/escritorios/160/k3escritorio01.jpg", "imagenes/escritorios/160/k3escritorio02.jpg"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "160cm x 80cm x 75cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en el Escritorio 1.60m - Precio: $200.000" 
+        },
+        4: { 
+            name: "Escritorio 2.00m", 
+            category: "Escritorios Nórdicos", 
+            price: "$250.000",
+            description: "Impresionante escritorio de 2 metros para espacios amplios.", 
+            images: ["imagenes/escritorios/200/k4escritorio01.jpg", "imagenes/escritorios/200/k4escritorio02.jpg"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "200cm x 100cm x 75cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en el Escritorio 2.00m - Precio: $250.000" 
+        },
+        5: { 
+            name: "Mesa Modelo Trineo", 
+            category: "Mesas Nórdicas", 
+            price: "$200.000",
+            description: "Mesa de comedor con diseño de trineo nórdico.", 
+            images: ["imagenes/mesas/k1/k1mesa01.jpg"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "180cm x 90cm x 75cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesa Modelo Trineo - Precio: $200.000" 
+        },
+        6: { 
+            name: "Mesa Modelo U", 
+            category: "Mesas Nórdicas", 
+            price: "$220.000",
+            description: "Mesa de comedor con patas en forma de U.", 
+            images: ["imagenes/mesas/k2/k2mesa01.jpg"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "180cm x 90cm x 75cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesa Modelo U - Precio: $220.000" 
+        },
+        7: { 
+            name: "Mesa Modelo X", 
+            category: "Mesas Nórdicas", 
+            price: "$250.000",
+            description: "Mesa de comedor con patas en forma de X.", 
+            images: ["imagenes/mesas/k3/k3mesa01.jpg"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "200cm x 100cm x 75cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesa Modelo X - Precio: $250.000" 
+        },
+        8: { 
+            name: "Rack TV Nórdico K1", 
+            category: "Racks TV Nórdicos", 
+            price: "$120.000",
+            description: "Rack para TV con diseño nórdico minimalista.", 
+            images: ["imagenes/racks/k1/k1Rack01.jpg"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "120cm x 40cm x 45cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en el Rack TV Nórdico K1 - Precio: $120.000" 
+        },
+        9: { 
+            name: "Rack TV Nórdico K2", 
+            category: "Racks TV Nórdicos", 
+            price: "$150.000",
+            description: "Rack para TV con diseño moderno y funcional.", 
+            images: ["imagenes/racks/k2/k2Rack01.jpg"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "140cm x 45cm x 50cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en el Rack TV Nórdico K2 - Precio: $150.000" 
+        },
+        10: { 
+            name: "Mesita Nórdica K1", 
+            category: "Mesitas Nórdicas", 
+            price: "$60.000",
+            description: "Mesita auxiliar con diseño nórdico.", 
+            images: ["imagenes/mesitas/k1/k1mesita01.jpg"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "50cm x 50cm x 45cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesita Nórdica K1 - Precio: $60.000" 
+        },
+        11: { 
+            name: "Mesita Nórdica K2", 
+            category: "Mesitas Nórdicas", 
+            price: "$70.000",
+            description: "Mesita auxiliar con diseño moderno.", 
+            images: ["imagenes/mesitas/k2/k2mesita01.jpg"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "55cm x 55cm x 45cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesita Nórdica K2 - Precio: $70.000" 
+        },
+        12: { 
+            name: "Mesita Nórdica K3", 
+            category: "Mesitas Nórdicas", 
+            price: "$80.000",
+            description: "Mesita auxiliar con diseño elegante.", 
+            images: ["imagenes/mesitas/k3/k3mesita01.jpg"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "60cm x 60cm x 45cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Mesita Nórdica K3 - Precio: $80.000" 
+        },
+        13: { 
+            name: "Estantería Nórdica K1", 
+            category: "Estanterías Nórdicas", 
+            price: "$250.000",
+            description: "Estantería de pared con diseño nórdico.", 
+            images: ["imagenes/estanterias/k1/k1estanteria01.jpg"],
+            specs: [
+                { name: "Material", value: "Madera de eucalipto" }, 
+                { name: "Dimensiones", value: "180cm x 30cm x 200cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Estantería Nórdica K1 - Precio: $250.000" 
+        },
+        14: { 
+            name: "Estantería Nórdica K2", 
+            category: "Estanterías Nórdicas", 
+            price: "$60.000",
+            description: "Estantería de suelo compacta.", 
+            images: ["imagenes/estanterias/k2/k2estanteria01.jpg"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "80cm x 30cm x 120cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Estantería Nórdica K2 - Precio: $60.000" 
+        },
+        15: { 
+            name: "Estantería Nórdica K3", 
+            category: "Estanterías Nórdicas", 
+            price: "$80.000",
+            description: "Estantería de suelo con diseño modular.", 
+            images: ["imagenes/estanterias/k3/k3estanteria01.jpg"],
+            specs: [
+                { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
+                { name: "Dimensiones", value: "100cm x 35cm x 140cm" }
+            ],
+            whatsappMessage: "Hola! Estoy interesado en la Estantería Nórdica K3 - Precio: $80.000" 
+        }
     };
 
     // ===== CARRUSEL HERO FUNCIONAL =====
@@ -82,8 +246,8 @@ document.addEventListener('DOMContentLoaded', function() {
         heroAutoSlide = setInterval(heroNextSlide, CONFIG.heroAutoSlideInterval);
     }
 
-    // ===== CARRUSEL DE PRODUCTOS SIMPLE =====
-    class SimpleCarousel {
+    // ===== CARRUSEL DE PRODUCTOS PERFECTO =====
+    class ProductCarousel {
         constructor(container) {
             this.container = container;
             this.track = container.querySelector('.products-carousel-track');
@@ -96,6 +260,8 @@ document.addEventListener('DOMContentLoaded', function() {
             this.totalCards = this.cards.length;
             this.cardWidth = 0;
             this.gap = 30;
+            this.cardsPerView = 3;
+            this.maxIndex = 0;
             
             this.init();
         }
@@ -106,22 +272,33 @@ document.addEventListener('DOMContentLoaded', function() {
             this.updatePosition(true);
             this.updateDots();
             this.updateArrows();
+            
+            window.addEventListener('resize', () => {
+                this.calculateDimensions();
+                this.updatePosition(true);
+                this.updateDots();
+                this.updateArrows();
+            });
         }
         
         calculateDimensions() {
             if (this.cards.length === 0) return;
             
-            // Esperar a que el layout se estabilice
-            setTimeout(() => {
-                const firstCard = this.cards[0];
-                if (firstCard && firstCard.offsetWidth > 0) {
-                    this.cardWidth = firstCard.offsetWidth;
-                }
-            }, 100);
+            const firstCard = this.cards[0];
+            if (firstCard && firstCard.offsetWidth > 0) {
+                this.cardWidth = firstCard.offsetWidth;
+                const containerWidth = this.track.parentElement.offsetWidth;
+                
+                this.cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap));
+                this.cardsPerView = Math.max(1, this.cardsPerView);
+                
+                this.maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
+                
+                console.log(`Tarjetas: ${this.totalCards}, Por vista: ${this.cardsPerView}, Máx índice: ${this.maxIndex}`);
+            }
         }
         
         setupEvents() {
-            // Botones de navegación
             if (this.prevBtn) {
                 this.prevBtn.addEventListener('click', () => this.prev());
             }
@@ -130,17 +307,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.nextBtn.addEventListener('click', () => this.next());
             }
             
-            // Dots
             this.dots.forEach((dot, index) => {
                 dot.addEventListener('click', () => this.goTo(index));
             });
         }
         
         updatePosition(instant = false) {
-            // Calcular desplazamiento
+            if (this.currentIndex > this.maxIndex) {
+                this.currentIndex = this.maxIndex;
+            }
+            
             const offset = -this.currentIndex * (this.cardWidth + this.gap);
             
-            // Aplicar transición
             if (instant) {
                 this.track.style.transition = 'none';
             } else {
@@ -149,7 +327,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             this.track.style.transform = `translateX(${offset}px)`;
             
-            // Forzar reflow si es instantáneo
             if (instant) {
                 this.track.offsetHeight;
             }
@@ -162,40 +339,42 @@ document.addEventListener('DOMContentLoaded', function() {
             if (this.dots.length === 0) return;
             
             this.dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === this.currentIndex);
+                const isActive = index >= this.currentIndex && 
+                               index < this.currentIndex + this.cardsPerView;
+                dot.classList.toggle('active', isActive);
             });
         }
         
         updateArrows() {
-            // No deshabilitar botones, dejar que siempre funcionen
-            if (this.prevBtn) this.prevBtn.disabled = false;
-            if (this.nextBtn) this.nextBtn.disabled = false;
+            if (this.prevBtn) {
+                this.prevBtn.disabled = this.currentIndex === 0;
+            }
+            
+            if (this.nextBtn) {
+                this.nextBtn.disabled = this.currentIndex >= this.maxIndex;
+            }
         }
         
         next() {
-            if (this.currentIndex < this.totalCards - 1) {
-                this.currentIndex++;
-                this.updatePosition();
-            } else {
-                // Si está al final, volver al inicio
+            if (this.currentIndex >= this.maxIndex) {
                 this.currentIndex = 0;
-                this.updatePosition();
+            } else {
+                this.currentIndex++;
             }
+            this.updatePosition();
         }
         
         prev() {
-            if (this.currentIndex > 0) {
-                this.currentIndex--;
-                this.updatePosition();
+            if (this.currentIndex <= 0) {
+                this.currentIndex = this.maxIndex;
             } else {
-                // Si está al inicio, ir al final
-                this.currentIndex = this.totalCards - 1;
-                this.updatePosition();
+                this.currentIndex--;
             }
+            this.updatePosition();
         }
         
         goTo(index) {
-            if (index >= 0 && index < this.totalCards) {
+            if (index >= 0 && index <= this.maxIndex) {
                 this.currentIndex = index;
                 this.updatePosition();
             }
@@ -205,7 +384,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== MODAL =====
     function openProductModal(productId) {
         const product = products[productId];
-        if (!product) return;
+        if (!product) {
+            console.error(`Producto con ID ${productId} no encontrado`);
+            return;
+        }
 
         document.getElementById('modalTitle').textContent = product.name;
         document.getElementById('modalCategory').textContent = product.category;
@@ -215,14 +397,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const mainImg = document.getElementById('modalImage');
         const thumbs = document.querySelectorAll('.thumb');
         
-        if (product.images[0]) {
+        if (product.images && product.images[0]) {
             mainImg.src = product.images[0];
             mainImg.alt = product.name;
+        } else {
+            mainImg.src = '';
+            mainImg.alt = 'Imagen no disponible';
         }
         
         thumbs.forEach((thumb, index) => {
-            if (product.images[index]) {
+            if (product.images && product.images[index]) {
                 thumb.src = product.images[index];
+                thumb.alt = `${product.name} - Vista ${index + 1}`;
                 thumb.style.display = 'block';
                 thumb.classList.toggle('active', index === 0);
                 
@@ -238,11 +424,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const specsList = document.getElementById('modalSpecs');
         specsList.innerHTML = '';
-        product.specs.forEach(spec => {
+        if (product.specs && product.specs.length > 0) {
+            product.specs.forEach(spec => {
+                const li = document.createElement('li');
+                li.innerHTML = `<span>${spec.name}</span><span>${spec.value}</span>`;
+                specsList.appendChild(li);
+            });
+        } else {
             const li = document.createElement('li');
-            li.innerHTML = `<span>${spec.name}</span><span>${spec.value}</span>`;
+            li.innerHTML = '<span>Especificaciones</span><span>No disponibles</span>';
             specsList.appendChild(li);
-        });
+        }
 
         const encodedMessage = encodeURIComponent(product.whatsappMessage);
         whatsappBtn.onclick = () => {
@@ -303,7 +495,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const productContainers = document.querySelectorAll('.products-carousel-container');
         
         productContainers.forEach((container) => {
-            new SimpleCarousel(container);
+            new ProductCarousel(container);
         });
     }
 
