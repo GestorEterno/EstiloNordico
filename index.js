@@ -1,14 +1,40 @@
-// index.js - ESTILO NÓRDICO - VERSIÓN CON CARRITO FUNCIONAL
+// index.js - ESTILO NÓRDICO - VERSIÓN COMPLETA CORREGIDA
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Estilo Nórdico - Sistema inicializado');
 
     // ===== CONFIGURACIÓN =====
     const CONFIG = {
         carouselSpeed: 300,
-        heroAutoSlideInterval: 5000
+        heroAutoSlideInterval: 5000,
+        notifications: [
+            {
+                id: 1,
+                icon: 'fas fa-truck',
+                title: '¡Envío confirmado!',
+                message: 'Tu pedido #12345 ha sido enviado',
+                time: 'Hace 2 horas',
+                read: false
+            },
+            {
+                id: 2,
+                icon: 'fas fa-tag',
+                title: 'Oferta especial',
+                message: '20% de descuento en escritorios nórdicos',
+                time: 'Hace 1 día',
+                read: false
+            },
+            {
+                id: 3,
+                icon: 'fas fa-gift',
+                title: '¡Nuevo producto!',
+                message: 'Ya disponible nuestra nueva colección de estanterías',
+                time: 'Hace 3 días',
+                read: true
+            }
+        ]
     };
 
-    // ===== ELEMENTOS =====
+    // ===== ELEMENTOS DEL DOM =====
     const hamburger = document.querySelector('.hamburger');
     const headerBottom = document.querySelector('.header-bottom');
     const navLinks = document.querySelectorAll('.nav-link');
@@ -25,10 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginBtn = document.getElementById('loginBtn');
     
     // Botones de cierre de modales
-    const closeModalBtn = document.querySelector('.modal-close');
-    const cartCloseBtn = document.querySelector('.cart-close');
-    const notificationCloseBtn = document.querySelector('.notification-close');
-    const loginCloseBtn = document.querySelector('.login-close');
+    const modalCloseBtns = document.querySelectorAll('.modal-close');
     const closeModalBtn2 = document.querySelector('.btn-close-modal');
     
     // Elementos del carrito
@@ -43,6 +66,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Botones del modal de producto
     const buyBtn = document.getElementById('buyBtn');
     const addToCartBtn = document.getElementById('addToCartBtn');
+    
+    // Elementos de notificaciones
+    const notificationsList = document.getElementById('notificationsList');
+    const noNotifications = document.getElementById('noNotifications');
+    const markAllReadBtn = document.getElementById('markAllReadBtn');
+    
+    // Elementos de login/registro
+    const authTabs = document.querySelectorAll('.auth-tab');
+    const authForms = document.querySelectorAll('.auth-form');
+    const loginForm = document.getElementById('loginFormContent');
+    const registerForm = document.getElementById('registerFormContent');
+    const togglePasswordBtns = document.querySelectorAll('.toggle-password');
     
     // CARRUSEL HERO
     let heroCurrentSlide = 0;
@@ -436,6 +471,79 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // ===== SISTEMA DE NOTIFICACIONES =====
+    let notifications = JSON.parse(localStorage.getItem('nordic_notifications')) || CONFIG.notifications;
+
+    // Guardar notificaciones en localStorage
+    function saveNotifications() {
+        localStorage.setItem('nordic_notifications', JSON.stringify(notifications));
+    }
+
+    // Actualizar UI de notificaciones
+    function updateNotificationsUI() {
+        const unreadCount = notifications.filter(n => !n.read).length;
+        const notificationCountEl = document.querySelector('.notification-count');
+        
+        // Actualizar contador
+        if (notificationCountEl) {
+            notificationCountEl.textContent = unreadCount;
+            notificationCountEl.style.display = unreadCount > 0 ? 'flex' : 'none';
+        }
+        
+        // Si no hay notificaciones
+        if (notifications.length === 0) {
+            if (notificationsList) notificationsList.style.display = 'none';
+            if (noNotifications) noNotifications.style.display = 'block';
+            return;
+        }
+        
+        // Renderizar notificaciones
+        if (notificationsList && noNotifications) {
+            notificationsList.innerHTML = notifications.map(notif => `
+                <div class="notification-item ${notif.read ? '' : 'unread'}" data-id="${notif.id}">
+                    <div class="notification-icon">
+                        <i class="${notif.icon}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>${notif.title}</h4>
+                        <p>${notif.message}</p>
+                        <div class="notification-time">${notif.time}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            notificationsList.style.display = 'block';
+            noNotifications.style.display = 'none';
+        }
+    }
+
+    // Marcar todas las notificaciones como leídas
+    function markAllAsRead() {
+        notifications.forEach(notif => notif.read = true);
+        saveNotifications();
+        updateNotificationsUI();
+    }
+
+    // ===== MODALES =====
+    function openModal(modal) {
+        if (modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Si es el modal de notificaciones, actualizar UI
+            if (modal === notificationModal) {
+                updateNotificationsUI();
+            }
+        }
+    }
+
+    function closeModal(modal) {
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+
     // ===== MODAL DE PRODUCTO =====
     function openProductModal(productId) {
         const product = products[productId];
@@ -499,25 +607,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Mostrar modal
-        productModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
+        openModal(productModal);
     }
 
     function closeProductModal() {
-        productModal.style.display = 'none';
-        document.body.style.overflow = '';
+        closeModal(productModal);
         currentProductId = null;
-    }
-
-    // ===== FUNCIONES AUXILIARES =====
-    function openModal(modal) {
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal(modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
     }
 
     // ===== CARRUSEL HERO =====
@@ -728,99 +823,221 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // ===== FUNCIONALIDAD DE LOGIN/REGISTRO =====
+    function setupAuthTabs() {
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                
+                // Remover clase active de todas las pestañas
+                authTabs.forEach(t => t.classList.remove('active'));
+                // Agregar clase active a la pestaña clickeada
+                tab.classList.add('active');
+                
+                // Ocultar todos los formularios
+                authForms.forEach(form => {
+                    form.classList.remove('active');
+                });
+                
+                // Mostrar el formulario correspondiente
+                document.getElementById(`${tabName}Form`).classList.add('active');
+            });
+        });
+    }
+
+    function setupTogglePassword() {
+        togglePasswordBtns.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+    }
+
+    function setupAuthForms() {
+        // Login form
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                
+                // Validación simple
+                if (!email || !password) {
+                    alert('Por favor completa todos los campos');
+                    return;
+                }
+                
+                // Simulación de login exitoso
+                alert(`¡Bienvenido de nuevo! Iniciando sesión con: ${email}`);
+                closeModal(loginModal);
+                loginForm.reset();
+            });
+        }
+        
+        // Register form
+        if (registerForm) {
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('registerName').value;
+                const email = document.getElementById('registerEmail').value;
+                const password = document.getElementById('registerPassword').value;
+                const confirmPassword = document.getElementById('registerConfirmPassword').value;
+                const acceptTerms = document.getElementById('acceptTerms').checked;
+                
+                // Validaciones
+                if (!name || !email || !password || !confirmPassword) {
+                    alert('Por favor completa todos los campos');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    alert('Las contraseñas no coinciden');
+                    return;
+                }
+                
+                if (!acceptTerms) {
+                    alert('Debes aceptar los términos y condiciones');
+                    return;
+                }
+                
+                // Simulación de registro exitoso
+                alert(`¡Cuenta creada exitosamente! Bienvenido/a ${name}`);
+                closeModal(loginModal);
+                registerForm.reset();
+            });
+        }
+    }
+
     // ===== EVENT LISTENERS =====
-    
-    // Menú hamburguesa
-    if (hamburger) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            headerBottom.classList.toggle('active');
+    function setupEventListeners() {
+        // Menú hamburguesa
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                headerBottom.classList.toggle('active');
+            });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (hamburger) hamburger.classList.remove('active');
+                if (headerBottom) headerBottom.classList.remove('active');
+            });
         });
-    }
 
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (hamburger) hamburger.classList.remove('active');
-            if (headerBottom) headerBottom.classList.remove('active');
+        // Botones del header para abrir modales
+        if (cartBtn) {
+            cartBtn.addEventListener('click', () => {
+                updateCartUI();
+                openModal(cartModal);
+            });
+        }
+
+        if (notificationBtn) {
+            notificationBtn.addEventListener('click', () => {
+                updateNotificationsUI();
+                openModal(notificationModal);
+            });
+        }
+
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                openModal(loginModal);
+            });
+        }
+
+        // Botones de cierre de modales
+        modalCloseBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const modal = this.closest('.modal-overlay');
+                if (modal) closeModal(modal);
+            });
         });
-    });
 
-    // Botones de carrito
-    if (cartBtn) {
-        cartBtn.addEventListener('click', () => {
-            updateCartUI();
-            openModal(cartModal);
+        if (closeModalBtn2) {
+            closeModalBtn2.addEventListener('click', () => {
+                closeProductModal();
+            });
+        }
+
+        // Funcionalidad del carrito
+        if (clearCartBtn) {
+            clearCartBtn.addEventListener('click', clearCart);
+        }
+
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', () => {
+                if (cart.length === 0) {
+                    alert('El carrito está vacío');
+                    return;
+                }
+                alert('Función de checkout en desarrollo. Próximamente disponible.');
+            });
+        }
+
+        if (continueShoppingBtn) {
+            continueShoppingBtn.addEventListener('click', () => {
+                closeModal(cartModal);
+            });
+        }
+
+        // Cerrar modales al hacer clic fuera
+        productModal.addEventListener('click', (e) => {
+            if (e.target === productModal) closeProductModal();
         });
-    }
 
-    if (cartCloseBtn) {
-        cartCloseBtn.addEventListener('click', () => {
-            closeModal(cartModal);
+        cartModal.addEventListener('click', (e) => {
+            if (e.target === cartModal) closeModal(cartModal);
         });
-    }
 
-    if (clearCartBtn) {
-        clearCartBtn.addEventListener('click', clearCart);
-    }
+        notificationModal.addEventListener('click', (e) => {
+            if (e.target === notificationModal) closeModal(notificationModal);
+        });
 
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', () => {
-            if (cart.length === 0) {
-                alert('El carrito está vacío');
-                return;
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) closeModal(loginModal);
+        });
+
+        // Cerrar modales con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (productModal.style.display === 'flex') closeProductModal();
+                if (cartModal.style.display === 'flex') closeModal(cartModal);
+                if (notificationModal.style.display === 'flex') closeModal(notificationModal);
+                if (loginModal.style.display === 'flex') closeModal(loginModal);
             }
-            alert('Función de checkout en desarrollo. Próximamente disponible.');
         });
-    }
 
-    if (continueShoppingBtn) {
-        continueShoppingBtn.addEventListener('click', () => {
-            closeModal(cartModal);
+        // Botones "Ver Producto" en las tarjetas
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btn-view')) {
+                const productId = parseInt(e.target.getAttribute('data-id'));
+                openProductModal(productId);
+            }
         });
+
+        // Botón "Marcar todas como leídas" en notificaciones
+        if (markAllReadBtn) {
+            markAllReadBtn.addEventListener('click', markAllAsRead);
+        }
+
+        // CARRUSEL HERO
+        if (heroPrevBtn) heroPrevBtn.addEventListener('click', heroPrevSlide);
+        if (heroNextBtn) heroNextBtn.addEventListener('click', heroNextSlide);
+        heroDots.forEach((dot, index) => dot.addEventListener('click', () => heroGoToSlide(index)));
     }
-
-    // Eventos de cierre de modales
-    productModal.addEventListener('click', (e) => {
-        if (e.target === productModal) closeProductModal();
-    });
-
-    cartModal.addEventListener('click', (e) => {
-        if (e.target === cartModal) closeModal(cartModal);
-    });
-
-    notificationModal.addEventListener('click', (e) => {
-        if (e.target === notificationModal) closeModal(notificationModal);
-    });
-
-    loginModal.addEventListener('click', (e) => {
-        if (e.target === loginModal) closeModal(loginModal);
-    });
-
-    // Eventos de teclado
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            if (productModal.style.display === 'flex') closeProductModal();
-            if (cartModal.style.display === 'flex') closeModal(cartModal);
-            if (notificationModal.style.display === 'flex') closeModal(notificationModal);
-            if (loginModal.style.display === 'flex') closeModal(loginModal);
-        }
-    });
-
-    // Botones Ver Producto
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('btn-view')) {
-            const productId = parseInt(e.target.getAttribute('data-id'));
-            openProductModal(productId);
-        }
-    });
-
-    if (closeModalBtn) closeModalBtn.addEventListener('click', closeProductModal);
-    if (closeModalBtn2) closeModalBtn2.addEventListener('click', closeProductModal);
-    
-    // CARRUSEL HERO
-    if (heroPrevBtn) heroPrevBtn.addEventListener('click', heroPrevSlide);
-    if (heroNextBtn) heroNextBtn.addEventListener('click', heroNextSlide);
-    heroDots.forEach((dot, index) => dot.addEventListener('click', () => heroGoToSlide(index)));
 
     // ===== INICIALIZACIÓN =====
     function initializeCarousels() {
@@ -831,10 +1048,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initializeApp() {
+        // Inicializar carruseles
         initializeCarousels();
         
-        // Inicializar carrito
+        // Inicializar sistemas
         initCart();
+        updateNotificationsUI();
+        
+        // Configurar funcionalidades de autenticación
+        setupAuthTabs();
+        setupTogglePassword();
+        setupAuthForms();
+        
+        // Configurar event listeners
+        setupEventListeners();
         
         // Iniciar carrusel hero
         startHeroAutoSlide();
@@ -846,7 +1073,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('✅ Sistema inicializado correctamente');
         console.log('🛒 Carrito:', cart);
+        console.log('🔔 Notificaciones:', notifications);
     }
 
+    // Iniciar la aplicación
     initializeApp();
 });
