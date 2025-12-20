@@ -1,8 +1,8 @@
 // index.js - ESTILO NÓRDICO - CARRUSEL PERFECTO Y OPTIMIZADO
-// VERSIÓN 2.0 - CORREGIDO Y MEJORADO PROFESIONALMENTE
+// VERSIÓN 3.0 - COMPLETAMENTE CORREGIDO Y MEJORADO
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Estilo Nórdico - Inicializando con carruseles perfectos...');
+    console.log('🚀 Estilo Nórdico - Inicializando sistema mejorado...');
 
     // ===== CONFIGURACIÓN GLOBAL =====
     const CONFIG = {
@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== CARRUSEL HERO PERFECTO =====
     const heroTrack = document.querySelector('.carousel-track');
     const heroSlides = document.querySelectorAll('.carousel-slide');
-    const prevBtn = document.querySelector('.hero .prev');
-    const nextBtn = document.querySelector('.hero .next');
+    const heroPrevBtn = document.querySelector('.hero .prev');
+    const heroNextBtn = document.querySelector('.hero .next');
     const heroDots = document.querySelectorAll('.hero .dot');
     
     let heroCurrentSlide = 0;
@@ -493,7 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // ===== CARRUSEL DE PRODUCTOS - VERSIÓN PERFECTA =====
+    // ===== CARRUSEL DE PRODUCTOS - VERSIÓN PERFECTA CORREGIDA =====
     class ProductsCarousel {
         constructor(container) {
             this.container = container;
@@ -512,6 +512,10 @@ document.addEventListener('DOMContentLoaded', function() {
             this.gap = 30;
             this.visibleCards = 0;
             
+            // Referencia única para el event listener
+            this.transitionEndHandler = null;
+            this.safetyTimeout = null;
+            
             // Solo inicializar si hay tarjetas
             if (this.totalCards === 0) {
                 if (CONFIG.debugMode) console.warn('Carrusel sin tarjetas');
@@ -528,34 +532,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Configurar eventos
             this.setupEvents();
             
-            // Calcular dimensiones después de que las imágenes carguen
-            this.waitForImages().then(() => {
-                this.calculateDimensions();
-                this.updatePosition(true);
-                this.updateDots();
-                this.updateArrows();
-            }).catch(error => {
-                if (CONFIG.debugMode) console.error('Error cargando imágenes:', error);
-                this.calculateDimensions();
-                this.updatePosition(true);
-                this.updateDots();
-                this.updateArrows();
-            });
-        }
-        
-        async waitForImages() {
-            const images = this.container.querySelectorAll('img');
-            const promises = Array.from(images).map(img => {
-                if (img.complete) return Promise.resolve();
-                return new Promise((resolve, reject) => {
-                    img.addEventListener('load', resolve);
-                    img.addEventListener('error', resolve); // También resolvemos con error
-                    // Timeout de seguridad
-                    setTimeout(resolve, 2000);
-                });
-            });
-            
-            return Promise.all(promises);
+            // Calcular dimensiones
+            this.calculateDimensions();
+            this.updatePosition(true);
+            this.updateDots();
+            this.updateArrows();
         }
         
         setupClones() {
@@ -584,6 +565,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         setupEvents() {
+            // Limpiar eventos anteriores
+            this.cleanupEvents();
+            
             // Botones de navegación
             if (this.prevBtn) {
                 this.prevBtn.addEventListener('click', () => this.prev());
@@ -603,6 +587,22 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Resize
             this.addResizeListener();
+            
+            // Handler único para transitionend
+            this.transitionEndHandler = () => this.handleTransitionEnd();
+            this.track.addEventListener('transitionend', this.transitionEndHandler);
+        }
+        
+        cleanupEvents() {
+            // Remover event listeners anteriores si existen
+            if (this.transitionEndHandler) {
+                this.track.removeEventListener('transitionend', this.transitionEndHandler);
+            }
+            
+            // Limpiar timeout de seguridad
+            if (this.safetyTimeout) {
+                clearTimeout(this.safetyTimeout);
+            }
         }
         
         calculateDimensions() {
@@ -610,8 +610,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const firstCard = this.cards[0];
             if (!firstCard || firstCard.offsetWidth === 0) {
-                // Reintentar
-                setTimeout(() => this.calculateDimensions(), 100);
+                // Reintentar en el próximo frame
+                requestAnimationFrame(() => this.calculateDimensions());
                 return;
             }
             
@@ -658,12 +658,15 @@ document.addEventListener('DOMContentLoaded', function() {
         
         addResizeListener() {
             let resizeTimeout;
-            window.addEventListener('resize', () => {
+            const resizeHandler = () => {
                 clearTimeout(resizeTimeout);
                 resizeTimeout = setTimeout(() => {
                     this.handleResize();
                 }, 250);
-            });
+            };
+            
+            window.addEventListener('resize', resizeHandler);
+            this.resizeHandler = resizeHandler;
         }
         
         handleResize() {
@@ -687,11 +690,16 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Forzar reflow si es instantáneo
             if (instant) {
-                this.track.offsetHeight;
+                this.track.offsetHeight; // Force reflow
             }
             
             this.updateDots();
             this.updateArrows();
+            
+            // Si es instantáneo, no necesitamos esperar transición
+            if (instant) {
+                this.handleTransitionEnd();
+            }
         }
         
         updateDots() {
@@ -732,14 +740,22 @@ document.addEventListener('DOMContentLoaded', function() {
         handleTransitionEnd() {
             this.isAnimating = false;
             
+            // Limpiar timeout de seguridad
+            if (this.safetyTimeout) {
+                clearTimeout(this.safetyTimeout);
+                this.safetyTimeout = null;
+            }
+            
             // Verificar si estamos en un clon y saltar a la tarjeta real correspondiente
             if (CONFIG.infiniteEffect && this.totalCards > 2) {
                 if (this.currentIndex === 0) {
                     // Estamos en el clon del final, saltar al final real
                     this.jumpToCard(this.totalCards - 2);
+                    return;
                 } else if (this.currentIndex === this.totalCards - 1) {
                     // Estamos en el clon del principio, saltar al principio real
                     this.jumpToCard(1);
+                    return;
                 }
             }
             
@@ -747,6 +763,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         jumpToCard(index) {
+            this.isAnimating = false; // No es una animación real
             this.track.style.transition = 'none';
             this.currentIndex = index;
             this.updatePosition(true);
@@ -763,10 +780,13 @@ document.addEventListener('DOMContentLoaded', function() {
             this.isAnimating = true;
             this.currentIndex++;
             
-            // Configurar evento de transición terminada
-            this.track.addEventListener('transitionend', () => {
-                this.handleTransitionEnd();
-            }, { once: true });
+            // Timeout de seguridad en caso de que transitionend no se dispare
+            this.safetyTimeout = setTimeout(() => {
+                if (this.isAnimating) {
+                    if (CONFIG.debugMode) console.warn('Safety timeout triggered');
+                    this.handleTransitionEnd();
+                }
+            }, this.animationSpeed + 100);
             
             this.updatePosition();
             this.updateArrows();
@@ -778,10 +798,13 @@ document.addEventListener('DOMContentLoaded', function() {
             this.isAnimating = true;
             this.currentIndex--;
             
-            // Configurar evento de transición terminada
-            this.track.addEventListener('transitionend', () => {
-                this.handleTransitionEnd();
-            }, { once: true });
+            // Timeout de seguridad
+            this.safetyTimeout = setTimeout(() => {
+                if (this.isAnimating) {
+                    if (CONFIG.debugMode) console.warn('Safety timeout triggered');
+                    this.handleTransitionEnd();
+                }
+            }, this.animationSpeed + 100);
             
             this.updatePosition();
             this.updateArrows();
@@ -803,13 +826,19 @@ document.addEventListener('DOMContentLoaded', function() {
             if (targetIndex < 0) targetIndex = 0;
             if (targetIndex >= this.totalCards) targetIndex = this.totalCards - 1;
             
+            // Si ya estamos en ese índice, no hacer nada
+            if (this.currentIndex === targetIndex) return;
+            
             this.isAnimating = true;
             this.currentIndex = targetIndex;
             
-            // Configurar evento de transición terminada
-            this.track.addEventListener('transitionend', () => {
-                this.handleTransitionEnd();
-            }, { once: true });
+            // Timeout de seguridad
+            this.safetyTimeout = setTimeout(() => {
+                if (this.isAnimating) {
+                    if (CONFIG.debugMode) console.warn('Safety timeout triggered');
+                    this.handleTransitionEnd();
+                }
+            }, this.animationSpeed + 100);
             
             this.updatePosition();
         }
@@ -903,12 +932,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ===== EVENT LISTENERS HERO =====
-    if (prevBtn) prevBtn.addEventListener('click', () => {
+    if (heroPrevBtn) heroPrevBtn.addEventListener('click', () => {
         heroPrevSlide();
         resetHeroAutoSlide();
     });
     
-    if (nextBtn) nextBtn.addEventListener('click', () => {
+    if (heroNextBtn) heroNextBtn.addEventListener('click', () => {
         heroNextSlide();
         resetHeroAutoSlide();
     });
@@ -934,8 +963,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    closeModalBtn.addEventListener('click', closeProductModal);
-    closeModalBtn2.addEventListener('click', closeProductModal);
+    if (closeModalBtn) closeModalBtn.addEventListener('click', closeProductModal);
+    if (closeModalBtn2) closeModalBtn2.addEventListener('click', closeProductModal);
     
     productModal.addEventListener('click', (e) => {
         if (e.target === productModal) closeProductModal();
@@ -986,13 +1015,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const carousels = [];
         
         productContainers.forEach((container, index) => {
+            // Verificar que el contenedor no esté ya inicializado
+            if (container.dataset.initialized) {
+                if (CONFIG.debugMode) console.log(`Carrusel ${index + 1} ya inicializado`);
+                return;
+            }
+            
             // Crear instancia del carrusel
             const carousel = new ProductsCarousel(container);
+            container.dataset.initialized = 'true';
             carousels.push(carousel);
             
-            // Log para debugging
             if (CONFIG.debugMode) {
-                console.log(`Carrusel ${index + 1} inicializado`);
+                console.log(`Carrusel ${index + 1} inicializado con ${carousel.totalCards} tarjetas`);
             }
         });
         
@@ -1034,7 +1069,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== INICIALIZACIÓN GENERAL =====
     function initializeApp() {
         // Inicializar carruseles
-        const carousels = initializeCarousels();
+        initializeCarousels();
         
         // Inicializar hero carousel
         startHeroAutoSlide();
@@ -1073,7 +1108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         document.head.appendChild(style);
         
-        console.log('✅ Estilo Nórdico - Sistema completamente inicializado');
+        console.log('✅ Estilo Nórdico - Sistema completamente inicializado y corregido');
     }
 
     // Inicializar la aplicación
