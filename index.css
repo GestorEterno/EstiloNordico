@@ -925,6 +925,8 @@ h1, h2, h3, h4 {
 
 .notifications-list {
     margin-bottom: 20px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .notification-item {
@@ -985,6 +987,7 @@ h1, h2, h3, h4 {
     text-align: center;
     padding: 40px 20px;
     color: var(--gray);
+    display: block;
 }
 
 .no-notifications i {
