@@ -1,893 +1,1163 @@
-// index.js - ESTILO NÓRDICO - CARRUSEL SIMPLE Y PERFECTO SIN BUGS
+/* style.css - ESTILO NÓRDICO - CARRUSEL CIRCULAR PERFECTO */
+:root {
+    --primary: #2c3e50;
+    --primary-dark: #1a252f;
+    --accent: #e67e22;
+    --accent-dark: #d35400;
+    --light: #f8f9fa;
+    --dark: #2c3e50;
+    --gray: #7f8c8d;
+    --light-gray: #ecf0f1;
+    --border-radius: 8px;
+    --shadow: 0 5px 15px rgba(0,0,0,0.1);
+    --transition: all 0.3s ease;
+}
 
-document.addEventListener('DOMContentLoaded', function() {
-    // ===== ELEMENTOS PRINCIPALES =====
-    const hamburger = document.querySelector('.hamburger');
-    const headerBottom = document.querySelector('.header-bottom');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const productModal = document.getElementById('productModal');
-    const closeModalBtn = document.querySelector('.modal-close');
-    const closeModalBtn2 = document.querySelector('.btn-close-modal');
-    const whatsappBtn = document.getElementById('whatsappBtn');
-    
-    // ===== ELEMENTOS DEL HEADER REDISEÑADO =====
-    const searchInput = document.querySelector('.search-input');
-    const searchBtn = document.querySelector('.search-btn');
-    const cartBtn = document.getElementById('cartBtn');
-    const notificationBtn = document.getElementById('notificationBtn');
-    const loginBtn = document.getElementById('loginBtn');
-    const cartCount = document.querySelector('.cart-count');
-    const notificationCount = document.querySelector('.notification-count');
-    
-    // ===== CARRUSEL HERO =====
-    const heroTrack = document.querySelector('.carousel-track');
-    const heroSlides = document.querySelectorAll('.carousel-slide');
-    const prevBtn = document.querySelector('.hero .prev');
-    const nextBtn = document.querySelector('.hero .next');
-    const heroDots = document.querySelectorAll('.hero .dot');
-    
-    let heroCurrentSlide = 0;
-    const heroTotalSlides = heroSlides.length;
-    let heroAutoSlide;
-    
-    // ===== BASE DE DATOS DE PRODUCTOS REALES =====
-    const products = {
-        1: {
-            name: "Escritorio 1.20m",
-            category: "Escritorios Nórdicos",
-            price: "$120.000",
-            description: "Escritorio de 1.20 metros fabricado con base de hierro y madera de eucalipto. Perfecto para espacios de trabajo compactos. Acabado nórdico que resalta la veta natural de la madera.",
-            images: [
-                "imagenes/escritorios/120/k1escritorio01.png",
-                "imagenes/escritorios/120/k1escritorio02.png"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "120cm x 60cm x 75cm" },
-                { name: "Color", value: "Natural nórdico" },
-                { name: "Garantía", value: "1 año" },
-                { name: "Estilo", value: "Nórdico minimalista" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio 1.20m - Precio: $120.000"
-        },
-        2: {
-            name: "Escritorio 1.30m",
-            category: "Escritorios Nórdicos",
-            price: "$150.000",
-            description: "Escritorio de 1.30 metros fabricado con base de hierro y madera de eucalipto. Ideal para profesionales que necesitan un espacio de trabajo resistente y elegante.",
-            images: [
-                "imagenes/escritorios/130/k2escritorio01.png",
-                "imagenes/escritorios/130/k2escritorio02.png"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "130cm x 65cm x 75cm" },
-                { name: "Color", value: "Marrón natural" },
-                { name: "Acabado", value: "Barniz mate" },
-                { name: "Estilo", value: "Nórdico moderno" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio 1.30m - Precio: $150.000"
-        },
-        3: {
-            name: "Escritorio 1.60m",
-            category: "Escritorios Nórdicos",
-            price: "$200.000",
-            description: "Elegante escritorio de 1.60 metros fabricado con base de hierro y madera de eucalipto. Perfecto para espacios de trabajo amplios y modernos.",
-            images: [
-                "imagenes/escritorios/160/k3escritorio01.jpg",
-                "imagenes/escritorios/160/k3escritorio02.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "160cm x 80cm x 75cm" },
-                { name: "Color", value: "Eucalipto natural" },
-                { name: "Garantía", value: "2 años" },
-                { name: "Estilo", value: "Nórdico ejecutivo" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio 1.60m - Precio: $200.000"
-        },
-        4: {
-            name: "Escritorio 2.00m",
-            category: "Escritorios Nórdicos",
-            price: "$250.000",
-            description: "Impresionante escritorio de 2 metros para espacios amplios. Fabricado con base de hierro y madera de eucalipto. Ideal para oficinas ejecutivas.",
-            images: [
-                "imagenes/escritorios/200/k4escritorio01.jpg",
-                "imagenes/escritorios/200/k4escritorio02.jpg",
-                "imagenes/escritorios/200/k4escritorio03.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "200cm x 100cm x 75cm" },
-                { name: "Color", value: "Tono medio" },
-                { name: "Estilo", value: "Nórdico ejecutivo premium" },
-                { name: "Capacidad", value: "Espacio amplio" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Escritorio 2.00m - Precio: $250.000"
-        },
-        5: {
-            name: "Mesa Modelo Trineo",
-            category: "Mesas Nórdicas",
-            price: "$200.000",
-            description: "Mesa modelo trineo fabricada con base de hierro y madera de eucalipto. Perfecta para comedores con estilo nórdico.",
-            images: [
-                "imagenes/mesas/k1/k1mesa01.jpg",
-                "imagenes/mesas/k1/k1mesa02.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "180cm x 90cm x 75cm" },
-                { name: "Capacidad", value: "6-8 personas" },
-                { name: "Acabado", value: "Nórdico" },
-                { name: "Estilo", value: "Trineo escandinavo" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Modelo Trineo - Precio: $200.000"
-        },
-        6: {
-            name: "Mesa Modelo U",
-            category: "Mesas Nórdicas",
-            price: "$220.000",
-            description: "Mesa modelo U fabricada con base de hierro y madera de eucalipto. Estructura robusta para uso diario intensivo.",
-            images: [
-                "imagenes/mesas/k2/k2mesa01.jpg",
-                "imagenes/mesas/k2/k2mesa02.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "160cm x 85cm x 75cm" },
-                { name: "Capacidad", value: "6 personas" },
-                { name: "Diseño", value: "Modelo U" },
-                { name: "Estilo", value: "Nórdico industrial" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Modelo U - Precio: $220.000"
-        },
-        7: {
-            name: "Mesa Modelo X",
-            category: "Mesas Nórdicas",
-            price: "$250.000",
-            description: "Mesa modelo X fabricada con base de hierro y madera de eucalipto. Diseño único que combina lo moderno con lo nórdico.",
-            images: [
-                "imagenes/mesas/k3/k3mesa01.jpg",
-                "imagenes/mesas/k3/k3mesa02.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "200cm x 95cm x 75cm" },
-                { name: "Capacidad", value: "8 personas" },
-                { name: "Estilo", value: "Modelo X nórdico" },
-                { name: "Diseño", value: "Exclusivo" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesa Modelo X - Precio: $250.000"
-        },
-        8: {
-            name: "Rack TV Nórdico K1",
-            category: "Racks TV",
-            price: "$120.000",
-            description: "Rack TV nórdico fabricado con base de hierro y madera de eucalipto. Estructura robusta con compartimentos para equipos.",
-            images: [
-                "imagenes/racks/k1/k1Rack01.jpg",
-                "imagenes/racks/k1/k1Rack02.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "120cm x 40cm x 50cm" },
-                { name: "Capacidad TV", value: "Hasta 55 pulgadas" },
-                { name: "Compartimentos", value: "3 estantes" },
-                { name: "Estilo", value: "Nórdico moderno" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Nórdico K1 - Precio: $120.000"
-        },
-        9: {
-            name: "Rack TV Nórdico K2",
-            category: "Racks TV",
-            price: "$150.000",
-            description: "Rack TV nórdico fabricado con base de hierro y madera de eucalipto. Diseño moderno perfecto para salas de estar contemporáneas.",
-            images: [
-                "imagenes/racks/k2/k2Rack01.jpg",
-                "imagenes/racks/k2/k2Rack02.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "140cm x 45cm x 55cm" },
-                { name: "Capacidad TV", value: "Hasta 65 pulgadas" },
-                { name: "Estantes", value: "Ajustables" },
-                { name: "Estilo", value: "Nórdico premium" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en el Rack TV Nórdico K2 - Precio: $150.000"
-        },
-        10: {
-            name: "Mesita Nórdica K1",
-            category: "Mesitas Nórdicas",
-            price: "$60.000",
-            description: "Mesita nórdica fabricada con base de hierro y madera de eucalipto. Diseño funcional ideal para espacios reducidos.",
-            images: [
-                "imagenes/mesitas/k1/k1mesita01.jpg",
-                "imagenes/mesitas/k1/k1mesita02.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "50cm x 50cm x 45cm" },
-                { name: "Forma", value: "Cuadrada" },
-                { name: "Estante", value: "Inferior" },
-                { name: "Estilo", value: "Nórdico básico" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Nórdica K1 - Precio: $60.000"
-        },
-        11: {
-            name: "Mesita Nórdica K2",
-            category: "Mesitas Nórdicas",
-            price: "$70.000",
-            description: "Mesita nórdica fabricada con base de hierro y madera de eucalipto. Diseño con detalles en hierro forjado.",
-            images: [
-                "imagenes/mesitas/k2/k2mesita01.jpg",
-                "imagenes/mesitas/k2/k2mesita02.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "55cm x 55cm x 48cm" },
-                { name: "Cajón", value: "Metálico" },
-                { name: "Uso", value: "Living o dormitorio" },
-                { name: "Estilo", value: "Nórdico con detalles" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Nórdica K2 - Precio: $70.000"
-        },
-        12: {
-            name: "Mesita Nórdica K3",
-            category: "Mesitas Nórdicas",
-            price: "$80.000",
-            description: "Mesita nórdica redonda fabricada con base de hierro y madera de eucalipto. Diseño elegante que se adapta a cualquier decoración.",
-            images: [
-                "imagenes/mesitas/k3/k3mesita01.jpg",
-                "imagenes/mesitas/k3/k3mesita02.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "Ø60cm x 45cm" },
-                { name: "Forma", value: "Redonda" },
-                { name: "Base", value: "Trípode metálico" },
-                { name: "Estilo", value: "Nórdico redondo" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Mesita Nórdica K3 - Precio: $80.000"
-        },
-        13: {
-            name: "Estantería Nórdica K1",
-            category: "Estanterías Nórdicas",
-            price: "$250.000",
-            description: "Estantería nórdica modular fabricada con base de hierro y madera de eucalipto. Ideal para libros y decoración.",
-            images: [
-                "imagenes/estanterias/k1/k1estanteria01.jpg",
-                "imagenes/estanterias/k1/k1estanteria02.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "160cm x 80cm x 30cm" },
-                { name: "Niveles", value: "4 estantes" },
-                { name: "Carga máx.", value: "20 kg por estante" },
-                { name: "Estilo", value: "Nórdico modular" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Nórdica K1 - Precio: $250.000"
-        },
-        14: {
-            name: "Estantería Nórdica K2",
-            category: "Estanterías Nórdicas",
-            price: "$60.000",
-            description: "Estantería nórdica fabricada con base de hierro y madera de eucalipto. Diseño nórdico auténtico para espacios modernos.",
-            images: [
-                "imagenes/estanterias/k2/k2estanteria01.jpg",
-                "imagenes/estanterias/k2/k2estanteria02.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "180cm x 90cm x 35cm" },
-                { name: "Niveles", value: "5 estantes" },
-                { name: "Estilo", value: "Nórdico puro" },
-                { name: "Uso", value: "Libros y decoración" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Nórdica K2 - Precio: $60.000"
-        },
-        15: {
-            name: "Estantería Nórdica K3",
-            category: "Estanterías Nórdicas",
-            price: "$80.000",
-            description: "Estantería nórdica en forma de escalera fabricada con base de hierro y madera de eucalipto. Diseño único y funcional.",
-            images: [
-                "imagenes/estanterias/k3/k3estanteria01.jpg",
-                "imagenes/estanterias/k3/k3estanteria02.jpg"
-            ],
-            specs: [
-                { name: "Material", value: "Base de hierro y madera de eucalipto" },
-                { name: "Dimensiones", value: "170cm x 85cm x 40cm" },
-                { name: "Compartimentos", value: "5 estantes" },
-                { name: "Forma", value: "Escalera" },
-                { name: "Estilo", value: "Nórdico escalonado" }
-            ],
-            whatsappMessage: "Hola! Estoy interesado en la Estantería Nórdica K3 - Precio: $80.000"
-        }
-    };
+/* RESET Y BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    // ===== FUNCIONALIDADES DEL HEADER REDISEÑADO =====
-    
-    // 1. BUSCADOR
-    function handleSearch() {
-        const searchTerm = searchInput.value.trim().toLowerCase();
-        if (!searchTerm) {
-            alert('Por favor, ingresa un término de búsqueda.');
-            return;
-        }
-        
-        const results = [];
-        Object.keys(products).forEach(key => {
-            const product = products[key];
-            if (product.name.toLowerCase().includes(searchTerm) || 
-                product.category.toLowerCase().includes(searchTerm) ||
-                product.description.toLowerCase().includes(searchTerm)) {
-                results.push({ id: key, ...product });
-            }
-        });
-        
-        if (results.length > 0) {
-            openProductModal(results[0].id);
-            searchInput.value = '';
-        } else {
-            alert('No se encontraron productos con ese término de búsqueda.');
-        }
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.btn:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* ===== HEADER COMPACTO REDISEÑADO ===== */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    z-index: 1000;
+    padding: 8px 0 0 0;
+}
+
+/* Primera Fila: Logo + Utilidades */
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+/* Logo 15% más pequeño */
+.logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.275rem;
+    color: var(--primary);
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: var(--transition);
+}
+
+.logo:hover {
+    color: var(--accent);
+}
+
+/* Utilidades del Header */
+.header-utils {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+    justify-content: flex-end;
+    margin-left: 20px;
+}
+
+/* Buscador Compacto */
+.search-container {
+    display: flex;
+    background: var(--light-gray);
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 0;
+    flex: 1;
+    max-width: 300px;
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.search-container:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+}
+
+.search-input {
+    flex: 1;
+    padding: 8px 15px;
+    border: none;
+    background: transparent;
+    font-size: 0.9rem;
+    color: var(--dark);
+    outline: none;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.search-input::placeholder {
+    color: var(--gray);
+    opacity: 0.7;
+}
+
+.search-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0 15px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.search-btn:hover {
+    background: var(--accent-dark);
+}
+
+/* Iconos de Utilidad */
+.utility-icons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.icon-btn {
+    position: relative;
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.icon-btn:hover {
+    background: var(--light-gray);
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.cart-count, .notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--accent);
+    color: white;
+    font-size: 0.7rem;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+/* Hamburger Button */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 5px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--dark);
+    margin: 3px 0;
+    transition: var(--transition);
+}
+
+/* Segunda Fila: Menú de Navegación */
+.header-bottom {
+    padding: 8px 0;
+    transition: var(--transition);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    position: relative;
+    padding: 5px 0;
+    font-size: 0.85rem;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: var(--transition);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--accent);
+}
+
+/* ===== HERO SIN ESPACIOS INNECESARIOS ===== */
+.hero {
+    height: calc(100vh - 90px);
+    min-height: 500px;
+    margin-top: 90px;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.slide-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+.slide-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
+}
+
+.slide-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    padding: 0 40px;
+    max-width: 600px;
+}
+
+.slide-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.slide-content h1 span {
+    color: var(--accent);
+}
+
+.slide-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.9);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    color: var(--primary);
+    cursor: pointer;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.carousel-btn:hover {
+    background: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev {
+    left: 30px;
+}
+
+.next {
+    right: 30px;
+}
+
+.carousel-dots {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.dot.active {
+    background: var(--accent);
+    transform: scale(1.2);
+}
+
+/* ===== SECCIONES DE PRODUCTOS ===== */
+.products-section {
+    padding: 80px 0;
+    background: var(--light);
+}
+
+.products-section:nth-child(even) {
+    background: white;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.section-title span {
+    color: var(--accent);
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--gray);
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+}
+
+/* ===== CARRUSEL DE PRODUCTOS - CIRCULAR PERFECTO ===== */
+.products-carousel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0 auto 40px;
+    max-width: 1200px;
+}
+
+.products-carousel-wrapper {
+    overflow: hidden;
+    width: 100%;
+    border-radius: var(--border-radius);
+    padding: 10px 5px;
+    margin: 0 -5px;
+}
+
+.products-carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 30px;
+    will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+.carousel-arrow {
+    background: white;
+    border: 2px solid var(--light-gray);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    color: var(--primary);
+    box-shadow: var(--shadow);
+    z-index: 10;
+}
+
+.carousel-arrow:hover:not(:disabled) {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    transform: scale(1.1);
+}
+
+.carousel-arrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.carousel-arrow:disabled:hover {
+    background: white;
+    color: var(--primary);
+    border-color: var(--light-gray);
+}
+
+/* ===== TARJETAS DE PRODUCTO ===== */
+.product-card {
+    flex: 0 0 calc(33.333% - 20px);
+    min-width: calc(33.333% - 20px);
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.product-image {
+    height: 250px;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 25px;
+}
+
+.product-info h3 {
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+    color: var(--primary);
+}
+
+.product-info p {
+    color: var(--gray);
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
+.price {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+
+.btn-view {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-view:hover {
+    background: var(--primary-dark);
+}
+
+.btn-load-more {
+    margin-top: 20px;
+    background: var(--primary);
+}
+
+.btn-load-more:hover {
+    background: var(--primary-dark);
+}
+
+/* ===== PUNTOS INDICADORES DEL CARRUSEL ===== */
+.carousel-dots-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
+
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--light-gray);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.carousel-dot.active {
+    background: var(--accent);
+    transform: scale(1.2);
+}
+
+.carousel-dot:hover {
+    background: var(--accent);
+    transform: scale(1.1);
+}
+
+/* ===== MODAL PERFECTO - PANTALLA COMPLETA ===== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.95);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    animation: fadeIn 0.3s ease;
+    overflow: hidden;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-container {
+    background: white;
+    border-radius: 0;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.4s ease;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    font-size: 2rem;
+    color: var(--primary);
+    cursor: pointer;
+    z-index: 2010;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.modal-close:hover {
+    background: white;
+    color: var(--accent);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.modal-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex: 1;
+    min-height: 100vh;
+    height: 100%;
+}
+
+.product-gallery {
+    padding: 40px;
+    background: var(--light-gray);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.main-image {
+    width: 100%;
+    height: 60vh;
+    min-height: 400px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.main-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.image-thumbs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.thumb {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: var(--transition);
+}
+
+.thumb.active,
+.thumb:hover {
+    border-color: var(--accent);
+    transform: scale(1.05);
+}
+
+.product-details {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.product-details h2 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    color: var(--primary);
+}
+
+.product-category {
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.product-details .product-price {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.product-details .product-description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 30px;
+    color: var(--dark);
+}
+
+.product-specs {
+    margin-bottom: 30px;
+}
+
+.product-specs h4 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--primary);
+}
+
+.product-specs ul {
+    list-style: none;
+}
+
+.product-specs li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--light-gray);
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-specs li:last-child {
+    border-bottom: none;
+}
+
+.product-specs li span:first-child {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.btn-whatsapp {
+    background: #25D366;
+    margin-bottom: 15px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-whatsapp:hover {
+    background: #128C7E;
+}
+
+.btn-close-modal {
+    background: var(--primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-close-modal:hover {
+    background: var(--primary-dark);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: var(--primary-dark);
+    color: white;
+    padding: 40px 0 20px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.footer-brand h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.footer-social {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-social a {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.footer-social a:hover {
+    background: var(--accent);
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+    .product-card {
+        flex: 0 0 calc(33.333% - 20px);
+        min-width: calc(33.333% - 20px);
+    }
+}
+
+@media (max-width: 992px) {
+    .header-utils {
+        gap: 15px;
     }
     
-    if (searchBtn) {
-        searchBtn.addEventListener('click', handleSearch);
+    .search-container {
+        max-width: 250px;
     }
     
-    if (searchInput) {
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSearch();
-        });
+    .utility-icons {
+        gap: 8px;
     }
     
-    // 2. CARRITO
-    let cart = JSON.parse(localStorage.getItem('nordic_cart')) || [];
-    
-    function updateCartCount() {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartCount.textContent = totalItems;
-        localStorage.setItem('nordic_cart', JSON.stringify(cart));
+    .icon-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
     }
     
-    if (cartBtn) {
-        cartBtn.addEventListener('click', () => {
-            if (cart.length === 0) {
-                alert('Tu carrito está vacío. Agrega productos para continuar.');
-            } else {
-                alert(`Carrito de compras:\n\n${cart.map(item => `• ${item.name} x${item.quantity}`).join('\n')}`);
-            }
-        });
+    /* Tooltip para botón de login en móvil */
+    .icon-btn[title]:hover::after {
+        content: attr(title);
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--primary);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        z-index: 1000;
     }
     
-    // 3. NOTIFICACIONES
-    let notifications = [
-        { id: 1, text: '¡Nuevo producto disponible!', read: false },
-        { id: 2, text: 'Oferta especial en escritorios', read: false },
-        { id: 3, text: 'Envío gratis en compras superiores a $300.000', read: false }
-    ];
-    
-    function updateNotificationCount() {
-        const unread = notifications.filter(n => !n.read).length;
-        notificationCount.textContent = unread;
-        localStorage.setItem('nordic_notifications', JSON.stringify(notifications));
+    .products-carousel-container {
+        gap: 10px;
     }
     
-    if (notificationBtn) {
-        notificationBtn.addEventListener('click', () => {
-            if (notifications.length === 0) {
-                alert('No hay notificaciones nuevas');
-                return;
-            }
-            
-            const unreadNotifications = notifications.filter(n => !n.read);
-            if (unreadNotifications.length > 0) {
-                alert('Notificaciones:\n\n' + unreadNotifications.map(n => `• ${n.text}`).join('\n'));
-                notifications.forEach(n => n.read = true);
-                updateNotificationCount();
-            } else {
-                alert('No hay notificaciones nuevas');
-            }
-        });
+    .carousel-arrow {
+        width: 45px;
+        height: 45px;
     }
     
-    // 4. LOGIN
-    if (loginBtn) {
-        loginBtn.addEventListener('click', () => {
-            alert('Funcionalidad de login - Preparada para conectar con Firebase Authentication');
-        });
+    .product-card {
+        flex: 0 0 calc(50% - 15px);
+        min-width: calc(50% - 15px);
     }
     
-    // ===== FUNCIONES DEL CARRUSEL HERO =====
-    function updateHeroCarousel() {
-        heroTrack.style.transform = `translateX(-${heroCurrentSlide * 100}%)`;
-        
-        heroDots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === heroCurrentSlide);
-        });
-        
-        heroSlides.forEach((slide, index) => {
-            slide.classList.toggle('active', index === heroCurrentSlide);
-        });
-    }
-
-    function heroNextSlide() {
-        heroCurrentSlide = (heroCurrentSlide + 1) % heroTotalSlides;
-        updateHeroCarousel();
-    }
-
-    function heroPrevSlide() {
-        heroCurrentSlide = (heroCurrentSlide - 1 + heroTotalSlides) % heroTotalSlides;
-        updateHeroCarousel();
-    }
-
-    function heroGoToSlide(index) {
-        heroCurrentSlide = index;
-        updateHeroCarousel();
-        resetHeroAutoSlide();
-    }
-
-    function resetHeroAutoSlide() {
-        clearInterval(heroAutoSlide);
-        startHeroAutoSlide();
-    }
-
-    function startHeroAutoSlide() {
-        heroAutoSlide = setInterval(heroNextSlide, 5000);
-    }
-
-    // ===== CONTROL TÁCTIL HERO =====
-    let heroTouchStartX = 0;
-    let heroTouchEndX = 0;
-
-    function handleHeroTouchStart(e) {
-        heroTouchStartX = e.changedTouches[0].screenX;
-    }
-
-    function handleHeroTouchEnd(e) {
-        heroTouchEndX = e.changedTouches[0].screenX;
-        handleHeroSwipe();
-    }
-
-    function handleHeroSwipe() {
-        const swipeThreshold = 50;
-        const difference = heroTouchStartX - heroTouchEndX;
-        
-        if (Math.abs(difference) > swipeThreshold) {
-            if (difference > 0) {
-                heroNextSlide();
-            } else {
-                heroPrevSlide();
-            }
-            resetHeroAutoSlide();
-        }
-    }
-
-    // ===== CARRUSEL DE PRODUCTOS SIMPLE Y ROBUSTO =====
-    // ELIMINAMOS LA COMPLEJIDAD DEL EFECTO CIRCULAR
-    
-    class SimpleCarousel {
-        constructor(container) {
-            this.container = container;
-            this.track = container.querySelector('.products-carousel-track');
-            this.cards = Array.from(container.querySelectorAll('.product-card'));
-            this.prevBtn = container.querySelector('.prev-arrow');
-            this.nextBtn = container.querySelector('.next-arrow');
-            this.dots = container.querySelectorAll('.carousel-dot');
-            
-            // Configuración simple
-            this.currentIndex = 0;
-            this.totalCards = this.cards.length;
-            this.isAnimating = false;
-            this.animationDuration = 400;
-            this.cardWidth = 0;
-            this.gap = 30;
-            this.cardsPerView = 3; // Por defecto
-            
-            if (this.totalCards === 0) return;
-            
-            this.init();
-            this.calculateDimensions();
-            this.updatePosition(true); // Posición inicial
-        }
-        
-        init() {
-            // Event listeners para botones
-            if (this.prevBtn) {
-                this.prevBtn.addEventListener('click', () => this.prev());
-            }
-            
-            if (this.nextBtn) {
-                this.nextBtn.addEventListener('click', () => this.next());
-            }
-            
-            // Event listeners para dots
-            this.dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => this.goTo(index));
-            });
-            
-            // Control táctil
-            this.addTouchControls();
-            
-            // Manejo de resize
-            window.addEventListener('resize', () => {
-                setTimeout(() => {
-                    this.calculateDimensions();
-                    this.updatePosition(true);
-                }, 100);
-            });
-            
-            // Estado inicial
-            this.updateArrows();
-            this.updateDots();
-        }
-        
-        calculateDimensions() {
-            if (this.cards.length === 0) return;
-            
-            // Obtener el ancho de la primera tarjeta
-            if (this.cards[0].offsetWidth > 0) {
-                this.cardWidth = this.cards[0].offsetWidth;
-            }
-            
-            // Calcular cuántas tarjetas caben en la vista
-            const containerWidth = this.track.parentElement.offsetWidth;
-            if (containerWidth > 0 && this.cardWidth > 0) {
-                this.cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap));
-                this.cardsPerView = Math.max(1, this.cardsPerView);
-            }
-        }
-        
-        addTouchControls() {
-            let touchStartX = 0;
-            let touchEndX = 0;
-            let touchMoved = false;
-            
-            this.track.addEventListener('touchstart', (e) => {
-                touchStartX = e.touches[0].clientX;
-                touchMoved = false;
-            }, { passive: true });
-            
-            this.track.addEventListener('touchmove', (e) => {
-                touchMoved = true;
-                touchEndX = e.touches[0].clientX;
-            }, { passive: true });
-            
-            this.track.addEventListener('touchend', () => {
-                if (!touchMoved || this.isAnimating) return;
-                
-                const threshold = 50;
-                const difference = touchStartX - touchEndX;
-                
-                if (Math.abs(difference) > threshold) {
-                    if (difference > 0) {
-                        this.next();
-                    } else {
-                        this.prev();
-                    }
-                }
-            }, { passive: true });
-        }
-        
-        updatePosition(instant = false) {
-            if (this.cards.length === 0 || this.cardWidth === 0) {
-                requestAnimationFrame(() => this.updatePosition(instant));
-                return;
-            }
-            
-            // Calcular el desplazamiento máximo permitido
-            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
-            this.currentIndex = Math.min(this.currentIndex, maxIndex);
-            
-            const offset = -this.currentIndex * (this.cardWidth + this.gap);
-            
-            if (instant) {
-                this.track.style.transition = 'none';
-                this.track.style.transform = `translateX(${offset}px)`;
-                
-                // Forzar reflow
-                void this.track.offsetHeight;
-            } else {
-                this.track.style.transition = `transform ${this.animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
-                this.track.style.transform = `translateX(${offset}px)`;
-            }
-            
-            this.updateDots();
-            this.updateArrows();
-        }
-        
-        updateDots() {
-            if (!this.dots.length) return;
-            
-            // Calcular cuántos dots necesitamos basados en el número de "páginas"
-            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
-            const totalDots = Math.max(1, Math.ceil((this.totalCards) / this.cardsPerView));
-            
-            // Asegurarnos de que tenemos suficientes dots
-            if (this.dots.length !== totalDots) {
-                // Los dots se manejan desde el HTML, así que ajustamos la visualización
-                this.dots.forEach((dot, index) => {
-                    dot.style.display = index < totalDots ? 'inline-block' : 'none';
-                });
-            }
-            
-            // Calcular qué dot está activo
-            const activeDotIndex = Math.floor(this.currentIndex / this.cardsPerView);
-            
-            this.dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === activeDotIndex);
-            });
-        }
-        
-        updateArrows() {
-            if (this.prevBtn) {
-                const isAtStart = this.currentIndex === 0;
-                this.prevBtn.style.opacity = isAtStart ? '0.3' : '1';
-                this.prevBtn.style.cursor = isAtStart ? 'not-allowed' : 'pointer';
-            }
-            
-            if (this.nextBtn) {
-                const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
-                const isAtEnd = this.currentIndex >= maxIndex;
-                this.nextBtn.style.opacity = isAtEnd ? '0.3' : '1';
-                this.nextBtn.style.cursor = isAtEnd ? 'not-allowed' : 'pointer';
-            }
-        }
-        
-        prev() {
-            if (this.isAnimating) return;
-            
-            this.isAnimating = true;
-            this.currentIndex = Math.max(0, this.currentIndex - 1);
-            
-            this.updatePosition();
-            
-            setTimeout(() => {
-                this.isAnimating = false;
-            }, this.animationDuration);
-        }
-        
-        next() {
-            if (this.isAnimating) return;
-            
-            this.isAnimating = true;
-            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
-            this.currentIndex = Math.min(maxIndex, this.currentIndex + 1);
-            
-            this.updatePosition();
-            
-            setTimeout(() => {
-                this.isAnimating = false;
-            }, this.animationDuration);
-        }
-        
-        goTo(index) {
-            if (this.isAnimating) return;
-            
-            const maxIndex = Math.max(0, this.totalCards - this.cardsPerView);
-            this.currentIndex = Math.min(maxIndex, index * this.cardsPerView);
-            
-            this.isAnimating = true;
-            this.updatePosition();
-            
-            setTimeout(() => {
-                this.isAnimating = false;
-            }, this.animationDuration);
-        }
-    }
-
-    // ===== FUNCIONES DEL MODAL =====
-    function openProductModal(productId) {
-        const product = products[productId];
-        if (!product) {
-            console.error(`Producto con ID ${productId} no encontrado`);
-            return;
-        }
-
-        // Actualizar contenido
-        document.getElementById('modalTitle').textContent = product.name;
-        document.getElementById('modalCategory').textContent = product.category;
-        document.getElementById('modalPrice').textContent = product.price;
-        document.getElementById('modalDescription').textContent = product.description;
-
-        // Actualizar imágenes
-        const mainImg = document.getElementById('modalImage');
-        const thumbs = document.querySelectorAll('.thumb');
-        
-        if (product.images[0]) {
-            mainImg.src = product.images[0];
-            mainImg.alt = product.name;
-        }
-        
-        thumbs.forEach((thumb, index) => {
-            if (product.images[index]) {
-                thumb.src = product.images[index];
-                thumb.style.display = 'block';
-                thumb.alt = `${product.name} - Imagen ${index + 1}`;
-                thumb.classList.toggle('active', index === 0);
-                
-                thumb.onclick = () => {
-                    mainImg.src = product.images[index];
-                    thumbs.forEach(t => t.classList.remove('active'));
-                    thumb.classList.add('active');
-                };
-            } else {
-                thumb.style.display = 'none';
-            }
-        });
-
-        // Actualizar especificaciones
-        const specsList = document.getElementById('modalSpecs');
-        specsList.innerHTML = '';
-        product.specs.forEach(spec => {
-            const li = document.createElement('li');
-            li.innerHTML = `<span>${spec.name}</span><span>${spec.value}</span>`;
-            specsList.appendChild(li);
-        });
-
-        // Configurar WhatsApp
-        const encodedMessage = encodeURIComponent(product.whatsappMessage);
-        whatsappBtn.onclick = () => {
-            window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
-        };
-
-        // Mostrar modal
-        productModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        
-        // Scroll al inicio
-        setTimeout(() => {
-            productModal.scrollTop = 0;
-        }, 10);
-    }
-
-    function closeProductModal() {
-        productModal.style.display = 'none';
-        document.body.style.overflow = '';
-    }
-
-    // ===== MENÚ HAMBURGUESA =====
-    if (hamburger) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            headerBottom.classList.toggle('active');
-            document.body.style.overflow = headerBottom.classList.contains('active') ? 'hidden' : '';
-        });
-    }
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (hamburger) hamburger.classList.remove('active');
-            if (headerBottom) headerBottom.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-    });
-
-    // ===== EVENT LISTENERS HERO =====
-    if (prevBtn) prevBtn.addEventListener('click', () => {
-        heroPrevSlide();
-        resetHeroAutoSlide();
-    });
-    
-    if (nextBtn) nextBtn.addEventListener('click', () => {
-        heroNextSlide();
-        resetHeroAutoSlide();
-    });
-    
-    heroDots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            heroGoToSlide(index);
-        });
-    });
-
-    if (heroTrack) {
-        heroTrack.addEventListener('touchstart', handleHeroTouchStart, { passive: true });
-        heroTrack.addEventListener('touchend', handleHeroTouchEnd, { passive: true });
-    }
-
-    // ===== EVENT LISTENERS MODAL =====
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('btn-view') || e.target.closest('.btn-view')) {
-            e.stopPropagation();
-            const btn = e.target.classList.contains('btn-view') ? e.target : e.target.closest('.btn-view');
-            const productId = btn.getAttribute('data-id');
-            openProductModal(productId);
-        }
-    });
-
-    closeModalBtn.addEventListener('click', closeProductModal);
-    closeModalBtn2.addEventListener('click', closeProductModal);
-    
-    productModal.addEventListener('click', (e) => {
-        if (e.target === productModal) closeProductModal();
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeProductModal();
-    });
-
-    // ===== SCROLL SPY =====
-    function updateActiveLink() {
-        const sections = document.querySelectorAll('section[id]');
-        const scrollPos = window.scrollY + 100;
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-            
-            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                navLinks.forEach(link => link.classList.remove('active'));
-                const activeLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
-                if (activeLink) activeLink.classList.add('active');
-            }
-        });
-    }
-
-    window.addEventListener('scroll', updateActiveLink);
-    updateActiveLink();
-
-    // ===== SMOOTH SCROLL =====
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 90,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // ===== INICIALIZACIÓN CARRUSELES DE PRODUCTOS =====
-    // Usamos SimpleCarousel en lugar de la versión circular compleja
-    
-    const productContainers = document.querySelectorAll('.products-carousel-container');
-    const carousels = [];
-    
-    // Esperar a que las imágenes se carguen para calcular dimensiones correctamente
-    function initializeCarousels() {
-        productContainers.forEach(container => {
-            const carousel = new SimpleCarousel(container);
-            carousels.push(carousel);
-        });
-        
-        console.log('✅ Carruseles SIMPLES inicializados correctamente');
+    .modal-content {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
     }
     
-    window.addEventListener('load', () => {
-        setTimeout(initializeCarousels, 100);
-    });
-    
-    if (document.readyState === 'complete') {
-        setTimeout(initializeCarousels, 100);
+    .product-gallery {
+        height: 50vh;
+        padding: 20px;
     }
     
-    // ===== INICIALIZACIÓN GENERAL =====
-    startHeroAutoSlide();
+    .product-details {
+        height: 50vh;
+        padding: 20px;
+    }
     
-    if (heroTrack) {
-        heroTrack.addEventListener('mouseenter', () => clearInterval(heroAutoSlide));
-        heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
+    .main-image {
+        height: 40vh;
+        min-height: 300px;
     }
+}
 
-    // Inicializar contadores
-    updateCartCount();
-    updateNotificationCount();
-
-    // Cargar notificaciones desde localStorage
-    const savedNotifications = localStorage.getItem('nordic_notifications');
-    if (savedNotifications) {
-        notifications = JSON.parse(savedNotifications);
-        updateNotificationCount();
+@media (max-width: 768px) {
+    .header {
+        padding: 5px 0 0 0;
     }
+    
+    .header-top {
+        padding-bottom: 5px;
+    }
+    
+    .header-utils {
+        display: none;
+    }
+    
+    .hamburger {
+        display: flex;
+        order: 2;
+    }
+    
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    
+    .logo {
+        order: 1;
+        font-size: 1.2rem;
+    }
+    
+    .header-bottom {
+        position: fixed;
+        top: 65px;
+        left: -100%;
+        width: 100%;
+        background: white;
+        padding: 0;
+        transition: var(--transition);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        z-index: 999;
+    }
+    
+    .header-bottom.active {
+        left: 0;
+    }
+    
+    .nav-menu {
+        flex-direction: column;
+        gap: 0;
+        padding: 20px;
+    }
+    
+    .nav-link {
+        padding: 12px 0;
+        font-size: 0.9rem;
+        border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .nav-link:last-child {
+        border-bottom: none;
+    }
+    
+    .nav-link::after {
+        display: none;
+    }
+    
+    /* Ajustar hero para móvil */
+    .hero {
+        height: calc(100vh - 65px);
+        margin-top: 65px;
+        min-height: 400px;
+    }
+    
+    .slide-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .prev {
+        left: 15px;
+    }
+    
+    .next {
+        right: 15px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+    
+    .product-card {
+        flex: 0 0 calc(100% - 10px);
+        min-width: calc(100% - 10px);
+    }
+    
+    .carousel-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .modal-container {
+        max-height: 100vh;
+    }
+    
+    .modal-content {
+        grid-template-rows: auto 1fr;
+    }
+    
+    .product-gallery {
+        height: auto;
+        max-height: 50vh;
+    }
+    
+    .product-details {
+        height: auto;
+        max-height: 50vh;
+    }
+    
+    .main-image {
+        height: 35vh;
+        min-height: 250px;
+    }
+}
 
-    console.log('✅ Estilo Nórdico - CARRUSEL SIMPLE Y PERFECTO INICIALIZADO');
-});
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.1rem;
+    }
+    
+    .hero {
+        min-height: 350px;
+    }
+    
+    .slide-content h1 {
+        font-size: 2rem;
+    }
+    
+    .slide-content p {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .modal-container {
+        padding: 0;
+    }
+    
+    .modal-content {
+        max-height: 100vh;
+    }
+    
+    .product-gallery,
+    .product-details {
+        padding: 15px;
+    }
+    
+    .main-image {
+        height: 30vh;
+        min-height: 200px;
+    }
+    
+    .thumb {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .modal-close {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .carousel-arrow {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+}
