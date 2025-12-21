@@ -1,12 +1,11 @@
-// index.js - ESTILO NÓRDICO - VERSIÓN 4 PRODUCTOS POR CARRUSEL
+// index.js - ESTILO NÓRDICO - VERSIÓN 4 TARJETAS POR CARRUSEL
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Estilo Nórdico - Sistema 4 productos inicializado');
+    console.log('🚀 Estilo Nórdico - Sistema inicializado con 4 tarjetas por carrusel');
 
     // ===== CONFIGURACIÓN =====
     const CONFIG = {
         carouselSpeed: 300,
         heroAutoSlideInterval: 5000,
-        cardsPerView: 4, // Cambiado de 3 a 4
         notifications: [
             {
                 id: 1,
@@ -649,7 +648,7 @@ document.addEventListener('DOMContentLoaded', function() {
         heroAutoSlide = setInterval(heroNextSlide, CONFIG.heroAutoSlideInterval);
     }
 
-    // ===== CARRUSEL DE PRODUCTOS - CLASE MEJORADA PARA 4 PRODUCTOS =====
+    // ===== CARRUSEL DE PRODUCTOS - ADAPTADO PARA 4 TARJETAS =====
     class SimpleCarousel {
         constructor(container) {
             this.container = container;
@@ -662,7 +661,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.currentIndex = 0;
             this.totalCards = this.cards.length;
             this.cardWidth = 0;
-            this.gap = 20; // Reducido para 4 productos
+            this.gap = 30;
             
             this.init();
         }
@@ -671,7 +670,6 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 this.calculateDimensions();
                 this.setupEvents();
-                this.setupResizeListener();
                 this.updatePosition(true);
                 this.updateDots();
                 this.updateArrows();
@@ -684,16 +682,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const firstCard = this.cards[0];
             this.cardWidth = firstCard.offsetWidth;
             
-            // Calcular cuántas tarjetas caben en la pantalla
+            // Calcular cuántas tarjetas caben en el contenedor (adaptado para 4 tarjetas)
             const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap)) || 1;
-            const maxPossibleIndex = Math.max(0, this.totalCards - cardsPerView);
+            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
-            if (this.currentIndex > maxPossibleIndex) {
-                this.currentIndex = maxPossibleIndex;
+            if (this.currentIndex > maxIndex) {
+                this.currentIndex = maxIndex;
             }
-            
-            console.log(`Carrusel: ${cardsPerView} tarjetas por vista, índice máximo: ${maxPossibleIndex}`);
         }
         
         setupEvents() {
@@ -708,17 +704,10 @@ document.addEventListener('DOMContentLoaded', function() {
             this.dots.forEach((dot, index) => {
                 dot.addEventListener('click', () => this.goTo(index));
             });
-        }
-        
-        setupResizeListener() {
-            let resizeTimeout;
+            
             window.addEventListener('resize', () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(() => {
-                    this.calculateDimensions();
-                    this.updatePosition(true);
-                    this.updateArrows();
-                }, 250);
+                this.calculateDimensions();
+                this.updatePosition(true);
             });
         }
         
@@ -734,8 +723,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.track.style.transform = `translateX(${offset}px)`;
             
             if (instant) {
-                // Forzar reflow
-                this.track.offsetHeight;
+                this.track.offsetHeight; // Forzar reflow
             }
             
             this.updateDots();
@@ -751,24 +739,21 @@ document.addEventListener('DOMContentLoaded', function() {
         
         updateArrows() {
             const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap)) || 1;
+            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
-            // Mostrar/ocultar flechas según sea necesario
-            if (this.prevBtn) {
-                this.prevBtn.disabled = this.currentIndex === 0;
-                this.prevBtn.style.opacity = this.currentIndex === 0 ? '0.5' : '1';
-            }
-            
-            if (this.nextBtn) {
-                this.nextBtn.disabled = this.currentIndex >= maxIndex;
-                this.nextBtn.style.opacity = this.currentIndex >= maxIndex ? '0.5' : '1';
+            if (maxIndex === 0) {
+                if (this.prevBtn) this.prevBtn.style.opacity = '0.5';
+                if (this.nextBtn) this.nextBtn.style.opacity = '0.5';
+            } else {
+                if (this.prevBtn) this.prevBtn.style.opacity = '1';
+                if (this.nextBtn) this.nextBtn.style.opacity = '1';
             }
         }
         
         next() {
             const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap)) || 1;
+            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (maxIndex === 0) return;
@@ -778,7 +763,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (this.currentIndex < maxIndex) {
                 this.currentIndex++;
             } else {
-                // Si estamos al final, volver al inicio con animación especial
                 this.currentIndex = 0;
                 animationSpeed = 800;
                 this.track.style.transition = `transform ${animationSpeed}ms cubic-bezier(0.68, -0.55, 0.265, 1.55)`;
@@ -797,7 +781,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         prev() {
             const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap)) || 1;
+            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (maxIndex === 0) return;
@@ -807,7 +791,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (this.currentIndex > 0) {
                 this.currentIndex--;
             } else {
-                // Si estamos al inicio, ir al final con animación especial
                 this.currentIndex = maxIndex;
                 animationSpeed = 800;
                 this.track.style.transition = `transform ${animationSpeed}ms cubic-bezier(0.68, -0.55, 0.265, 1.55)`;
@@ -826,7 +809,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         goTo(index) {
             const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap)) || 1;
+            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (index >= 0 && index <= maxIndex) {
@@ -1078,10 +1061,9 @@ document.addEventListener('DOMContentLoaded', function() {
             heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
         }
         
-        console.log('✅ Sistema 4 productos inicializado correctamente');
+        console.log('✅ Sistema inicializado correctamente con 4 tarjetas por carrusel');
         console.log('🛒 Carrito:', cart);
         console.log('🔔 Notificaciones:', notifications);
-        console.log('📱 Cards por vista configurado en:', CONFIG.cardsPerView);
     }
 
     // Iniciar la aplicación
