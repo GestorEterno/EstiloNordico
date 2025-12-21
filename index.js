@@ -1,6 +1,6 @@
-// index.js - ESTILO NÓRDICO - VERSIÓN 4 TARJETAS POR CARRUSEL
+// index.js - ESTILO NÓRDICO - VERSIÓN 4 TARJETAS CUADRADAS PERFECTAS
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Estilo Nórdico - Sistema inicializado con 4 tarjetas por carrusel');
+    console.log('🚀 Estilo Nórdico - Sistema inicializado con 4 tarjetas cuadradas');
 
     // ===== CONFIGURACIÓN =====
     const CONFIG = {
@@ -96,11 +96,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Escritorios Nórdicos", 
             price: 120000,
             formattedPrice: "$120.000",
-            description: "Escritorio de 1.20 metros fabricado con base de hierro y madera de eucalipto.", 
+            description: "Escritorio de 1.20 metros fabricado con base de hierro y madera de eucalipto. Diseño nórdico minimalista perfecto para espacios de trabajo modernos.", 
             images: ["imagenes/escritorios/120/k1escritorio01.png", "imagenes/escritorios/120/k1escritorio02.png"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "120cm x 60cm x 75cm" }
+                { name: "Dimensiones", value: "120cm x 60cm x 75cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Peso máximo", value: "50 kg" }
             ]
         },
         2: { 
@@ -109,11 +111,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Escritorios Nórdicos", 
             price: 150000,
             formattedPrice: "$150.000",
-            description: "Escritorio de 1.30 metros fabricado con base de hierro y madera de eucalipto.", 
+            description: "Escritorio de 1.30 metros fabricado con base de hierro y madera de eucalipto. Ideal para espacios de trabajo amplios.", 
             images: ["imagenes/escritorios/130/k2escritorio01.png", "imagenes/escritorios/130/k2escritorio02.png"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "130cm x 65cm x 75cm" }
+                { name: "Dimensiones", value: "130cm x 65cm x 75cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Peso máximo", value: "60 kg" }
             ]
         },
         3: { 
@@ -122,11 +126,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Escritorios Nórdicos", 
             price: 200000,
             formattedPrice: "$200.000",
-            description: "Elegante escritorio de 1.60 metros fabricado con base de hierro y madera de eucalipto.", 
+            description: "Elegante escritorio de 1.60 metros fabricado con base de hierro y madera de eucalipto. Perfecto para espacios ejecutivos.", 
             images: ["imagenes/escritorios/160/k3escritorio01.jpg", "imagenes/escritorios/160/k3escritorio02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "160cm x 80cm x 75cm" }
+                { name: "Dimensiones", value: "160cm x 80cm x 75cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Peso máximo", value: "80 kg" }
             ]
         },
         4: { 
@@ -135,11 +141,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Escritorios Nórdicos", 
             price: 250000,
             formattedPrice: "$250.000",
-            description: "Impresionante escritorio de 2 metros para espacios amplios.", 
+            description: "Impresionante escritorio de 2 metros para espacios amplios. Máxima elegancia y funcionalidad.", 
             images: ["imagenes/escritorios/200/k4escritorio01.jpg", "imagenes/escritorios/200/k4escritorio02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "200cm x 100cm x 75cm" }
+                { name: "Dimensiones", value: "200cm x 100cm x 75cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Peso máximo", value: "100 kg" }
             ]
         },
         5: { 
@@ -148,11 +156,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Mesas Nórdicas", 
             price: 200000,
             formattedPrice: "$200.000",
-            description: "Mesa de diseño nórdico con base en forma de trineo.", 
+            description: "Mesa de diseño nórdico con base en forma de trineo. Elegancia y estabilidad en un solo diseño.", 
             images: ["imagenes/mesas/k1/k1mesa01.jpg", "imagenes/mesas/k1/k1mesa02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "150cm x 90cm x 75cm" }
+                { name: "Dimensiones", value: "150cm x 90cm x 75cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Capacidad", value: "6-8 personas" }
             ]
         },
         6: { 
@@ -161,11 +171,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Mesas Nórdicas", 
             price: 220000,
             formattedPrice: "$220.000",
-            description: "Mesa con base en forma de U, diseño industrial nórdico.", 
+            description: "Mesa con base en forma de U, diseño industrial nórdico. Robustez y estilo para tu comedor.", 
             images: ["imagenes/mesas/k2/k2mesa01.jpg", "imagenes/mesas/k2/k2mesa02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "160cm x 90cm x 75cm" }
+                { name: "Dimensiones", value: "160cm x 90cm x 75cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Capacidad", value: "6-8 personas" }
             ]
         },
         7: { 
@@ -174,11 +186,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Mesas Nórdicas", 
             price: 250000,
             formattedPrice: "$250.000",
-            description: "Mesa con base en forma de X, elegante y robusta.", 
+            description: "Mesa con base en forma de X, elegante y robusta. Diseño que combina tradición y modernidad.", 
             images: ["imagenes/mesas/k3/k3mesa01.jpg", "imagenes/mesas/k3/k3mesa02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "180cm x 90cm x 75cm" }
+                { name: "Dimensiones", value: "180cm x 90cm x 75cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Capacidad", value: "8-10 personas" }
             ]
         },
         8: { 
@@ -187,11 +201,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Racks TV Nórdicos", 
             price: 120000,
             formattedPrice: "$120.000",
-            description: "Rack TV con diseño minimalista nórdico.", 
+            description: "Rack TV con diseño minimalista nórdico. Organización y estilo para tu sala de estar.", 
             images: ["imagenes/racks/k1/k1Rack01.jpg", "imagenes/racks/k1/k1Rack02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "120cm x 40cm x 50cm" }
+                { name: "Dimensiones", value: "120cm x 40cm x 50cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "TV máxima", value: "65 pulgadas" }
             ]
         },
         9: { 
@@ -200,11 +216,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Racks TV Nórdicos", 
             price: 150000,
             formattedPrice: "$150.000",
-            description: "Rack TV con diseño moderno y funcional.", 
+            description: "Rack TV con diseño moderno y funcional. Espacios organizados para todos tus dispositivos.", 
             images: ["imagenes/racks/k2/k2Rack01.jpg", "imagenes/racks/k2/k2Rack02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "140cm x 45cm x 55cm" }
+                { name: "Dimensiones", value: "140cm x 45cm x 55cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "TV máxima", value: "75 pulgadas" }
             ]
         },
         10: { 
@@ -213,11 +231,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Mesitas Nórdicas", 
             price: 60000,
             formattedPrice: "$60.000",
-            description: "Mesita de centro con diseño nórdico minimalista.", 
+            description: "Mesita de centro con diseño nórdico minimalista. Funcionalidad y elegancia para tu living.", 
             images: ["imagenes/mesitas/k1/k1mesita01.jpg", "imagenes/mesitas/k1/k1mesita02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "80cm x 40cm x 45cm" }
+                { name: "Dimensiones", value: "80cm x 40cm x 45cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Peso máximo", value: "30 kg" }
             ]
         },
         11: { 
@@ -226,11 +246,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Mesitas Nórdicas", 
             price: 70000,
             formattedPrice: "$70.000",
-            description: "Mesita de centro con diseño moderno.", 
+            description: "Mesita de centro con diseño moderno. Perfecta para acompañar tu sofá nórdico.", 
             images: ["imagenes/mesitas/k2/k2mesita01.jpg", "imagenes/mesitas/k2/k2mesita02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "90cm x 45cm x 45cm" }
+                { name: "Dimensiones", value: "90cm x 45cm x 45cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Peso máximo", value: "35 kg" }
             ]
         },
         12: { 
@@ -239,11 +261,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Mesitas Nórdicas", 
             price: 80000,
             formattedPrice: "$80.000",
-            description: "Mesita de centro con diseño elegante y funcional.", 
+            description: "Mesita de centro con diseño elegante y funcional. Complemento perfecto para espacios modernos.", 
             images: ["imagenes/mesitas/k3/k3mesita01.jpg", "imagenes/mesitas/k3/k3mesita02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "100cm x 50cm x 45cm" }
+                { name: "Dimensiones", value: "100cm x 50cm x 45cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Peso máximo", value: "40 kg" }
             ]
         },
         13: { 
@@ -252,11 +276,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Estanterías Nórdicas", 
             price: 250000,
             formattedPrice: "$250.000",
-            description: "Estantería de pared con diseño nórdico.", 
+            description: "Estantería de pared con diseño nórdico. Organiza y exhibe tus libros y objetos favoritos.", 
             images: ["imagenes/estanterias/k1/k1estanteria01.jpg", "imagenes/estanterias/k1/k1estanteria02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "180cm x 120cm x 30cm" }
+                { name: "Dimensiones", value: "180cm x 120cm x 30cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Peso máximo por estante", value: "25 kg" }
             ]
         },
         14: { 
@@ -265,11 +291,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Estanterías Nórdicas", 
             price: 60000,
             formattedPrice: "$60.000",
-            description: "Estantería pequeña con diseño minimalista.", 
+            description: "Estantería pequeña con diseño minimalista. Ideal para espacios reducidos con estilo.", 
             images: ["imagenes/estanterias/k2/k2estanteria01.jpg", "imagenes/estanterias/k2/k2estanteria02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "100cm x 60cm x 25cm" }
+                { name: "Dimensiones", value: "100cm x 60cm x 25cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Peso máximo por estante", value: "15 kg" }
             ]
         },
         15: { 
@@ -278,11 +306,13 @@ document.addEventListener('DOMContentLoaded', function() {
             category: "Estanterías Nórdicas", 
             price: 80000,
             formattedPrice: "$80.000",
-            description: "Estantería modular con diseño moderno.", 
+            description: "Estantería modular con diseño moderno. Adaptable a cualquier espacio y necesidad.", 
             images: ["imagenes/estanterias/k3/k3estanteria01.jpg", "imagenes/estanterias/k3/k3estanteria02.jpg"],
             specs: [
                 { name: "Material", value: "Base de hierro y madera de eucalipto" }, 
-                { name: "Dimensiones", value: "120cm x 80cm x 30cm" }
+                { name: "Dimensiones", value: "120cm x 80cm x 30cm" },
+                { name: "Color", value: "Natural de madera" },
+                { name: "Peso máximo por estante", value: "20 kg" }
             ]
         }
     };
@@ -648,7 +678,7 @@ document.addEventListener('DOMContentLoaded', function() {
         heroAutoSlide = setInterval(heroNextSlide, CONFIG.heroAutoSlideInterval);
     }
 
-    // ===== CARRUSEL DE PRODUCTOS - ADAPTADO PARA 4 TARJETAS =====
+    // ===== CARRUSEL DE PRODUCTOS - OPTIMIZADO PARA 4 TARJETAS CUADRADAS =====
     class SimpleCarousel {
         constructor(container) {
             this.container = container;
@@ -661,7 +691,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.currentIndex = 0;
             this.totalCards = this.cards.length;
             this.cardWidth = 0;
-            this.gap = 30;
+            this.gap = 20; // Reducido de 30px a 20px
             
             this.init();
         }
@@ -679,12 +709,19 @@ document.addEventListener('DOMContentLoaded', function() {
         calculateDimensions() {
             if (this.cards.length === 0 || !this.cards[0]) return;
             
-            const firstCard = this.cards[0];
-            this.cardWidth = firstCard.offsetWidth;
-            
-            // Calcular cuántas tarjetas caben en el contenedor (adaptado para 4 tarjetas)
+            // Forzar el cálculo del ancho considerando 4 tarjetas
             const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const cardsPerView = 4; // Siempre 4 tarjetas en pantallas grandes
+            const cardWidthPercentage = 25; // 100% / 4 = 25%
+            const gapTotal = (cardsPerView - 1) * this.gap;
+            
+            this.cardWidth = (containerWidth - gapTotal) / cardsPerView;
+            
+            // Actualizar el ancho de cada tarjeta
+            this.cards.forEach(card => {
+                card.style.width = `${this.cardWidth}px`;
+            });
+            
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (this.currentIndex > maxIndex) {
@@ -738,22 +775,32 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         updateArrows() {
-            const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const cardsPerView = 4;
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (maxIndex === 0) {
                 if (this.prevBtn) this.prevBtn.style.opacity = '0.5';
                 if (this.nextBtn) this.nextBtn.style.opacity = '0.5';
+                if (this.prevBtn) this.prevBtn.style.cursor = 'not-allowed';
+                if (this.nextBtn) this.nextBtn.style.cursor = 'not-allowed';
             } else {
                 if (this.prevBtn) this.prevBtn.style.opacity = '1';
                 if (this.nextBtn) this.nextBtn.style.opacity = '1';
+                if (this.prevBtn) this.prevBtn.style.cursor = 'pointer';
+                if (this.nextBtn) this.nextBtn.style.cursor = 'pointer';
+                
+                if (this.currentIndex === 0) {
+                    if (this.prevBtn) this.prevBtn.style.opacity = '0.5';
+                    if (this.prevBtn) this.prevBtn.style.cursor = 'not-allowed';
+                } else if (this.currentIndex === maxIndex) {
+                    if (this.nextBtn) this.nextBtn.style.opacity = '0.5';
+                    if (this.nextBtn) this.nextBtn.style.cursor = 'not-allowed';
+                }
             }
         }
         
         next() {
-            const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const cardsPerView = 4;
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (maxIndex === 0) return;
@@ -780,8 +827,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         prev() {
-            const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const cardsPerView = 4;
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (maxIndex === 0) return;
@@ -808,8 +854,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         goTo(index) {
-            const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const cardsPerView = 4;
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (index >= 0 && index <= maxIndex) {
@@ -1061,7 +1106,7 @@ document.addEventListener('DOMContentLoaded', function() {
             heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
         }
         
-        console.log('✅ Sistema inicializado correctamente con 4 tarjetas por carrusel');
+        console.log('✅ Sistema inicializado correctamente con 4 tarjetas cuadradas');
         console.log('🛒 Carrito:', cart);
         console.log('🔔 Notificaciones:', notifications);
     }
