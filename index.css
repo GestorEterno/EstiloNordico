@@ -1357,21 +1357,21 @@ h1, h2, h3, h4 {
     text-decoration: underline;
 }
 
-/* ===== FOOTER - REDISEÑADO COMPACTO ===== */
+/* ===== FOOTER - ULTRA COMPACTO CON WHATSAPP PRIMERO ===== */
 .footer {
     background: var(--primary-dark);
     color: white;
-    padding: 30px 0 15px;
+    padding: 18px 0 8px; /* MÁXIMO REDUCIDO: 18px top, 8px bottom */
     position: relative;
 }
 
-/* Primera fila: Logo + Redes */
+/* Primera fila: Logo + Redes - ESPACIO MÍNIMO ABSOLUTO */
 .footer-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px; /* Reducido al mínimo */
-    padding-bottom: 12px; /* Reducido al mínimo */
+    margin-bottom: 4px; /* MÍNIMO ABSOLUTO: 4px */
+    padding-bottom: 4px; /* MÍNIMO ABSOLUTO: 4px */
 }
 
 /* Logo idéntico al del header */
@@ -1389,25 +1389,34 @@ h1, h2, h3, h4 {
     color: var(--accent);
 }
 
-/* Redes sociales - 4 iconos */
+/* Redes sociales - WhatsApp primero y destacado */
 .footer-social {
     display: flex;
-    gap: 12px;
+    gap: 8px; /* MÍNIMO: 8px entre iconos */
     align-items: center;
 }
 
 .footer-social a {
-    width: 36px;
-    height: 36px;
+    width: 32px; /* REDUCIDO: 32px */
+    height: 32px; /* REDUCIDO: 32px */
     background: rgba(255,255,255,0.1);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 1rem;
+    font-size: 0.9rem; /* REDUCIDO: 0.9rem */
     transition: var(--transition);
     text-decoration: none;
+}
+
+/* WhatsApp destacado con fondo verde tenue */
+.footer-social a.whatsapp-first {
+    background: rgba(37, 211, 102, 0.2); /* Verde WhatsApp tenue */
+}
+
+.footer-social a.whatsapp-first:hover {
+    background: #25D366; /* Verde WhatsApp completo */
 }
 
 .footer-social a:hover {
@@ -1415,20 +1424,20 @@ h1, h2, h3, h4 {
     transform: translateY(-2px);
 }
 
-/* Línea divisoria */
+/* Línea divisoria - ESPACIO MÍNIMO ABSOLUTO */
 .footer-divider {
     height: 1px;
     background: rgba(255,255,255,0.1);
     width: 100%;
-    margin: 8px 0; /* Mínimo espacio */
+    margin: 3px 0; /* MÍNIMO ABSOLUTO: 3px */
 }
 
-/* Derechos reservados - 15% más pequeño y compacto */
+/* Derechos reservados - ultra compacto */
 .footer-bottom {
     text-align: center;
-    padding-top: 8px; /* Mínimo espacio entre línea y texto */
+    padding-top: 5px; /* MÍNIMO: 5px */
     color: rgba(255,255,255,0.7);
-    font-size: 0.765rem; /* 15% más pequeño: 0.9rem * 0.85 = 0.765rem */
+    font-size: 0.68rem; /* 15% más pequeño */
     line-height: 1.2;
     letter-spacing: 0.3px;
 }
@@ -1613,26 +1622,26 @@ h1, h2, h3, h4 {
         right: 15px;
     }
     
-    /* Footer responsive */
+    /* Footer responsive - ultra compacto */
     .footer-top {
         flex-direction: column;
-        gap: 15px;
+        gap: 6px; /* MÍNIMO: 6px */
         text-align: center;
-        margin-bottom: 10px;
-        padding-bottom: 10px;
+        margin-bottom: 3px; /* MÍNIMO: 3px */
+        padding-bottom: 3px; /* MÍNIMO: 3px */
     }
     
     .footer .logo {
-        margin-bottom: 5px;
+        margin-bottom: 1px; /* MÍNIMO: 1px */
     }
     
     .footer-divider {
-        margin: 6px 0;
+        margin: 2px 0; /* MÍNIMO: 2px */
     }
     
     .footer-bottom {
-        padding-top: 6px;
-        font-size: 0.7rem;
+        padding-top: 3px; /* MÍNIMO: 3px */
+        font-size: 0.64rem; /* Ajustado proporcionalmente */
     }
     
     .product-card {
@@ -1784,22 +1793,22 @@ h1, h2, h3, h4 {
         height: 150px;
     }
     
-    /* Footer mobile pequeño */
+    /* Footer mobile pequeño - ultra compacto */
     .footer {
-        padding: 25px 0 12px;
+        padding: 14px 0 6px; /* MÍNIMO: 14px top, 6px bottom */
     }
     
     .footer-social {
-        gap: 10px;
+        gap: 6px; /* MÍNIMO: 6px */
     }
     
     .footer-social a {
-        width: 32px;
-        height: 32px;
-        font-size: 0.9rem;
+        width: 30px; /* MÍNIMO: 30px */
+        height: 30px; /* MÍNIMO: 30px */
+        font-size: 0.85rem; /* MÍNIMO: 0.85rem */
     }
     
     .footer-bottom {
-        font-size: 0.65rem;
+        font-size: 0.62rem; /* MÍNIMO: 0.62rem */
     }
 }
