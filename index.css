@@ -1,4 +1,4 @@
-/* style.css - ESTILO NÓRDICO - VERSIÓN CON CARRITO FUNCIONAL */
+/* style.css - ESTILO NÓRDICO - VERSIÓN CON 4 PRODUCTOS POR CARRUSEL */
 :root {
     --primary: #2c3e50;
     --primary-dark: #1a252f;
@@ -447,12 +447,12 @@ h1, h2, h3, h4 {
     font-size: 1.1rem;
 }
 
-/* ===== CARRUSEL DE PRODUCTOS - CIRCULAR INFINITO ===== */
+/* ===== CARRUSEL DE PRODUCTOS - 4 POR FILA ===== */
 .products-carousel-container {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     margin: 0 auto 40px;
     max-width: 1200px;
 }
@@ -468,7 +468,7 @@ h1, h2, h3, h4 {
 .products-carousel-track {
     display: flex;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    gap: 30px;
+    gap: 20px;
     will-change: transform;
     backface-visibility: hidden;
     perspective: 1000px;
@@ -516,7 +516,7 @@ h1, h2, h3, h4 {
 /* ===== TARJETAS DE PRODUCTO ===== */
 .product-card {
     flex: 0 0 auto;
-    min-width: calc(33.333% - 20px);
+    min-width: calc(25% - 15px); /* 4 por fila */
     background: white;
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -533,7 +533,7 @@ h1, h2, h3, h4 {
 }
 
 .product-image {
-    height: 250px;
+    height: 220px; /* Reducido para 4 productos */
     overflow: hidden;
 }
 
@@ -549,11 +549,11 @@ h1, h2, h3, h4 {
 }
 
 .product-info {
-    padding: 25px;
+    padding: 20px; /* Reducido para 4 productos */
 }
 
 .product-info h3 {
-    font-size: 1.4rem;
+    font-size: 1.2rem; /* Reducido para 4 productos */
     margin-bottom: 5px;
     color: var(--primary);
 }
@@ -565,7 +565,7 @@ h1, h2, h3, h4 {
 }
 
 .price {
-    font-size: 1.4rem;
+    font-size: 1.3rem; /* Reducido para 4 productos */
     font-weight: 600;
     color: var(--accent);
     margin-bottom: 15px;
@@ -1416,14 +1416,24 @@ h1, h2, h3, h4 {
     text-decoration: underline;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 1200px) {
+/* ===== RESPONSIVE PARA 4 PRODUCTOS ===== */
+@media (min-width: 1400px) {
     .product-card {
-        min-width: calc(33.333% - 20px);
+        min-width: calc(25% - 18px);
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1400px) and (min-width: 1201px) {
+    .product-card {
+        min-width: calc(33.333% - 20px);
+    }
+    
+    .products-carousel-track {
+        gap: 25px;
+    }
+}
+
+@media (max-width: 1200px) {
     .header-utils {
         gap: 15px;
     }
@@ -1495,6 +1505,24 @@ h1, h2, h3, h4 {
         flex-direction: column;
         gap: 15px;
         text-align: center;
+    }
+}
+
+@media (max-width: 992px) {
+    .product-card {
+        min-width: calc(50% - 15px);
+    }
+    
+    .product-image {
+        height: 200px;
+    }
+    
+    .product-info h3 {
+        font-size: 1.1rem;
+    }
+    
+    .price {
+        font-size: 1.2rem;
     }
 }
 
