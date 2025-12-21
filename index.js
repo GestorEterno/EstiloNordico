@@ -1,11 +1,12 @@
-// index.js - ESTILO NÓRDICO - VERSIÓN COMPLETA CORREGIDA
+// index.js - ESTILO NÓRDICO - VERSIÓN 4 PRODUCTOS POR CARRUSEL
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Estilo Nórdico - Sistema inicializado');
+    console.log('🚀 Estilo Nórdico - Sistema 4 productos inicializado');
 
     // ===== CONFIGURACIÓN =====
     const CONFIG = {
         carouselSpeed: 300,
         heroAutoSlideInterval: 5000,
+        cardsPerView: 4, // Cambiado de 3 a 4
         notifications: [
             {
                 id: 1,
@@ -648,7 +649,7 @@ document.addEventListener('DOMContentLoaded', function() {
         heroAutoSlide = setInterval(heroNextSlide, CONFIG.heroAutoSlideInterval);
     }
 
-    // ===== CARRUSEL DE PRODUCTOS =====
+    // ===== CARRUSEL DE PRODUCTOS - CLASE MEJORADA PARA 4 PRODUCTOS =====
     class SimpleCarousel {
         constructor(container) {
             this.container = container;
@@ -661,7 +662,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.currentIndex = 0;
             this.totalCards = this.cards.length;
             this.cardWidth = 0;
-            this.gap = 30;
+            this.gap = 20; // Reducido para 4 productos
             
             this.init();
         }
@@ -670,6 +671,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 this.calculateDimensions();
                 this.setupEvents();
+                this.setupResizeListener();
                 this.updatePosition(true);
                 this.updateDots();
                 this.updateArrows();
@@ -682,13 +684,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const firstCard = this.cards[0];
             this.cardWidth = firstCard.offsetWidth;
             
-            const trackWidth = this.track.scrollWidth;
+            // Calcular cuántas tarjetas caben en la pantalla
             const containerWidth = this.track.parentElement.offsetWidth;
-            const maxPossibleIndex = Math.max(0, this.totalCards - Math.floor(containerWidth / this.cardWidth));
+            const cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap)) || 1;
+            const maxPossibleIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (this.currentIndex > maxPossibleIndex) {
                 this.currentIndex = maxPossibleIndex;
             }
+            
+            console.log(`Carrusel: ${cardsPerView} tarjetas por vista, índice máximo: ${maxPossibleIndex}`);
         }
         
         setupEvents() {
@@ -703,10 +708,17 @@ document.addEventListener('DOMContentLoaded', function() {
             this.dots.forEach((dot, index) => {
                 dot.addEventListener('click', () => this.goTo(index));
             });
-            
+        }
+        
+        setupResizeListener() {
+            let resizeTimeout;
             window.addEventListener('resize', () => {
-                this.calculateDimensions();
-                this.updatePosition(true);
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    this.calculateDimensions();
+                    this.updatePosition(true);
+                    this.updateArrows();
+                }, 250);
             });
         }
         
@@ -722,7 +734,8 @@ document.addEventListener('DOMContentLoaded', function() {
             this.track.style.transform = `translateX(${offset}px)`;
             
             if (instant) {
-                this.track.offsetHeight; // Forzar reflow
+                // Forzar reflow
+                this.track.offsetHeight;
             }
             
             this.updateDots();
@@ -737,24 +750,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         updateArrows() {
-            const trackWidth = this.track.scrollWidth;
             const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap)) || 1;
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
-            if (maxIndex === 0) {
-                if (this.prevBtn) this.prevBtn.style.opacity = '0.5';
-                if (this.nextBtn) this.nextBtn.style.opacity = '0.5';
-            } else {
-                if (this.prevBtn) this.prevBtn.style.opacity = '1';
-                if (this.nextBtn) this.nextBtn.style.opacity = '1';
+            // Mostrar/ocultar flechas según sea necesario
+            if (this.prevBtn) {
+                this.prevBtn.disabled = this.currentIndex === 0;
+                this.prevBtn.style.opacity = this.currentIndex === 0 ? '0.5' : '1';
+            }
+            
+            if (this.nextBtn) {
+                this.nextBtn.disabled = this.currentIndex >= maxIndex;
+                this.nextBtn.style.opacity = this.currentIndex >= maxIndex ? '0.5' : '1';
             }
         }
         
         next() {
-            const trackWidth = this.track.scrollWidth;
             const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap)) || 1;
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (maxIndex === 0) return;
@@ -764,6 +778,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (this.currentIndex < maxIndex) {
                 this.currentIndex++;
             } else {
+                // Si estamos al final, volver al inicio con animación especial
                 this.currentIndex = 0;
                 animationSpeed = 800;
                 this.track.style.transition = `transform ${animationSpeed}ms cubic-bezier(0.68, -0.55, 0.265, 1.55)`;
@@ -781,9 +796,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         prev() {
-            const trackWidth = this.track.scrollWidth;
             const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap)) || 1;
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (maxIndex === 0) return;
@@ -793,6 +807,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (this.currentIndex > 0) {
                 this.currentIndex--;
             } else {
+                // Si estamos al inicio, ir al final con animación especial
                 this.currentIndex = maxIndex;
                 animationSpeed = 800;
                 this.track.style.transition = `transform ${animationSpeed}ms cubic-bezier(0.68, -0.55, 0.265, 1.55)`;
@@ -810,9 +825,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         goTo(index) {
-            const trackWidth = this.track.scrollWidth;
             const containerWidth = this.track.parentElement.offsetWidth;
-            const cardsPerView = Math.floor(containerWidth / this.cardWidth);
+            const cardsPerView = Math.floor(containerWidth / (this.cardWidth + this.gap)) || 1;
             const maxIndex = Math.max(0, this.totalCards - cardsPerView);
             
             if (index >= 0 && index <= maxIndex) {
@@ -1064,9 +1078,10 @@ document.addEventListener('DOMContentLoaded', function() {
             heroTrack.addEventListener('mouseleave', startHeroAutoSlide);
         }
         
-        console.log('✅ Sistema inicializado correctamente');
+        console.log('✅ Sistema 4 productos inicializado correctamente');
         console.log('🛒 Carrito:', cart);
         console.log('🔔 Notificaciones:', notifications);
+        console.log('📱 Cards por vista configurado en:', CONFIG.cardsPerView);
     }
 
     // Iniciar la aplicación
