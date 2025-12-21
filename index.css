@@ -1,4 +1,4 @@
-/* style.css - ESTILO NÓRDICO - VERSIÓN CON 4 PRODUCTOS POR CARRUSEL */
+/* style.css - ESTILO NÓRDICO - VERSIÓN 4 TARJETAS POR CARRUSEL */
 :root {
     --primary: #2c3e50;
     --primary-dark: #1a252f;
@@ -447,12 +447,12 @@ h1, h2, h3, h4 {
     font-size: 1.1rem;
 }
 
-/* ===== CARRUSEL DE PRODUCTOS - 4 POR FILA ===== */
+/* ===== CARRUSEL DE PRODUCTOS - 4 TARJETAS POR FILA ===== */
 .products-carousel-container {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     margin: 0 auto 40px;
     max-width: 1200px;
 }
@@ -468,7 +468,7 @@ h1, h2, h3, h4 {
 .products-carousel-track {
     display: flex;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    gap: 20px;
+    gap: 30px;
     will-change: transform;
     backface-visibility: hidden;
     perspective: 1000px;
@@ -513,10 +513,10 @@ h1, h2, h3, h4 {
     transform: scale(1.1);
 }
 
-/* ===== TARJETAS DE PRODUCTO ===== */
+/* ===== TARJETAS DE PRODUCTO - 4 POR FILA ===== */
 .product-card {
     flex: 0 0 auto;
-    min-width: calc(25% - 15px); /* 4 por fila */
+    min-width: calc(25% - 22.5px); /* 4 tarjetas por fila con gap de 30px: (30px * 3) / 4 = 22.5px */
     background: white;
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -533,7 +533,7 @@ h1, h2, h3, h4 {
 }
 
 .product-image {
-    height: 220px; /* Reducido para 4 productos */
+    height: 250px;
     overflow: hidden;
 }
 
@@ -549,11 +549,11 @@ h1, h2, h3, h4 {
 }
 
 .product-info {
-    padding: 20px; /* Reducido para 4 productos */
+    padding: 25px;
 }
 
 .product-info h3 {
-    font-size: 1.2rem; /* Reducido para 4 productos */
+    font-size: 1.4rem;
     margin-bottom: 5px;
     color: var(--primary);
 }
@@ -565,7 +565,7 @@ h1, h2, h3, h4 {
 }
 
 .price {
-    font-size: 1.3rem; /* Reducido para 4 productos */
+    font-size: 1.4rem;
     font-weight: 600;
     color: var(--accent);
     margin-bottom: 15px;
@@ -1416,24 +1416,14 @@ h1, h2, h3, h4 {
     text-decoration: underline;
 }
 
-/* ===== RESPONSIVE PARA 4 PRODUCTOS ===== */
-@media (min-width: 1400px) {
-    .product-card {
-        min-width: calc(25% - 18px);
-    }
-}
-
-@media (max-width: 1400px) and (min-width: 1201px) {
-    .product-card {
-        min-width: calc(33.333% - 20px);
-    }
-    
-    .products-carousel-track {
-        gap: 25px;
-    }
-}
-
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1200px) {
+    .product-card {
+        min-width: calc(33.333% - 20px); /* 3 tarjetas */
+    }
+}
+
+@media (max-width: 992px) {
     .header-utils {
         gap: 15px;
     }
@@ -1478,7 +1468,7 @@ h1, h2, h3, h4 {
     }
     
     .product-card {
-        min-width: calc(50% - 15px);
+        min-width: calc(50% - 15px); /* 2 tarjetas */
     }
     
     .modal-content {
@@ -1505,24 +1495,6 @@ h1, h2, h3, h4 {
         flex-direction: column;
         gap: 15px;
         text-align: center;
-    }
-}
-
-@media (max-width: 992px) {
-    .product-card {
-        min-width: calc(50% - 15px);
-    }
-    
-    .product-image {
-        height: 200px;
-    }
-    
-    .product-info h3 {
-        font-size: 1.1rem;
-    }
-    
-    .price {
-        font-size: 1.2rem;
     }
 }
 
@@ -1629,7 +1601,7 @@ h1, h2, h3, h4 {
     }
     
     .product-card {
-        min-width: calc(100% - 10px);
+        min-width: calc(100% - 10px); /* 1 tarjeta */
     }
     
     .carousel-arrow {
