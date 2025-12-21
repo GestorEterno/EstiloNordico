@@ -1357,21 +1357,21 @@ h1, h2, h3, h4 {
     text-decoration: underline;
 }
 
-/* ===== FOOTER - ULTRA COMPACTO CON WHATSAPP PRIMERO ===== */
+/* ===== FOOTER - SIMÉTRICO Y ULTRA COMPACTO ===== */
 .footer {
     background: var(--primary-dark);
     color: white;
-    padding: 18px 0 8px; /* MÁXIMO REDUCIDO: 18px top, 8px bottom */
+    padding: 12px 0; /* SIMÉTRICO: 12px arriba y abajo */
     position: relative;
 }
 
-/* Primera fila: Logo + Redes - ESPACIO MÍNIMO ABSOLUTO */
+/* Primera fila: Logo + Redes - ESPACIO MÍNIMO SIMÉTRICO */
 .footer-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 4px; /* MÍNIMO ABSOLUTO: 4px */
-    padding-bottom: 4px; /* MÍNIMO ABSOLUTO: 4px */
+    margin-bottom: 5px; /* SIMÉTRICO: 5px */
+    padding-bottom: 5px; /* SIMÉTRICO: 5px */
 }
 
 /* Logo idéntico al del header */
@@ -1392,20 +1392,20 @@ h1, h2, h3, h4 {
 /* Redes sociales - WhatsApp primero y destacado */
 .footer-social {
     display: flex;
-    gap: 8px; /* MÍNIMO: 8px entre iconos */
+    gap: 8px; /* COMPACTO: 8px entre iconos */
     align-items: center;
 }
 
 .footer-social a {
-    width: 32px; /* REDUCIDO: 32px */
-    height: 32px; /* REDUCIDO: 32px */
+    width: 32px; /* COMPACTO: 32px */
+    height: 32px; /* COMPACTO: 32px */
     background: rgba(255,255,255,0.1);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 0.9rem; /* REDUCIDO: 0.9rem */
+    font-size: 0.9rem; /* COMPACTO: 0.9rem */
     transition: var(--transition);
     text-decoration: none;
 }
@@ -1424,20 +1424,20 @@ h1, h2, h3, h4 {
     transform: translateY(-2px);
 }
 
-/* Línea divisoria - ESPACIO MÍNIMO ABSOLUTO */
+/* Línea divisoria - ESPACIO SIMÉTRICO */
 .footer-divider {
     height: 1px;
     background: rgba(255,255,255,0.1);
     width: 100%;
-    margin: 3px 0; /* MÍNIMO ABSOLUTO: 3px */
+    margin: 5px 0; /* SIMÉTRICO: 5px arriba y abajo */
 }
 
-/* Derechos reservados - ultra compacto */
+/* Derechos reservados - ultra compacto y simétrico */
 .footer-bottom {
     text-align: center;
-    padding-top: 5px; /* MÍNIMO: 5px */
+    padding-top: 5px; /* SIMÉTRICO: 5px */
     color: rgba(255,255,255,0.7);
-    font-size: 0.68rem; /* 15% más pequeño */
+    font-size: 0.7rem; /* COMPACTO: 0.7rem */
     line-height: 1.2;
     letter-spacing: 0.3px;
 }
@@ -1622,26 +1622,30 @@ h1, h2, h3, h4 {
         right: 15px;
     }
     
-    /* Footer responsive - ultra compacto */
+    /* Footer responsive - simétrico */
+    .footer {
+        padding: 10px 0; /* SIMÉTRICO: 10px arriba y abajo en móvil */
+    }
+    
     .footer-top {
         flex-direction: column;
-        gap: 6px; /* MÍNIMO: 6px */
+        gap: 5px; /* SIMÉTRICO: 5px */
         text-align: center;
-        margin-bottom: 3px; /* MÍNIMO: 3px */
-        padding-bottom: 3px; /* MÍNIMO: 3px */
+        margin-bottom: 4px; /* SIMÉTRICO: 4px */
+        padding-bottom: 4px; /* SIMÉTRICO: 4px */
     }
     
     .footer .logo {
-        margin-bottom: 1px; /* MÍNIMO: 1px */
+        margin-bottom: 2px; /* SIMÉTRICO: 2px */
     }
     
     .footer-divider {
-        margin: 2px 0; /* MÍNIMO: 2px */
+        margin: 4px 0; /* SIMÉTRICO: 4px arriba y abajo */
     }
     
     .footer-bottom {
-        padding-top: 3px; /* MÍNIMO: 3px */
-        font-size: 0.64rem; /* Ajustado proporcionalmente */
+        padding-top: 4px; /* SIMÉTRICO: 4px */
+        font-size: 0.65rem; /* COMPACTO: 0.65rem */
     }
     
     .product-card {
@@ -1793,22 +1797,22 @@ h1, h2, h3, h4 {
         height: 150px;
     }
     
-    /* Footer mobile pequeño - ultra compacto */
+    /* Footer mobile pequeño - simétrico */
     .footer {
-        padding: 14px 0 6px; /* MÍNIMO: 14px top, 6px bottom */
+        padding: 8px 0; /* SIMÉTRICO: 8px arriba y abajo */
     }
     
     .footer-social {
-        gap: 6px; /* MÍNIMO: 6px */
+        gap: 6px; /* COMPACTO: 6px */
     }
     
     .footer-social a {
-        width: 30px; /* MÍNIMO: 30px */
-        height: 30px; /* MÍNIMO: 30px */
-        font-size: 0.85rem; /* MÍNIMO: 0.85rem */
+        width: 30px; /* COMPACTO: 30px */
+        height: 30px; /* COMPACTO: 30px */
+        font-size: 0.85rem; /* COMPACTO: 0.85rem */
     }
     
     .footer-bottom {
-        font-size: 0.62rem; /* MÍNIMO: 0.62rem */
+        font-size: 0.6rem; /* COMPACTO: 0.6rem */
     }
 }
