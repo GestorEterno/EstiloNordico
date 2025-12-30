@@ -1,8 +1,8 @@
-// index.js - ESTILO NÓRDICO V6 PERFECTO VISUAL
+// index.js - ESTILO NÓRDICO V7 PERFECTO VISUAL
 // Sistema simple, funcional y sin bugs
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Estilo Nórdico V6 - Sistema inicializado');
+    console.log('🚀 Estilo Nórdico V7 - Sistema inicializado');
     
     // ===== CONFIGURACIÓN SIMPLE =====
     const CONFIG = {
@@ -14,12 +14,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 120000,
                 formattedPrice: "$120.000",
                 oldPrice: "$150.000",
-                description: "Escritorio de 1.20 metros fabricado con base de hierro y madera de eucalipto. Diseño nórdico minimalista perfecto para espacios de trabajo modernos.",
-                images: ["imagenes/escritorios/120/k1escritorio01.png"],
+                description: "Escritorio de 1.20 metros fabricado con base de hierro y madera de eucalipto. Diseño nórdico minimalista perfecto para espacios de trabajo modernos. Ideal para home office, incluye gestión de cables integrada y superficie resistente a rayones.",
+                images: [
+                    "imagenes/escritorios/120/k1escritorio01.png",
+                    "imagenes/escritorios/120/k1escritorio01.png",
+                    "imagenes/escritorios/120/k1escritorio01.png",
+                    "imagenes/escritorios/120/k1escritorio01.png"
+                ],
                 specs: [
                     { name: "Material", value: "Base de hierro y madera de eucalipto" },
                     { name: "Dimensiones", value: "120×60×75 cm" },
-                    { name: "Color", value: "Natural de madera" }
+                    { name: "Color", value: "Natural de madera" },
+                    { name: "Peso máximo", value: "80 kg" },
+                    { name: "Montaje", value: "Incluido" }
                 ],
                 stock: 15,
                 rating: 4.5,
@@ -31,12 +38,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 category: "Escritorios Nórdicos",
                 price: 150000,
                 formattedPrice: "$150.000",
-                description: "Escritorio de 1.30 metros fabricado con base de hierro y madera de eucalipto. Ideal para espacios de trabajo amplios.",
-                images: ["imagenes/escritorios/130/k2escritorio01.png"],
+                description: "Escritorio de 1.30 metros fabricado con base de hierro y madera de eucalipto. Ideal para espacios de trabajo amplios. Incluye cajones ocultos con sistema suave y gestión profesional de cables.",
+                images: [
+                    "imagenes/escritorios/130/k2escritorio01.png",
+                    "imagenes/escritorios/130/k2escritorio01.png",
+                    "imagenes/escritorios/130/k2escritorio01.png",
+                    "imagenes/escritorios/130/k2escritorio01.png"
+                ],
                 specs: [
                     { name: "Material", value: "Base de hierro y madera de eucalipto" },
                     { name: "Dimensiones", value: "130×65×75 cm" },
-                    { name: "Color", value: "Natural de madera" }
+                    { name: "Color", value: "Natural de madera" },
+                    { name: "Peso máximo", value: "100 kg" },
+                    { name: "Cajones", value: "2 cajones ocultos" }
                 ],
                 stock: 8,
                 rating: 4.0,
@@ -48,12 +62,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 category: "Escritorios Nórdicos",
                 price: 200000,
                 formattedPrice: "$200.000",
-                description: "Elegante escritorio de 1.60 metros fabricado con base de hierro y madera de eucalipto. Perfecto para espacios ejecutivos.",
-                images: ["imagenes/escritorios/160/k3escritorio01.jpg"],
+                description: "Elegante escritorio de 1.60 metros fabricado con base de hierro y madera de eucalipto. Perfecto para espacios ejecutivos. Diseño minimalista que soporta doble monitor y organización profesional.",
+                images: [
+                    "imagenes/escritorios/160/k3escritorio01.jpg",
+                    "imagenes/escritorios/160/k3escritorio01.jpg",
+                    "imagenes/escritorios/160/k3escritorio01.jpg",
+                    "imagenes/escritorios/160/k3escritorio01.jpg"
+                ],
                 specs: [
                     { name: "Material", value: "Base de hierro y madera de eucalipto" },
                     { name: "Dimensiones", value: "160×80×75 cm" },
-                    { name: "Color", value: "Natural de madera" }
+                    { name: "Color", value: "Natural de madera" },
+                    { name: "Peso máximo", value: "120 kg" },
+                    { name: "Recomendado", value: "Doble monitor" }
                 ],
                 stock: 5,
                 rating: 5.0,
@@ -65,12 +86,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 category: "Escritorios Nórdicos",
                 price: 250000,
                 formattedPrice: "$250.000",
-                description: "Impresionante escritorio de 2 metros para espacios amplios. Máxima elegancia y funcionalidad.",
-                images: ["imagenes/escritorios/200/k4escritorio01.jpg"],
+                description: "Impresionante escritorio de 2 metros para espacios amplios. Máxima elegancia y funcionalidad. Superficie extra resistente, ideal para ejecutivos y estudios profesionales.",
+                images: [
+                    "imagenes/escritorios/200/k4escritorio01.jpg",
+                    "imagenes/escritorios/200/k4escritorio01.jpg",
+                    "imagenes/escritorios/200/k4escritorio01.jpg",
+                    "imagenes/escritorios/200/k4escritorio01.jpg"
+                ],
                 specs: [
                     { name: "Material", value: "Base de hierro y madera de eucalipto" },
                     { name: "Dimensiones", value: "200×100×75 cm" },
-                    { name: "Color", value: "Natural de madera" }
+                    { name: "Color", value: "Natural de madera" },
+                    { name: "Peso máximo", value: "150 kg" },
+                    { name: "Espacio", value: "Amplio para múltiples dispositivos" }
                 ],
                 stock: 3,
                 rating: 4.5,
@@ -82,12 +110,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 category: "Mesas Nórdicas",
                 price: 200000,
                 formattedPrice: "$200.000",
-                description: "Mesa de diseño nórdico con base en forma de trineo. Elegancia y estabilidad en un solo diseño.",
-                images: ["imagenes/mesas/k1/k1mesa01.jpg"],
+                description: "Mesa de diseño nórdico con base en forma de trineo. Elegancia y estabilidad en un solo diseño. Perfecta para comedores modernos, cenas familiares y reuniones sociales.",
+                images: [
+                    "imagenes/mesas/k1/k1mesa01.jpg",
+                    "imagenes/mesas/k1/k1mesa01.jpg",
+                    "imagenes/mesas/k1/k1mesa01.jpg",
+                    "imagenes/mesas/k1/k1mesa01.jpg"
+                ],
                 specs: [
                     { name: "Material", value: "Base de hierro y madera de eucalipto" },
                     { name: "Dimensiones", value: "150×90×75 cm" },
-                    { name: "Color", value: "Natural de madera" }
+                    { name: "Color", value: "Natural de madera" },
+                    { name: "Capacidad", value: "6-8 personas" },
+                    { name: "Estilo", value: "Trineo nórdico" }
                 ],
                 stock: 10,
                 rating: 4.5,
@@ -99,12 +134,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 category: "Mesas Nórdicas",
                 price: 220000,
                 formattedPrice: "$220.000",
-                description: "Mesa con base en forma de U, diseño industrial nórdico. Robustez y estilo para tu comedor.",
-                images: ["imagenes/mesas/k2/k2mesa01.jpg"],
+                description: "Mesa con base en forma de U, diseño industrial nórdico. Robustez y estilo para tu comedor. Base metálica reforzada que garantiza estabilidad absoluta.",
+                images: [
+                    "imagenes/mesas/k2/k2mesa01.jpg",
+                    "imagenes/mesas/k2/k2mesa01.jpg",
+                    "imagenes/mesas/k2/k2mesa01.jpg",
+                    "imagenes/mesas/k2/k2mesa01.jpg"
+                ],
                 specs: [
                     { name: "Material", value: "Base de hierro y madera de eucalipto" },
                     { name: "Dimensiones", value: "160×90×75 cm" },
-                    { name: "Color", value: "Natural de madera" }
+                    { name: "Color", value: "Natural de madera" },
+                    { name: "Capacidad", value: "8-10 personas" },
+                    { name: "Base", value: "Forma U industrial" }
                 ],
                 stock: 7,
                 rating: 4.0,
@@ -116,12 +158,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 category: "Mesas Nórdicas",
                 price: 250000,
                 formattedPrice: "$250.000",
-                description: "Mesa con base en forma de X, elegante y robusta. Diseño que combina tradición y modernidad.",
-                images: ["imagenes/mesas/k3/k3mesa01.jpg"],
+                description: "Mesa con base en forma de X, elegante y robusta. Diseño que combina tradición y modernidad. Punto focal perfecto para cualquier comedor contemporáneo.",
+                images: [
+                    "imagenes/mesas/k3/k3mesa01.jpg",
+                    "imagenes/mesas/k3/k3mesa01.jpg",
+                    "imagenes/mesas/k3/k3mesa01.jpg",
+                    "imagenes/mesas/k3/k3mesa01.jpg"
+                ],
                 specs: [
                     { name: "Material", value: "Base de hierro y madera de eucalipto" },
                     { name: "Dimensiones", value: "180×90×75 cm" },
-                    { name: "Color", value: "Natural de madera" }
+                    { name: "Color", value: "Natural de madera" },
+                    { name: "Capacidad", value: "10-12 personas" },
+                    { name: "Base", value: "Forma X elegante" }
                 ],
                 stock: 4,
                 rating: 5.0,
@@ -133,12 +182,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 category: "Racks TV Nórdicos",
                 price: 120000,
                 formattedPrice: "$120.000",
-                description: "Rack TV con diseño minimalista nórdico. Organización y estilo para tu sala de estar.",
-                images: ["imagenes/racks/k1/k1Rack01.jpg"],
+                description: "Rack TV con diseño minimalista nórdico. Organización y estilo para tu sala de estar. Incluye espacios para TV, consolas, reproductores y organización de cables.",
+                images: [
+                    "imagenes/racks/k1/k1Rack01.jpg",
+                    "imagenes/racks/k1/k1Rack01.jpg",
+                    "imagenes/racks/k1/k1Rack01.jpg",
+                    "imagenes/racks/k1/k1Rack01.jpg"
+                ],
                 specs: [
                     { name: "Material", value: "Base de hierro y madera de eucalipto" },
                     { name: "Dimensiones", value: "120×40×50 cm" },
-                    { name: "Color", value: "Natural de madera" }
+                    { name: "Color", value: "Natural de madera" },
+                    { name: "TV máxima", value: "55 pulgadas" },
+                    { name: "Espacios", value: "3 estantes + 1 inferior" }
                 ],
                 stock: 12,
                 rating: 4.0,
@@ -150,12 +206,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 category: "Racks TV Nórdicos",
                 price: 150000,
                 formattedPrice: "$150.000",
-                description: "Rack TV con diseño moderno y funcional. Espacios organizados para todos tus dispositivos.",
-                images: ["imagenes/racks/k2/k2Rack01.jpg"],
+                description: "Rack TV con diseño moderno y funcional. Espacios organizados para todos tus dispositivos. Incluye gestión profesional de cables y estantes ajustables.",
+                images: [
+                    "imagenes/racks/k2/k2Rack01.jpg",
+                    "imagenes/racks/k2/k2Rack01.jpg",
+                    "imagenes/racks/k2/k2Rack01.jpg",
+                    "imagenes/racks/k2/k2Rack01.jpg"
+                ],
                 specs: [
                     { name: "Material", value: "Base de hierro y madera de eucalipto" },
                     { name: "Dimensiones", value: "140×45×55 cm" },
-                    { name: "Color", value: "Natural de madera" }
+                    { name: "Color", value: "Natural de madera" },
+                    { name: "TV máxima", value: "65 pulgadas" },
+                    { name: "Estantes", value: "4 ajustables + 2 laterales" }
                 ],
                 stock: 9,
                 rating: 4.5,
@@ -205,7 +268,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Botones generales
         btnWishlist: document.querySelectorAll('.btn-wishlist'),
         btnCart: document.querySelectorAll('.btn-cart'),
-        btnView: document.querySelectorAll('.btn-view')
+        btnView: document.querySelectorAll('.btn-view'),
+        
+        // Botón de usuario (añadido)
+        userBtn: document.getElementById('userBtn')
     };
 
     // ===== FUNCIONES DE UTILIDAD =====
@@ -669,6 +735,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.open(elements.wishlistModal);
                 });
             }
+            
+            // Botón de usuario (añadido)
+            if (elements.userBtn) {
+                elements.userBtn.addEventListener('click', () => {
+                    alert('Funcionalidad de cuenta en desarrollo. ¡Próximamente!');
+                });
+            }
         }
     };
 
@@ -686,25 +759,37 @@ document.addEventListener('DOMContentLoaded', function() {
             
             let html = `
                 <div class="modal-product">
-                    <div class="modal-product-image">
-                        <img src="${product.images[0]}" alt="${product.name}">
+                    <div class="modal-product-gallery">
+                        <div class="modal-main-image">
+                            <img src="${product.images[0]}" alt="${product.name}" id="modalMainImage">
+                        </div>
+                        <div class="modal-image-thumbnails">
+                            ${product.images.map((img, index) => `
+                                <div class="thumbnail ${index === 0 ? 'active' : ''}" data-image="${img}">
+                                    <img src="${img}" alt="${product.name} - Vista ${index + 1}">
+                                </div>
+                            `).join('')}
+                        </div>
                     </div>
+                    
                     <div class="modal-product-info">
-                        <h2>${product.name}</h2>
-                        <div class="modal-product-category">${product.category}</div>
-                        
-                        <div class="modal-product-rating">
-                            <div class="stars">
-                                ${Array(5).fill().map((_, i) => `
-                                    <i class="fas fa-star${i < Math.floor(product.rating) ? '' : i < product.rating ? '-half-alt' : ''}"></i>
-                                `).join('')}
+                        <div class="modal-product-header">
+                            <span class="modal-product-category">${product.category}</span>
+                            <h2>${product.name}</h2>
+                            <div class="modal-product-rating">
+                                <div class="stars">
+                                    ${Array(5).fill().map((_, i) => `
+                                        <i class="fas fa-star${i < Math.floor(product.rating) ? '' : i < product.rating ? '-half-alt' : ''}"></i>
+                                    `).join('')}
+                                </div>
+                                <span class="rating-count">${product.reviews} reseñas</span>
                             </div>
-                            <span class="rating-count">${product.reviews} reseñas</span>
                         </div>
                         
-                        <div class="modal-product-price">
-                            <div class="price">${product.formattedPrice}</div>
-                            ${product.oldPrice ? `<div class="price-old">${product.oldPrice}</div>` : ''}
+                        <div class="modal-product-price-section">
+                            <div class="modal-price">${product.formattedPrice}</div>
+                            ${product.oldPrice ? `<div class="modal-price-old">${product.oldPrice}</div>` : ''}
+                            <div class="modal-price-installment">12× ${utils.formatPrice(Math.round(product.price / 12))}</div>
                         </div>
                         
                         <div class="modal-product-description">
@@ -712,17 +797,31 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         
                         <div class="modal-product-specs">
-                            <h4>Especificaciones</h4>
+                            <h4><i class="fas fa-ruler-combined"></i> Especificaciones Técnicas</h4>
                             <ul>
                                 ${product.specs.map(spec => `
-                                    <li><strong>${spec.name}:</strong> ${spec.value}</li>
+                                    <li>
+                                        <strong>${spec.name}:</strong>
+                                        <span>${spec.value}</span>
+                                    </li>
                                 `).join('')}
+                                <li>
+                                    <strong>Stock:</strong>
+                                    <span class="${product.stock > 10 ? 'stock-available' : product.stock > 0 ? 'stock-low' : 'stock-out'}">
+                                        ${product.stock > 10 ? 'Disponible' : product.stock > 0 ? 'Últimas unidades' : 'Agotado'}
+                                    </span>
+                                </li>
                             </ul>
                         </div>
                         
-                        <div class="modal-product-stock">
-                            <i class="fas fa-check"></i>
-                            <span>${product.stock > 5 ? 'En stock' : 'Últimas unidades'}</span>
+                        <div class="modal-product-benefits">
+                            <h4><i class="fas fa-gift"></i> Beneficios Incluidos</h4>
+                            <ul>
+                                <li><i class="fas fa-check" style="color: var(--success);"></i> Envío gratis en compras mayores a $200.000</li>
+                                <li><i class="fas fa-check" style="color: var(--success);"></i> Garantía de 2 años</li>
+                                <li><i class="fas fa-check" style="color: var(--success);"></i> Armado profesional incluido</li>
+                                <li><i class="fas fa-check" style="color: var(--success);"></i> Soporte premium 24/7</li>
+                            </ul>
                         </div>
                         
                         <div class="modal-product-actions">
@@ -730,7 +829,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <i class="fas fa-cart-plus"></i> Agregar al Carrito
                             </button>
                             <button class="btn btn-secondary" id="modalAddToWishlist">
-                                <i class="far fa-heart"></i> Agregar a Favoritos
+                                <i class="${State.wishlist.includes(productId) ? 'fas' : 'far'} fa-heart"></i> 
+                                ${State.wishlist.includes(productId) ? 'En Favoritos' : 'Agregar a Favoritos'}
                             </button>
                         </div>
                     </div>
@@ -740,13 +840,31 @@ document.addEventListener('DOMContentLoaded', function() {
             elements.productModal.querySelector('.modal-content').innerHTML = html;
             ModalSystem.open(elements.productModal);
             
-            // Event listeners para los botones del modal
+            // Event listeners para miniaturas
+            elements.productModal.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.addEventListener('click', function() {
+                    const imgSrc = this.dataset.image;
+                    document.getElementById('modalMainImage').src = imgSrc;
+                    
+                    // Actualizar miniaturas activas
+                    elements.productModal.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Event listeners para botones del modal
             const addToCartBtn = document.getElementById('modalAddToCart');
             const addToWishlistBtn = document.getElementById('modalAddToWishlist');
             
             if (addToCartBtn) {
                 addToCartBtn.addEventListener('click', () => {
                     CartSystem.add(productId, 1);
+                    addToCartBtn.innerHTML = '<i class="fas fa-check"></i> ¡Agregado!';
+                    addToCartBtn.style.background = 'var(--success)';
+                    setTimeout(() => {
+                        addToCartBtn.innerHTML = '<i class="fas fa-cart-plus"></i> Agregar al Carrito';
+                        addToCartBtn.style.background = '';
+                    }, 2000);
                 });
             }
             
@@ -754,18 +872,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 addToWishlistBtn.addEventListener('click', () => {
                     WishlistSystem.add(productId);
                     
-                    // Actualizar icono
+                    // Actualizar icono y texto
                     const icon = addToWishlistBtn.querySelector('i');
-                    if (icon) {
-                        if (State.wishlist.includes(productId)) {
-                            icon.classList.remove('far', 'fa-heart');
-                            icon.classList.add('fas', 'fa-heart');
-                            addToWishlistBtn.classList.add('active');
-                        } else {
-                            icon.classList.remove('fas', 'fa-heart');
-                            icon.classList.add('far', 'fa-heart');
-                            addToWishlistBtn.classList.remove('active');
-                        }
+                    if (State.wishlist.includes(productId)) {
+                        icon.className = 'fas fa-heart';
+                        addToWishlistBtn.innerHTML = '<i class="fas fa-heart"></i> En Favoritos';
+                        addToWishlistBtn.style.background = 'var(--danger)';
+                    } else {
+                        icon.className = 'far fa-heart';
+                        addToWishlistBtn.innerHTML = '<i class="far fa-heart"></i> Agregar a Favoritos';
+                        addToWishlistBtn.style.background = '';
                     }
                 });
             }
@@ -806,6 +922,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     elements.hamburgerBtn.classList.remove('active');
                 });
             });
+            
+            // Buscador
+            if (elements.searchBtn && elements.searchInput) {
+                elements.searchBtn.addEventListener('click', () => {
+                    const query = elements.searchInput.value.trim();
+                    if (query) {
+                        utils.showToast(`Buscando: ${query}`, 'info');
+                        elements.searchInput.value = '';
+                    }
+                });
+                
+                elements.searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        const query = elements.searchInput.value.trim();
+                        if (query) {
+                            utils.showToast(`Buscando: ${query}`, 'info');
+                            elements.searchInput.value = '';
+                        }
+                    }
+                });
+            }
         },
         
         setupScrollSpy() {
